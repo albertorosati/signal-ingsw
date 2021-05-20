@@ -195,6 +195,7 @@ export default function Registrazione() {
 
               <TextField
                 id="email"
+                type="email"
                 value={values.email}
                 onChange={handleChange("email")}
                 label="E-Mail"
