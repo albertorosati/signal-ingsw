@@ -1,0 +1,5 @@
+upstream nodeprocess {
+  server localhost:5000;
+
+  sticky cookie clSession expires=1h domanin=ingsft-signal.duckdns.org	path=/etc/nginx/sites-enabled;
+}
