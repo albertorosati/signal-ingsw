@@ -67,7 +67,7 @@ public class Segnalazione {
 	}
 
 	public Chat avviaChat() {
-		this.chat = new Chat();
+		this.chat = new Chat(produttore, consumatore);
 		return this.chat;
 	}
 
