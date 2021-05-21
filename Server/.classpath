@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/gson-2.8.6.jar"/>
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/jakarta.activation.jar"/>
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/javax.mail.jar"/>
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/mariadb-java-client-2.7.3.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/commons-codec-1.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
