@@ -1,5 +1,9 @@
 package handshake;
 
-public interface IHandshake {
+import java.io.File;
 
+public interface IHandshake {
+	public void sendMessage(Chat chat, String mex);
+	public void sendMedia(Chat chat,File file);
+	public Chat getMessages(Segnalazione segnalazione);
 }
