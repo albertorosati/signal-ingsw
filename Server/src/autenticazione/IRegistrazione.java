@@ -9,7 +9,7 @@ public interface IRegistrazione {
 
 	public boolean verificaP_IVA(String piva);
 
-	public boolean verificaAccount(String id);
+	public boolean verificaAccount(String id) throws SQLException;
 
 	public void inviaConferma(Profilo utente) throws SQLException;
 

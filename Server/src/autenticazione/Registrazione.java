@@ -14,6 +14,7 @@ public class Registrazione implements IRegistrazione {
 	private MyMailer mailer = MyMailer.getIstance();
 	private Connector conn = Connector.getIstance();
 
+	//Verifica del Codice Fiscale
 	@Override
 	public boolean verificaID(String id) {
 		// TODO Auto-generated method stub
@@ -26,10 +27,12 @@ public class Registrazione implements IRegistrazione {
 		return false;
 	}
 
+	//Verifica che il codice fiscale non sia già presente all'interno del db
 	@Override
-	public boolean verificaAccount(String id) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean verificaAccount(String id) throws SQLException {
+		PreparedStatement st = conn.prepare("SELECT * FROM Utenti WHERE identificativo = ?");
+		st.setString(1, id);
+		return st.executeQuery().first();
 	}
 
 	@Override
