@@ -20,9 +20,12 @@ public class Login implements ILogin {
 			st.setString(1, username);
 			st.setString(2, hash_passwd);
 			ResultSet rs = st.executeQuery();
-			if (rs.getFetchSize() == 0) {
+			// Nessun risultato trovato, una delle due:
+			// 1- l'utente non esiste
+			// 2- la password è errata
+			if (!rs.first())
 				return "fail";
-			} else if (rs.getFetchSize() == 1) {
+			else {
 				// Bisogna inserire qui l'hash
 				return "hash?";
 			}
