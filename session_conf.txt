@@ -3,3 +3,10 @@ upstream nodeprocess {
 
   sticky cookie clSession expires=1h domanin=ingsft-signal.duckdns.org	path=/etc/nginx/sites-enabled;
 }
+
+#web.xml on tomcat
+
+#session expires after 1h
+<session-config>
+        <session-timeout>60</session-timeout>
+</session-config>

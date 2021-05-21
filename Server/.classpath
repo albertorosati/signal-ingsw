@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-11.0.2">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
+			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/gson-2.8.6.jar"/>
+	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/jakarta.activation.jar"/>
+	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/mariadb-java-client-2.7.3.jar"/>
+	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

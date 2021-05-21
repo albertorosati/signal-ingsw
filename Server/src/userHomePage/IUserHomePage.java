@@ -1,5 +1,8 @@
 package userHomePage;
 
-public interface IUserHomePage {
+import dominio.Profilo;
+import dominio.Segnalazione;
 
+public interface IUserHomePage {
+	public Segnalazione[] getBacheca(Profilo profilo);
 }

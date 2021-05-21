@@ -1,0 +1,5 @@
+package dominio;
+
+public enum RuoloUtente {
+	BASE, PRO, PRO_CONVENZIONATO, GESTORE, MODERATORE, AMMINISTRATORE, GESTORE_SICUREZZA
+}
