@@ -15,7 +15,7 @@ public class RicercaUtente implements IRicercaUtente {
 
 	@Override
 	public List<Profilo> cercaUtente(String name) throws SQLException {
-		Connector conn = Connector.getIstance();
+		Connector conn = Connector.getInstance();
 		if (conn == null)
 			return null;
 		PreparedStatement st = conn.prepare("SELECT * FROM Utenti WHERE email=?");

@@ -18,7 +18,7 @@ import dominio.TipoFile;
 
 public class Ricerca implements IRicerca {
 
-	private Connector conn = Connector.getIstance();
+	private Connector conn = Connector.getInstance();
 
 	@Override
 	public Segnalazione[] getBacheca(Profilo utente) {

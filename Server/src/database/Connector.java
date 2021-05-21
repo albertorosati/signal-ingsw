@@ -30,7 +30,7 @@ public class Connector implements AutoCloseable {
 		conn.close();
 	}
 
-	public static Connector getIstance() {
+	public static Connector getInstance() {
 		if (istance == null)
 			try {
 				istance = new Connector();

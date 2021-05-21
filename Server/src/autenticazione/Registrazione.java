@@ -12,7 +12,7 @@ import mail.MyMailer;
 public class Registrazione implements IRegistrazione {
 
 	private MyMailer mailer = MyMailer.getIstance();
-	private Connector conn = Connector.getIstance();
+	private Connector conn = Connector.getInstance();
 
 	//Verifica del Codice Fiscale
 	@Override

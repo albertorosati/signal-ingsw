@@ -12,7 +12,7 @@ import dominio.Segnalazione;
 
 public class Handshake implements IHandshake {
 
-	private Connector conn = Connector.getIstance();
+	private Connector conn = Connector.getInstance();
 
 	@Override
 	public void sendMessage(Chat chat, Profilo mittente, String mex) throws SQLException {
