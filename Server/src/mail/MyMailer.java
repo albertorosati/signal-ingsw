@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
@@ -22,8 +21,10 @@ public class MyMailer implements AutoCloseable {
 
 	private Session session;
 	private Transport transport;
+	
+	public static MyMailer instance;
 
-	public MyMailer() throws MessagingException {
+	private MyMailer() throws MessagingException {
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", HOST);
@@ -63,17 +64,15 @@ public class MyMailer implements AutoCloseable {
 		transport.close();
 	}
 
-	public static void main(String[] args) {
-		System.out.println(TemplateMail.VERIFICA_UTENTE.getHtml("hashio"));
-		System.exit(-1);
-		try (MyMailer mm = new MyMailer()) {
-			mm.sendMailVerifica("alberto.rosati99@gmail.com", "udhfih2398hj9afjhsd9fj");
-		} catch (NoSuchProviderException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static MyMailer getIstance() {
+		if (instance == null)
+			try {
+				instance = new MyMailer();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+				return null;
+			}
+		return instance;
 	}
 
 }
