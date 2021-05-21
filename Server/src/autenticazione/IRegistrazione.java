@@ -1,5 +1,7 @@
 package autenticazione;
 
+import java.sql.SQLException;
+
 import dominio.Profilo;
 
 public interface IRegistrazione {
@@ -9,9 +11,9 @@ public interface IRegistrazione {
 
 	public boolean verificaAccount(String id);
 
-	public void inviaConferma(Profilo utente);
+	public void inviaConferma(Profilo utente) throws SQLException;
 
-	public void convalidaEmail(Profilo utente);
+	public void convalidaEmail(Profilo utente) throws SQLException;
 
-	public void registra(Profilo utente, String hash_passwd);
+	public void registra(Profilo utente, String hash_passwd) throws SQLException;
 }

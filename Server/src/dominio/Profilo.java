@@ -1,9 +1,11 @@
 package dominio;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Profilo {
 
+	private UUID id;
 	private String email;
 	private String nome;
 	private String cognome;
@@ -14,9 +16,10 @@ public class Profilo {
 	private Comune comuneResidenza;
 	private List<CartaVirtuale> carteVirtuali;
 
-	public Profilo(String email, String nome, String cognome, String identificatore, boolean sospeso, float valutazione,
+	public Profilo(UUID id, String email, String nome, String cognome, String identificatore, boolean sospeso, float valutazione,
 			RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) {
 		super();
+		this.id = id;
 		this.email = email;
 		this.nome = nome;
 		this.cognome = cognome;
@@ -26,6 +29,10 @@ public class Profilo {
 		this.ruolo = ruolo;
 		this.comuneResidenza = comuneResidenza;
 		this.carteVirtuali = carteVirtuali;
+	}
+	
+	public UUID getId() {
+		return id;
 	}
 
 	public String getEmail() {
