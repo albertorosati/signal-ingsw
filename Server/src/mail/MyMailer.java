@@ -50,7 +50,6 @@ public class MyMailer implements AutoCloseable {
 			me.printStackTrace();
 		}
 	}
-	
 
 	public void sendMailVerifica(String destinatario, String hash) {
 		String url = MAIN_URL + "confermaRegistrazione?m=" + destinatario + "&h=" + hash;

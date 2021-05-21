@@ -23,15 +23,15 @@ public class Connector implements AutoCloseable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void query() {
 		try {
 			PreparedStatement st = conn.prepareStatement("INSERT INTO (id, person) VALUES (?,?)");
 			st.setString(1, "1");
 			st.setString(2, "alb");
-			//per query di insert, update, delete si usa ->
+			// per query di insert, update, delete si usa ->
 			st.executeUpdate();
-			//per query di select si usa ->
+			// per query di select si usa ->
 			ResultSet result = st.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();

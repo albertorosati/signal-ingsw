@@ -13,8 +13,7 @@ public class Profilo {
 	private RuoloUtente ruolo;
 	private Comune comuneResidenza;
 	private List<CartaVirtuale> carteVirtuali;
-	
-	
+
 	public Profilo(String email, String nome, String cognome, String identificatore, boolean sospeso, float valutazione,
 			RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) {
 		super();
@@ -29,36 +28,29 @@ public class Profilo {
 		this.carteVirtuali = carteVirtuali;
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
-
 
 	public String getNome() {
 		return nome;
 	}
 
-
 	public String getCognome() {
 		return cognome;
 	}
-
 
 	public String getIdentificatore() {
 		return identificatore;
 	}
 
-
 	public boolean isSospeso() {
 		return sospeso;
 	}
 
-
 	public float getValutazione() {
 		return valutazione;
 	}
-
 
 	public RuoloUtente getRuolo() {
 		return ruolo;
@@ -67,10 +59,11 @@ public class Profilo {
 	public void sospendi() {
 		this.sospeso = true;
 	}
-	
-	public float inserisciValutazione(int valutazione) { //nel dominio è un float ma per me essendo stelline ha senso metterla come int ¯\__(ツ)__/¯ 
-		this.valutazione = (this.valutazione + valutazione)/(float) 2;
+
+	public float inserisciValutazione(int valutazione) { // nel dominio è un float ma per me essendo stelline ha senso
+															// metterla come int ¯\__(ツ)__/¯
+		this.valutazione = (this.valutazione + valutazione) / (float) 2;
 		return this.valutazione;
 	}
-	
+
 }

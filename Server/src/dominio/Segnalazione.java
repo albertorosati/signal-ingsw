@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Segnalazione {
-	
+
 	private String titolo;
 	private String descrizione;
 	private LocalDateTime timestampCreazione;
@@ -21,10 +21,8 @@ public class Segnalazione {
 	private Profilo produttore;
 	private Profilo consumatore;
 	private Chat chat;
-	private Assegnazione assegnazione; //TODO non mettere nel costruttore
+	private Assegnazione assegnazione; // TODO non mettere nel costruttore
 	private List<Multimedia> medias;
-	
-	
 
 	public Segnalazione(String titolo, String descrizione, LocalDateTime timestampCreazione, List<String> tags,
 			boolean visible, Stato stato, Posizione posizione, Profilo produttore, Profilo consumatore, Chat chat,
@@ -42,32 +40,32 @@ public class Segnalazione {
 		this.medias = medias;
 	}
 
-	public Stato impostaStato(Stato stato) { 
+	public Stato impostaStato(Stato stato) {
 		this.stato = stato;
 		return this.stato;
 	}
-	
-	public List<String> aggiungiTag(String tag){
+
+	public List<String> aggiungiTag(String tag) {
 		this.tags.add(tag);
 		return this.tags;
 	}
-	
+
 	public void aggiungiRichiedente(Profilo richiedente) {
 		this.richiedenti.add(richiedente);
 	}
-	
+
 	public void assegna(Profilo profilo, Duration tempo) {
 		this.consumatore = profilo;
 		this.durataAssegnazione = tempo;
 		this.timestampAssegnazione = LocalDateTime.now();
 		this.assegnazione = new Assegnazione(this, this.produttore, this.consumatore, LocalDate.now().plus(tempo));
 	}
-	
+
 	public void revocaAssegnazione() {
 		this.assegnazione = null;
 		this.consumatore = null;
 	}
-	
+
 	public Chat avviaChat() {
 		this.chat = new Chat();
 		return this.chat;
@@ -88,27 +86,27 @@ public class Segnalazione {
 	public LocalDateTime getTimestampCreazione() {
 		return timestampCreazione;
 	}
-	
+
 	public List<String> getTags() {
 		return tags;
 	}
-	
+
 	public Profilo getAutore() {
 		return produttore;
 	}
-	
+
 	public TipoBacheca getTipoBacheca() {
 		return tipoBacheca;
 	}
-	
+
 	public Stato getStato() {
 		return stato;
 	}
-	
+
 	public List<Multimedia> getMedia() {
 		return medias;
 	}
-	
+
 	public Posizione getPosizione() {
 		return posizione;
 	}
@@ -120,5 +118,5 @@ public class Segnalazione {
 	public Duration getDurataAssegnazione() {
 		return durataAssegnazione;
 	}
-	
+
 }

@@ -3,12 +3,12 @@ package dominio;
 import java.util.List;
 
 public class Comune {
-	
+
 	private String nome;
 	private Multimedia stemma;
 	private Multimedia foto;
 	private List<Profilo> cittadini;
-	
+
 	public Comune(String nome, Multimedia stemma, Multimedia foto) {
 		super();
 		this.nome = nome;

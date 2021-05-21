@@ -8,8 +8,7 @@ public class Multimedia {
 	private String posizione;
 	private int dimensione;
 	private TipoFile tipoFile;
-	
-	
+
 	public Multimedia(File file, String posizione, int dimensione, TipoFile tipoFile) {
 		this.file = file;
 		this.posizione = posizione;
@@ -17,24 +16,20 @@ public class Multimedia {
 		this.tipoFile = tipoFile;
 	}
 
-
 	public File getFile() {
 		return file;
 	}
-
 
 	public String getPosizione() {
 		return posizione;
 	}
 
-
 	public int getDimensione() {
 		return dimensione;
 	}
 
-
 	public TipoFile getTipoFile() {
 		return tipoFile;
 	}
-	
+
 }
