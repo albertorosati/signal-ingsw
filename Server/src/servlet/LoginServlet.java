@@ -27,11 +27,14 @@ public class LoginServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		
 		ILogin loginController = new Login();
+		Response result = new Response();
 		try {
-			Response result = loginController.autentica(email, password);
+			result = loginController.autentica(email, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		resp.getWriter().print(result);
 		
 		super.doPost(req, resp);
 	}
