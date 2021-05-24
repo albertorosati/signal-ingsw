@@ -28,11 +28,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import MuiAlert from "@material-ui/lab/Alert";
 
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
-
 import CommunityImage from "../res/community.png";
 
 export default function Registrazione() {
@@ -44,8 +39,9 @@ export default function Registrazione() {
     password: "",
     confermaPassword: "",
     identificatore: "",
+    comune: "",
     registrationError: false,
-    codiceFiscaleError: false
+    codiceFiscaleError: false,
   });
 
   const [dialogOpen, setOpenDialog] = React.useState(false);
@@ -82,7 +78,7 @@ export default function Registrazione() {
   const callAPI = (e) => {
     e.preventDefault();
     if (!validaCodiceFiscale(values.identificatore)) {
-      setValues({ ...values, codiceFiscaleError : true });
+      setValues({ ...values, codiceFiscaleError: true });
       return;
     }
     setOpenLoading(true);
@@ -236,17 +232,28 @@ export default function Registrazione() {
 
               <br />
 
-              
-                <TextField
-                  fullWidth
-                  label={ values.tipo == "base" ?  "Codice Fiscale" : "Partita IVA"  }
-                  value={values.identificatore}
-                  onChange={handleChange("identificatore")}
-                  required
-                  error={values.codiceFiscaleError}
-                  helperText={values.codiceFiscaleError ? "Codice fiscale non valido" : ""}
-                />
-              
+              <TextField
+                id="comune"
+                value={values.comune}
+                onChange={handleChange("comune")}
+                label="Comune"
+                fullWidth
+                required
+              />
+
+              <br />
+
+              <TextField
+                fullWidth
+                label={values.tipo == "base" ? "Codice Fiscale" : "Partita IVA"}
+                value={values.identificatore}
+                onChange={handleChange("identificatore")}
+                required
+                error={values.codiceFiscaleError}
+                helperText={
+                  values.codiceFiscaleError ? "Codice fiscale non valido" : ""
+                }
+              />
 
               <br />
 

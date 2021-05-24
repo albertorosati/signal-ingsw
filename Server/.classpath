@@ -6,6 +6,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/web/WEB-INF/lib/commons-codec-1.10.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>

@@ -11,6 +11,11 @@ public class CartaVirtuale {
 		this.comune = comune;
 		this.profilo = profilo;
 	}
+	
+	public CartaVirtuale(int saldo, Comune comune) {
+		this.saldo = saldo;
+		this.comune = comune;
+	}
 
 	public int aggiungiPunti(int punti) {
 		saldo = this.saldo + punti;
@@ -41,5 +46,9 @@ public class CartaVirtuale {
 
 	public Profilo getProfilo() {
 		return this.profilo;
+	}
+
+	public void setProfilo(Profilo profilo) {
+		this.profilo = profilo;
 	}
 }
