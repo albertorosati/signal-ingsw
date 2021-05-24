@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/javax.mail.jar"/>
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/mariadb-java-client-2.7.3.jar"/>
 	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="/home/alberto/signal-ingsw/Server/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
