@@ -81,5 +81,25 @@ public class Profilo {
 	public List<CartaVirtuale> getCarteVirtuali() {
 		return carteVirtuali;
 	}
+	
+	public int getTotalPoints() {
+		int res=0;
+		for(CartaVirtuale card : this.carteVirtuali)
+			res+=card.getSaldo();
+		
+		return res;
+	}
+	
+	public boolean addPoint(Comune comune,int points) {
+		boolean res=false;
+		
+		for(CartaVirtuale card : this.carteVirtuali)
+			if(card.getComune().equals(comune)) {
+				card.aggiungiPunti(points);
+				res=true;
+			}
+		
+		return res;
+	}
 
 }

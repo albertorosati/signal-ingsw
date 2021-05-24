@@ -23,10 +23,11 @@ public class Segnalazione {
 	private Chat chat;
 	private Assegnazione assegnazione; // TODO non mettere nel costruttore
 	private List<Multimedia> medias;
+	private boolean _public;
 
 	public Segnalazione(String titolo, String descrizione, LocalDateTime timestampCreazione, List<String> tags,
 			boolean visible, Stato stato, Posizione posizione, Profilo produttore, Profilo consumatore, Chat chat,
-			List<Multimedia> medias) {
+			List<Multimedia> medias, boolean _public) {
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.timestampCreazione = timestampCreazione;
@@ -38,6 +39,7 @@ public class Segnalazione {
 		this.consumatore = consumatore;
 		this.chat = chat;
 		this.medias = medias;
+		this._public=_public;
 	}
 
 	public Stato impostaStato(Stato stato) {
@@ -141,6 +143,10 @@ public class Segnalazione {
 
 	public List<Multimedia> getMedias() {
 		return medias;
+	}
+	
+	public void setPublic(boolean val) {
+		this._public=val;
 	}
 
 }
