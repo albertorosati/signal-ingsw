@@ -16,8 +16,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 
-import DateFnsUtils from "@date-io/date-fns";
-
 import { Link, useHistory } from "react-router-dom";
 
 import Backdrop from "@material-ui/core/Backdrop";
@@ -50,7 +48,6 @@ export default function Registrazione() {
     codiceFiscaleError: false
   });
 
-  const [selectedDate, handleDateChange] = React.useState(null);
   const [dialogOpen, setOpenDialog] = React.useState(false);
   const [loadingOpen, setOpenLoading] = React.useState(false);
 
@@ -239,46 +236,17 @@ export default function Registrazione() {
 
               <br />
 
-              <FormControl fullWidth>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Data di nascita"
-                    format="MM/dd/yyyy"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                    required
-                  />
-                </MuiPickersUtilsProvider>
-              </FormControl>
-
-              <br />
-
-              {values.tipo == "base" ? (
+              
                 <TextField
                   fullWidth
-                  id="codiceFiscale"
-                  label="Codice Fiscale"
+                  label={ values.tipo == "base" ?  "Codice Fiscale" : "Partita IVA"  }
                   value={values.identificatore}
                   onChange={handleChange("identificatore")}
                   required
                   error={values.codiceFiscaleError}
                   helperText={values.codiceFiscaleError ? "Codice fiscale non valido" : ""}
                 />
-              ) : (
-                <TextField
-                  fullWidth
-                  id="pIVA"
-                  label="Partita IVA"
-                  value={values.identificatore}
-                  onChange={handleChange("identificatore")}
-                  required
-                />
-              )}
+              
 
               <br />
 
