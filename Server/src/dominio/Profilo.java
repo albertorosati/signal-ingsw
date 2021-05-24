@@ -16,8 +16,8 @@ public class Profilo {
 	private Comune comuneResidenza;
 	private List<CartaVirtuale> carteVirtuali;
 
-	public Profilo(UUID id, String email, String nome, String cognome, String identificatore, boolean sospeso, float valutazione,
-			RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) {
+	public Profilo(UUID id, String email, String nome, String cognome, String identificatore, boolean sospeso,
+			float valutazione, RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -30,7 +30,7 @@ public class Profilo {
 		this.comuneResidenza = comuneResidenza;
 		this.carteVirtuali = carteVirtuali;
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
@@ -67,10 +67,19 @@ public class Profilo {
 		this.sospeso = true;
 	}
 
-	public float inserisciValutazione(int valutazione) { // nel dominio è un float ma per me essendo stelline ha senso
-															// metterla come int ¯\__(ツ)__/¯
+	public float inserisciValutazione(int valutazione) {
+		// nel dominio è un float ma per me essendo stelline ha senso
+		// metterla come int ¯\__(ツ)__/¯
 		this.valutazione = (this.valutazione + valutazione) / (float) 2;
 		return this.valutazione;
+	}
+
+	public Comune getComuneResidenza() {
+		return comuneResidenza;
+	}
+
+	public List<CartaVirtuale> getCarteVirtuali() {
+		return carteVirtuali;
 	}
 
 }

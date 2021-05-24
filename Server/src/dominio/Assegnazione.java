@@ -30,4 +30,20 @@ public class Assegnazione {
 	public boolean isValida() {
 		return this.dataInizio.isBefore(this.dataFine) && metodoPagamento.getImporto().intValue() > 0;
 	}
+
+	public MetodoPagamento getMetodoPagamento() {
+		return metodoPagamento;
+	}
+
+	public Segnalazione getSegnalazione() {
+		return segnalazione;
+	}
+
+	public Profilo getProduttore() {
+		return produttore;
+	}
+
+	public Profilo getConsumatore() {
+		return consumatore;
+	}
 }

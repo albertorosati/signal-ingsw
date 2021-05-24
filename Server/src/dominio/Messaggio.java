@@ -10,4 +10,12 @@ public class Messaggio {
 		this.from = from;
 	}
 
+	public String getTesto() {
+		return testo;
+	}
+
+	public Profilo getFrom() {
+		return from;
+	}
+
 }

@@ -119,4 +119,28 @@ public class Segnalazione {
 		return durataAssegnazione;
 	}
 
+	public LocalDateTime getTimestampAssegnazione() {
+		return timestampAssegnazione;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public Profilo getProduttore() {
+		return produttore;
+	}
+
+	public Profilo getConsumatore() {
+		return consumatore;
+	}
+
+	public Assegnazione getAssegnazione() {
+		return assegnazione;
+	}
+
+	public List<Multimedia> getMedias() {
+		return medias;
+	}
+
 }
