@@ -10,7 +10,11 @@ import dominio.Segnalazione;
 
 public class Produttore implements IProduttore {
 
-	private Connector conn = Connector.getInstance();
+	private Connector conn;
+	
+	public Produttore() throws SQLException {
+		this.conn = Connector.getInstance();
+	}
 	
 	@Override
 	public Segnalazione[] getMieSegnalazioni(Profilo utente) {

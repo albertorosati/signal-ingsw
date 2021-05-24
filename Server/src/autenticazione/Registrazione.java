@@ -11,8 +11,13 @@ import mail.MyMailer;
 
 public class Registrazione implements IRegistrazione {
 
-	private MyMailer mailer = MyMailer.getIstance();
-	private Connector conn = Connector.getInstance();
+	private MyMailer mailer;
+	private Connector conn;
+	
+	public Registrazione() throws SQLException {
+		mailer = MyMailer.getIstance();
+		conn = Connector.getInstance();
+	}
 
 	//Verifica del Codice Fiscale
 	@Override

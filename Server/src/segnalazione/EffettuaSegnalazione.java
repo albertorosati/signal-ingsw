@@ -8,7 +8,11 @@ import dominio.Segnalazione;
 
 public class EffettuaSegnalazione implements IEffettuaSegnlazione {
 
-	private Connector conn = Connector.getInstance();
+	private Connector conn;
+	
+	public EffettuaSegnalazione() throws SQLException {
+		conn = Connector.getInstance();
+	}
 	
 	@Override
 	public void effettuaSegnalazione(Segnalazione segnalazione) throws SQLException {

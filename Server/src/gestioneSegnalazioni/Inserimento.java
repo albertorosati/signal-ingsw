@@ -9,7 +9,11 @@ import dominio.TipoBacheca;
 
 public class Inserimento implements Iinserimento {
 
-	private Connector conn = Connector.getInstance();
+	private Connector conn;
+	
+	public Inserimento() throws SQLException {
+		this.conn = Connector.getInstance();
+	}
 	
 	@Override
 	public void aggiungiTag(Segnalazione segnalazione, String tag) throws SQLException {

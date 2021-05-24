@@ -1,5 +1,9 @@
 package autenticazione;
 
+import java.sql.SQLException;
+
+import json.Response;
+
 public interface ILogin {
-	public String autentica(String username, String hash_passwd);
+	public Response autentica(String username, String password) throws SQLException;
 }

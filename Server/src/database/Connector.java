@@ -30,13 +30,12 @@ public class Connector implements AutoCloseable {
 		conn.close();
 	}
 
-	public static Connector getInstance() {
+	public static Connector getInstance() throws SQLException {
 		if (instance == null)
 			try {
 				instance = new Connector();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				return null;
+				throw new SQLException();
 			}
 		return instance;
 	}
