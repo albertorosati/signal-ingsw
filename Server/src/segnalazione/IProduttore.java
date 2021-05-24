@@ -1,5 +1,7 @@
 package segnalazione;
 
+import java.sql.SQLException;
+
 import dominio.MetodoPagamento;
 import dominio.Profilo;
 import dominio.Segnalazione;
@@ -17,5 +19,5 @@ public interface IProduttore {
 
 	public void termina(Segnalazione segnalazione);
 
-	public void inserisciValutazione(Profilo consumatore, int valutazione);
+	public void inserisciValutazione(Profilo consumatore, int valutazione) throws SQLException;
 }

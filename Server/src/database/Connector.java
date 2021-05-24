@@ -15,7 +15,7 @@ public class Connector implements AutoCloseable {
 	private final String URL = "jdbc:mariadb://" + HOST + ":3306/" + DATABASE + "?user=" + USERNAME + "&password="
 			+ PASSWORD;
 
-	private static Connector istance;
+	private static Connector instance;
 
 	private Connector() throws SQLException {
 		conn = DriverManager.getConnection(URL);
@@ -30,15 +30,15 @@ public class Connector implements AutoCloseable {
 		conn.close();
 	}
 
-	public static Connector getIstance() {
-		if (istance == null)
+	public static Connector getInstance() {
+		if (instance == null)
 			try {
-				istance = new Connector();
+				instance = new Connector();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return null;
 			}
-		return istance;
+		return instance;
 	}
 
 }

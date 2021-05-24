@@ -10,7 +10,7 @@ public class Login implements ILogin {
 
 	@Override
 	public String autentica(String username, String hash_passwd) {
-		Connector conn = Connector.getIstance();
+		Connector conn = Connector.getInstance();
 
 		if (conn == null)
 			return "fail";
