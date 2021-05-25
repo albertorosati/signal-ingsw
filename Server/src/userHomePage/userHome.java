@@ -16,7 +16,7 @@ public class userHome implements IUserHomePage {
 		this.conn = Connector.getInstance();
 	}
 	
-	public Segnalazione[] getBacheca(Profilo profilo) {
+	public static Segnalazione[] getBacheca(Profilo profilo) {
 		//....
 	}
 	
