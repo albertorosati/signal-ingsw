@@ -1,5 +1,9 @@
 package autenticazione;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -13,26 +17,40 @@ public class RegistrazioneController implements IRegistrazione {
 
 	private MyMailer mailer;
 	private Connector conn;
-	
+
 	public RegistrazioneController() throws SQLException {
 		mailer = MyMailer.getIstance();
 		conn = Connector.getInstance();
 	}
 
-	//Verifica del Codice Fiscale
+	// Verifica del Codice Fiscale
 	@Override
 	public boolean verificaID(String id) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	@Override
-	public boolean verificaP_IVA(String piva) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean verificaP_IVA(String piva) throws IOException {
+		// Una PIVA è formata solo da numeri
+		for (char c : piva.toCharArray()) {
+			if (!Character.isDigit(c))
+				return false;
+		}
+
+		// L'API endpoint restituisce un 404 se la VAT non è valida
+		// quindi basta semplicemente verificare il codice HTTP
+		// restituito dalla pagina
+		try {
+			URL url = new URL("https://www.isvat.eu/IT/" + piva);
+			InputStreamReader reader = new InputStreamReader(url.openStream());
+		} catch (FileNotFoundException e) {
+			return false;
+		}
+		return true;
 	}
 
-	//Verifica che il codice fiscale non sia già presente all'interno del db
+	// Verifica che il codice fiscale non sia già presente all'interno del db
 	@Override
 	public boolean verificaAccount(String id) throws SQLException {
 		PreparedStatement st = conn.prepare("SELECT * FROM Utenti WHERE identificativo = ?");
@@ -69,6 +87,11 @@ public class RegistrazioneController implements IRegistrazione {
 		ps.setString(4, utente.getCognome());
 		ps.setString(5, utente.getIdentificatore());
 		ps.execute();
+	}
+
+	public static void main(String[] args) throws SQLException, IOException {
+		RegistrazioneController rc = new RegistrazioneController();
+		System.out.println(rc.verificaP_IVA("01131710376"));
 	}
 
 }
