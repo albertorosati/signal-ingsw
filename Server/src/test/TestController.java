@@ -82,7 +82,6 @@ public class TestController {
 
 		sospendiController.sospendi(produttore);
 
-		// try operazioni --> must return error es. effettuaSegnalazione()
 		es.effettuaSegnalazione(mock_seg);
 		Segnalazione[] mySeg = prodController.getMieSegnalazioni(produttore);
 
