@@ -1,8 +1,12 @@
 package verifica;
 
 import java.sql.PreparedStatement;
+
 import java.sql.SQLException;
 import database.Connector;
+
+import dominio.Stato;
+
 
 public class VerificaController implements IVerificaSegnalazione {
 	
@@ -16,11 +20,10 @@ public class VerificaController implements IVerificaSegnalazione {
 		Profilo consumer=segnalazione.getConsumatore();
 		segnalazione.impostaStato(Stato.APPROVATA);
 		
-		//Comune comune=traslate(segnalazione.Posizione)-->Comune
-		consumer.addPoint(comune,50);
+		consumer.addPoint(segnalazione.getComune(),50);
 	}
 
 	public void scarta(Segnalazione segnalazione) {
-		//...
+		segnalazione.impostaStato(Stato.RIFIUTATA);
 	}
 }

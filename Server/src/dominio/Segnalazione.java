@@ -15,6 +15,7 @@ public class Segnalazione {
 	private List<String> tags;
 	private boolean visible;
 	private Stato stato;
+	private Comune comune;
 	private Posizione posizione;
 	private TipoBacheca tipoBacheca;
 	private List<Profilo> richiedenti;
@@ -111,6 +112,10 @@ public class Segnalazione {
 
 	public Posizione getPosizione() {
 		return posizione;
+	}
+	
+	public Comune getComune() {
+		return comune;
 	}
 
 	public List<Profilo> getRichiedenti() {
