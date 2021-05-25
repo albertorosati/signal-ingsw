@@ -50,6 +50,7 @@ public class TestController {
 		Multimedia foto = new Multimedia(new File("/bologna_foto.jpg"), TipoFile.FOTO);
 		comune = new Comune("Città Metropolitana di Bologna", stemma, foto);
 		CartaVirtuale carta = new CartaVirtuale(100, comune);
+		
 		produttore = new Profilo(UUID.randomUUID(), "dangelo.harrison@mail.com", "D'Angelo", "Harrison",
 				"CODICEFISCALE", false, 5, RuoloUtente.BASE, comune, List.of(carta));
 		carta.setProfilo(produttore);
@@ -109,7 +110,7 @@ public class TestController {
 
 		ins.inserisciInBacheca(segnalazione, dest);
 
-		userHome home = new userHome();
+		userHomePageController home = new userHomePageController();
 		Segnalazione[] bacheca = userHome.getBacheca(pro_conv);
 
 		assertTrue(Arrays.asList(bacheca).contains(segnalazione));
@@ -127,7 +128,7 @@ public class TestController {
 		verify.accetta(mock_seg);
 		points_After = produttore.getTotalPoints();
 
-		assertTrue(points_Before + 50 == points_After);
+		assertTrue(points_Before + 50,points_After);
 	}
 
 }

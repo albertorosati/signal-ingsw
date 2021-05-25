@@ -8,11 +8,11 @@ import dominio.Segnalazione;
 import dominio.TipoBacheca;
 import dominio.Profilo;
 
-public class userHome implements IUserHomePage {
+public class userHomePageController implements IUserHomePage {
 	
 	private Connector conn;
 	
-	public userHome() throws SQLException {
+	public userHomePageController() throws SQLException {
 		this.conn = Connector.getInstance();
 	}
 	
