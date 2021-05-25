@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import autenticazione.ILogin;
-import autenticazione.Login;
+import autenticazione.LoginController;
 import json.Response;
 
 
@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		
-		ILogin loginController = new Login();
+		LoginController loginController = new LoginController();
 		Response result = new Response();
 		try {
 			result = loginController.autentica(email, password);
@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	public static void main(String[] args) throws SQLException {
-		ILogin loginController = new Login();
+		ILogin loginController = new LoginController();
 		Response result = loginController.autentica("prova@mail.com", "password");
 		System.out.println(result.toJson());
 	}

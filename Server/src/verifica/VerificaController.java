@@ -1,10 +1,10 @@
 package verifica;
 
-import java.sql.PreparedStatement;
-
 import java.sql.SQLException;
-import database.Connector;
 
+import database.Connector;
+import dominio.Profilo;
+import dominio.Segnalazione;
 import dominio.Stato;
 
 

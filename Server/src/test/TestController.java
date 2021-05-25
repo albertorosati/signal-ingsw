@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +15,6 @@ import java.util.UUID;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import account.ISospendi;
 import account.Sospendi;
 import dominio.CartaVirtuale;
 import dominio.Comune;
@@ -26,10 +26,10 @@ import dominio.Segnalazione;
 import dominio.Stato;
 import dominio.TipoBacheca;
 import dominio.TipoFile;
-import gestioneSegnalazioni.Inserimento;
-import segnalazione.EffettuaSegnalazione;
+import gestioneSegnalazioni.InserimentoController;
+import segnalazione.EffettuaSegnalazioneController;
 import segnalazione.Produttore;
-import userHomePage.userHome;
+import userHomePage.UserHomePageController;
 import verifica.VerificaController;
 
 public class TestController {
@@ -73,8 +73,8 @@ public class TestController {
 
 	@Test
 	public void testSospendi() throws SQLException {
-		ISospendi sospendiController = new Sospendi();
-		EffettuaSegnalazione es = new EffettuaSegnalazione();
+		Sospendi sospendiController = new Sospendi();
+		EffettuaSegnalazioneController es = new EffettuaSegnalazioneController();
 		Produttore prodController = new Produttore();
 
 		sospendiController.sospendi(produttore);
@@ -90,7 +90,7 @@ public class TestController {
 	// get segnalazioni disponibili
 	@Test
 	public void testBacheca() throws SQLException {
-		Inserimento ins = new Inserimento();
+		InserimentoController ins = new InserimentoController();
 
 		TipoBacheca[] dest = new TipoBacheca[2];
 		dest[0] = TipoBacheca.PRO;
@@ -110,8 +110,8 @@ public class TestController {
 
 		ins.inserisciInBacheca(segnalazione, dest);
 
-		userHomePageController home = new userHomePageController();
-		Segnalazione[] bacheca = userHome.getBacheca(pro_conv);
+		UserHomePageController home = new UserHomePageController();
+		Segnalazione[] bacheca = home.getBacheca(pro_conv);
 
 		assertTrue(Arrays.asList(bacheca).contains(segnalazione));
 	}
@@ -128,7 +128,7 @@ public class TestController {
 		verify.accetta(mock_seg);
 		points_After = produttore.getTotalPoints();
 
-		assertTrue(points_Before + 50,points_After);
+		assertEquals(points_Before + 50, points_After);
 	}
 
 }

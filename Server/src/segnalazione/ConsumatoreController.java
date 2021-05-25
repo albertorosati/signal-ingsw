@@ -1,8 +1,10 @@
 package segnalazione;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 import database.Connector;
+import dominio.Profilo;
+import dominio.Segnalazione;
 
 public class ConsumatoreController implements IConsumatore {
 	
@@ -17,7 +19,7 @@ public class ConsumatoreController implements IConsumatore {
 	}
 
 	public Segnalazione getMyJob(Profilo profilo) {
-		
+		return null;
 	}
 
 	public void richiediTerminazione(Segnalazione segnalazione) {

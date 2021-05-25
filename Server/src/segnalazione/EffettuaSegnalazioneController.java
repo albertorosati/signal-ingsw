@@ -20,7 +20,7 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 		//conn.setInt(1, segnalazione.getAutore().getId());
 		st.setString(2, segnalazione.getTitolo());
 		st.setString(3, segnalazione.getDescrizione());
-		st.setString(4, segnalazione.getMedia().get(0).getPosizione());
+		st.setString(4, segnalazione.getMedia().get(0).getFile().toString());
 		st.setDouble(5, segnalazione.getPosizione().getLatitudine());
 		st.setDouble(6, segnalazione.getPosizione().getLongitudine());
 		st.execute();

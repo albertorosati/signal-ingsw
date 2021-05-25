@@ -1,5 +1,6 @@
 package ricerca;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,7 +64,7 @@ public class RicercaController implements IRicerca {
 					null,
 					null,
 					null,
-					List.of(new Multimedia(null, rs.getString("imgageSrc"), TipoFile.FOTO))
+					List.of(new Multimedia(new File(rs.getString("imgageSrc")), TipoFile.FOTO)), false
 					));
 		}
 		

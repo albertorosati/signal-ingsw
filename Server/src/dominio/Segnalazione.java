@@ -48,6 +48,10 @@ public class Segnalazione {
 		return this.stato;
 	}
 
+	public boolean is_public() {
+		return _public;
+	}
+
 	public List<String> aggiungiTag(String tag) {
 		this.tags.add(tag);
 		return this.tags;
