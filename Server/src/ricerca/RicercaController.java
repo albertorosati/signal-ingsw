@@ -16,11 +16,11 @@ import dominio.Segnalazione;
 import dominio.Stato;
 import dominio.TipoFile;
 
-public class Ricerca implements IRicerca {
+public class RicercaController implements IRicerca {
 
 	private Connector conn;
 	
-	public Ricerca() throws SQLException {
+	public RicercaController() throws SQLException {
 		this.conn = Connector.getInstance();
 	}
 

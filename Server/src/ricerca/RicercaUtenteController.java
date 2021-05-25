@@ -11,7 +11,7 @@ import database.Connector;
 import dominio.Profilo;
 import dominio.RuoloUtente;
 
-public class RicercaUtente implements IRicercaUtente {
+public class RicercaUtenteController implements IRicercaUtente {
 
 	@Override
 	public List<Profilo> cercaUtente(String name) throws SQLException {

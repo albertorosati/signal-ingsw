@@ -11,7 +11,7 @@ import dominio.RuoloUtente;
 import json.RespState;
 import json.Response;
 
-public class Login implements ILogin {
+public class LoginController implements ILogin {
 
 	@Override
 	public Response autentica(String username, String password) throws SQLException {

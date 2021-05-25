@@ -10,11 +10,11 @@ import dominio.Chat;
 import dominio.Profilo;
 import dominio.Segnalazione;
 
-public class Handshake implements IHandshake {
+public class HandshakeController implements IHandshake {
 
 	private Connector conn;
 	
-	public Handshake() throws SQLException {
+	public HandshakeController() throws SQLException {
 		this.conn = Connector.getInstance();
 	}
 

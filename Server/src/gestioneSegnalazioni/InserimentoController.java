@@ -7,11 +7,11 @@ import database.Connector;
 import dominio.Segnalazione;
 import dominio.TipoBacheca;
 
-public class Inserimento implements Iinserimento {
+public class InserimentoController implements Iinserimento {
 
 	private Connector conn;
 	
-	public Inserimento() throws SQLException {
+	public InserimentoController() throws SQLException {
 		this.conn = Connector.getInstance();
 	}
 	

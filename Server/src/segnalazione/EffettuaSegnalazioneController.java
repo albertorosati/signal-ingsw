@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import database.Connector;
 import dominio.Segnalazione;
 
-public class EffettuaSegnalazione implements IEffettuaSegnlazione {
+public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 
 	private Connector conn;
 	
-	public EffettuaSegnalazione() throws SQLException {
+	public EffettuaSegnalazioneController() throws SQLException {
 		conn = Connector.getInstance();
 	}
 	

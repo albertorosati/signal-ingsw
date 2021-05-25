@@ -9,12 +9,12 @@ import database.Connector;
 import dominio.Profilo;
 import mail.MyMailer;
 
-public class Registrazione implements IRegistrazione {
+public class RegistrazioneController implements IRegistrazione {
 
 	private MyMailer mailer;
 	private Connector conn;
 	
-	public Registrazione() throws SQLException {
+	public RegistrazioneController() throws SQLException {
 		mailer = MyMailer.getIstance();
 		conn = Connector.getInstance();
 	}
