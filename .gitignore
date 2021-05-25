@@ -6,3 +6,5 @@ Client/package-lock.json
 Server/.classpath
 
 Server/bin/
+
+**/.DS_Store
