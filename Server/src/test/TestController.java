@@ -50,7 +50,7 @@ public class TestController {
 		Multimedia foto = new Multimedia(new File("/bologna_foto.jpg"), TipoFile.FOTO);
 		comune = new Comune("Città Metropolitana di Bologna", stemma, foto);
 		CartaVirtuale carta = new CartaVirtuale(100, comune);
-		
+
 		produttore = new Profilo(UUID.randomUUID(), "dangelo.harrison@mail.com", "D'Angelo", "Harrison",
 				"CODICEFISCALE", false, 5, RuoloUtente.BASE, comune, List.of(carta));
 		carta.setProfilo(produttore);
@@ -71,6 +71,9 @@ public class TestController {
 				produttore, null, null, null, true);
 	}
 
+	// Verifica della sospensione di un utente
+	// se l'utente viene sospeso non deve poter
+	// effettuare una nuova segnalazione
 	@Test
 	public void testSospendi() throws SQLException {
 		Sospendi sospendiController = new Sospendi();
@@ -86,8 +89,7 @@ public class TestController {
 		assertFalse(Arrays.asList(mySeg).contains(mock_seg));
 	}
 
-	// inserisci segnalazione in bacheca PRO
-	// get segnalazioni disponibili
+	// Test del controller InserimentoController
 	@Test
 	public void testBacheca() throws SQLException {
 		InserimentoController ins = new InserimentoController();
@@ -96,17 +98,13 @@ public class TestController {
 		dest[0] = TipoBacheca.PRO;
 		dest[1] = TipoBacheca.PRO_CONVENZIONATO;
 
-		ArrayList<String> tags = new ArrayList<>();
-		tags.add("panchina");
-		tags.add("parco");
-
-		Stato stato = Stato.APPROVATA;
+		List<String> tags = List.of("panchina", "parco");
 
 		Posizione pos = new Posizione(44.540670, 11.353173);
 
 		Segnalazione segnalazione = new Segnalazione("panchina rotta",
-				"Lo schienale di una panchina al parco dei Laghetti � rotto", LocalDateTime.now(), tags, true, stato,
-				pos, produttore, null, null, null, true);
+				"Lo schienale di una panchina al parco dei Laghetti e' rotto", LocalDateTime.now(), tags, true,
+				Stato.APPROVATA, pos, produttore, null, null, null, true);
 
 		ins.inserisciInBacheca(segnalazione, dest);
 
@@ -116,9 +114,9 @@ public class TestController {
 		assertTrue(Arrays.asList(bacheca).contains(segnalazione));
 	}
 
-	// getPoint(Profile)
-	// accetta()
-	// getPoint(Profile) + 50 ?
+	// Test del funzionamento del controller VerificaController
+	// in particolare della funzione accetta, che deve accreditare
+	// 50 punti all'utente la cui segnalazione è stata accettata
 	@Test
 	public void testPunti() throws SQLException {
 		int points_Before, points_After;
