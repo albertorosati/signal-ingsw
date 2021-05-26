@@ -42,7 +42,7 @@ public class GestioneProfiloController implements IGestioneProfilo {
 			//change tab Utente --> add comune
 			String identificatore=rs.getString("identificatore");
 			res=new Profilo(rs.getInt("id"), email, rs.getString("nome"),rs.getString("cognome"), email, identificatore, 
-					rs.getBoolean("sospeso"), rs.getFloat("reputazione"), 
+					rs.getBoolean("sospeso"), rs.getFlox\at("reputazione"), 
 					RuoloUtente.values()[rs.getInt("tipoUtente")],new Comune(""),getCarte(identificatore));
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,7 +61,7 @@ public class GestioneProfiloController implements IGestioneProfilo {
 		
 		try {
 			ps = connector.prepare("SELECT * FROM Carte WHERE utente=?");
-			ps.setInt(1, idUtente);
+			ps.setInt(1, Integer.parseInt(idUtente));
 			rs = ps.executeQuery();	
 			
 			

@@ -1,12 +1,18 @@
 package dominio;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import database.Connector;
+
 public class Segnalazione {
 
+	private int id;
 	private String titolo;
 	private String descrizione;
 	private LocalDateTime timestampCreazione;
@@ -23,12 +29,13 @@ public class Segnalazione {
 	private Profilo consumatore;
 	private Chat chat;
 	private Assegnazione assegnazione; // TODO non mettere nel costruttore
-	private List<Multimedia> medias;
+	private String imgSrc;
 	private boolean _public;
 
-	public Segnalazione(String titolo, String descrizione, LocalDateTime timestampCreazione, List<String> tags,
-			boolean visible, Stato stato, Posizione posizione, Profilo produttore, Profilo consumatore, Chat chat,
-			List<Multimedia> medias, boolean _public) {
+	public Segnalazione(int id, String titolo, String descrizione, LocalDateTime timestampCreazione, List<String> tags,
+			boolean visible, Stato stato, Posizione posizione, Comune comune, Profilo produttore, Profilo consumatore,
+			Chat chat, String imgSrc, boolean _public) {
+		this.id = id;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.timestampCreazione = timestampCreazione;
@@ -39,8 +46,50 @@ public class Segnalazione {
 		this.produttore = produttore;
 		this.consumatore = consumatore;
 		this.chat = chat;
-		this.medias = medias;
-		this._public=_public;
+		this.imgSrc = imgSrc;
+		this._public = _public;
+	}
+
+	public static Segnalazione getById(Connector conn, int id) throws SQLException {
+		PreparedStatement ps = conn.prepare("SELECT * FROM Utenti WHERE id = ?");
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		if (!rs.first())
+			throw new IllegalArgumentException("La segnalazione non esiste");
+
+		return new Segnalazione(rs.getInt("id"), rs.getString("titolo"), rs.getString("descrizione"),
+				rs.getTimestamp("timestamp").toLocalDateTime(), null, rs.getBoolean("visibile"),
+				Stato.values()[rs.getInt("stato")], new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), null, null,
+				null, null, rs.getString("imageSrc"), rs.getBoolean("pubblica"));
+	}
+
+	public static Segnalazione of(Connector conn, int autore, String titolo, String descrizione, List<String> tags,
+			Posizione posizione, Profilo produttore, String imgSrc) throws SQLException {
+		PreparedStatement st = conn.prepareReturn(
+				"INSERT INTO Segnalazioni (autore, titolo, descrizione, imageSrc, lat, lon) VALUES (?,?,?,?,?,?)");
+		
+		st.setInt(1, autore);
+		st.setString(2, titolo);
+		st.setString(3, descrizione);
+		st.setString(4, imgSrc);
+		st.setDouble(5, posizione.getLatitudine());
+		st.setDouble(6, posizione.getLongitudine());
+		st.executeUpdate();
+		
+		ResultSet rs = st.getGeneratedKeys();
+		
+		if (!rs.first()) throw new SQLException("Errore interno");
+		
+		int id = rs.getInt("id");
+		
+		for (String tag : tags) {
+			st = conn.prepare("INSERT INTO Tag (nome, segnalazione) VALUES (?,?)");
+			st.setString(1, tag);
+			st.setInt(2, id);
+			st.execute();
+		}
+		
+		return Segnalazione.getById(conn, rs.getInt("id"));
 	}
 
 	public Stato impostaStato(Stato stato) {
@@ -77,6 +126,10 @@ public class Segnalazione {
 		this.chat = new Chat(produttore, consumatore);
 		return this.chat;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 	public Chat getChat() {
 		return chat;
@@ -110,14 +163,14 @@ public class Segnalazione {
 		return stato;
 	}
 
-	public List<Multimedia> getMedia() {
-		return medias;
+	public String getImage() {
+		return imgSrc;
 	}
 
 	public Posizione getPosizione() {
 		return posizione;
 	}
-	
+
 	public Comune getComune() {
 		return comune;
 	}
@@ -150,12 +203,8 @@ public class Segnalazione {
 		return assegnazione;
 	}
 
-	public List<Multimedia> getMedias() {
-		return medias;
-	}
-	
 	public void setPublic(boolean val) {
-		this._public=val;
+		this._public = val;
 	}
 
 }

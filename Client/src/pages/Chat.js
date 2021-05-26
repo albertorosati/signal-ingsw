@@ -7,7 +7,6 @@ import SendIcon from "@material-ui/icons/Send";
 import IconButton from "@material-ui/core/IconButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Moment from "react-moment";
 
 export default class Chat extends React.Component {

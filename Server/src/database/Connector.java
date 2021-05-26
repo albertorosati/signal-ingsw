@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Connector implements AutoCloseable {
 
@@ -23,6 +24,11 @@ public class Connector implements AutoCloseable {
 
 	public PreparedStatement prepare(String query) throws SQLException {
 		return conn.prepareStatement(query);
+	}
+
+	// Restituisce la chiave appena generata
+	public PreparedStatement prepareReturn(String query) throws SQLException {
+		return conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 	}
 
 	@Override
