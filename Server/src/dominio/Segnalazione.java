@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import database.Connector;
@@ -51,23 +52,25 @@ public class Segnalazione {
 	}
 
 	public static Segnalazione getById(Connector conn, int id) throws SQLException {
-		PreparedStatement ps = conn.prepare("SELECT * FROM Utenti WHERE id = ?");
+		PreparedStatement ps = conn.prepare(
+				"SELECT S.*, GROUP_CONCAT(T.nome) tags FROM Segnalazioni S JOIN Tag T ON T.segnalazione=S.id WHERE S.id = ?");
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		if (!rs.first())
 			throw new IllegalArgumentException("La segnalazione non esiste");
 
 		return new Segnalazione(rs.getInt("id"), rs.getString("titolo"), rs.getString("descrizione"),
-				rs.getTimestamp("timestamp").toLocalDateTime(), null, rs.getBoolean("visibile"),
-				Stato.values()[rs.getInt("stato")], new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), null, null,
-				null, null, rs.getString("imageSrc"), rs.getBoolean("pubblica"));
+				rs.getTimestamp("timestamp").toLocalDateTime(), Arrays.asList(rs.getString("tags").split(",")),
+				rs.getBoolean("visibile"), Stato.values()[rs.getInt("stato")],
+				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), null, null, null, null,
+				rs.getString("imageSrc"), rs.getBoolean("pubblica"));
 	}
 
 	public static Segnalazione of(Connector conn, int autore, String titolo, String descrizione, List<String> tags,
 			Posizione posizione, Profilo produttore, String imgSrc) throws SQLException {
 		PreparedStatement st = conn.prepareReturn(
 				"INSERT INTO Segnalazioni (autore, titolo, descrizione, imageSrc, lat, lon) VALUES (?,?,?,?,?,?)");
-		
+
 		st.setInt(1, autore);
 		st.setString(2, titolo);
 		st.setString(3, descrizione);
@@ -75,20 +78,21 @@ public class Segnalazione {
 		st.setDouble(5, posizione.getLatitudine());
 		st.setDouble(6, posizione.getLongitudine());
 		st.executeUpdate();
-		
+
 		ResultSet rs = st.getGeneratedKeys();
-		
-		if (!rs.first()) throw new SQLException("Errore interno");
-		
+
+		if (!rs.first())
+			throw new SQLException("Errore interno");
+
 		int id = rs.getInt("id");
-		
+
 		for (String tag : tags) {
 			st = conn.prepare("INSERT INTO Tag (nome, segnalazione) VALUES (?,?)");
 			st.setString(1, tag);
 			st.setInt(2, id);
 			st.execute();
 		}
-		
+
 		return Segnalazione.getById(conn, rs.getInt("id"));
 	}
 
@@ -126,7 +130,7 @@ public class Segnalazione {
 		this.chat = new Chat(produttore, consumatore);
 		return this.chat;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
