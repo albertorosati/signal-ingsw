@@ -13,6 +13,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import database.Connector;
 import dominio.Profilo;
+import json.RespState;
+import json.Response;
 import mail.MyMailer;
 
 public class RegistrazioneController implements IRegistrazione {
@@ -62,7 +64,7 @@ public class RegistrazioneController implements IRegistrazione {
 		birthMonth = Month.of(mesiCF.indexOf(id.substring(8, 9).charAt(0)) + 1);
 
 		LocalDate birthDate = LocalDate.of(birthYear, birthMonth, birthDay);
-		
+
 		/*
 		 * Il carattere di controllo viene determinato nel modo seguente: si sommano i
 		 * valori di ciascuna delle cinque cifre di ordine dispari, partendo da
@@ -74,7 +76,7 @@ public class RegistrazioneController implements IRegistrazione {
 		 * carattere di controllo è la cifra relativa alle unità del risultato.
 		 * 
 		 */
-		
+
 		return birthDate.isBefore(LocalDate.now().minusYears(18));
 	}
 
@@ -108,37 +110,68 @@ public class RegistrazioneController implements IRegistrazione {
 	@Override
 	public void inviaConferma(Profilo utente) throws SQLException {
 		String hash = DigestUtils.sha256Hex(System.currentTimeMillis() + utente.getEmail() + "granellodisale");
-		PreparedStatement st = conn.prepare("INSERT INTO ConfermeRegistrazioni (utente, hash) VALUES (?,?");
-		st.setString(1, utente.getId().toString());
+		PreparedStatement st = conn.prepare("INSERT INTO ConfermeRegistrazioni (utente, hash) VALUES (?,?)");
+		st.setInt(1, utente.getId());
 		st.setString(2, hash);
+		st.execute();
 		mailer.sendMailVerifica(utente.getEmail(), hash);
 	}
 
 	@Override
 	public void convalidaEmail(Profilo utente) throws SQLException {
 		PreparedStatement ps = conn.prepare("DELETE FROM ConfermeRegistrazioni WHERE utente=?");
-		ps.setString(1, utente.getId().toString());
+		ps.setInt(1, utente.getId());
 		ps.execute();
 		ps = conn.prepare("UPDATE Utenti SET confermato=1 WHERE id=?");
-		ps.setString(1, utente.getId().toString());
+		ps.setInt(1, utente.getId());
 		ps.execute();
 	}
 
 	@Override
 	public void registra(Profilo utente, String hash_passwd) throws SQLException {
-		PreparedStatement ps = conn
-				.prepare("INSERT INTO Utenti (email, password, nome, cognome, identificatore) VALUES (?,?,?,?,?)");
-		ps.setString(1, utente.getEmail());
-		ps.setString(2, hash_passwd);
-		ps.setString(3, utente.getNome());
-		ps.setString(4, utente.getCognome());
-		ps.setString(5, utente.getIdentificatore());
-		ps.execute();
+
+	}
+
+	public Response registra(String email, String password, String nome, String cognome, String identificatore,
+			String comune, String tipoUtenteStr) throws SQLException, IOException {
+		Response r = new Response();
+
+		if (email.isBlank() || password.isBlank() || nome.isBlank() || cognome.isBlank() || identificatore.isBlank()
+				|| comune.isBlank() || tipoUtenteStr.isBlank())
+			return r.setStateAndReturn(RespState.ERROR);
+
+		int tipoUtente;
+		try {
+			tipoUtente = Integer.parseInt(tipoUtenteStr);
+		} catch (NumberFormatException e) {
+			return r.setStateAndReturn(RespState.ERROR);
+		}
+		
+		if (tipoUtente == 0) {
+			if (!verificaID(identificatore))
+				return r.setStateAndReturn(RespState.FAILURE);
+		} else if (tipoUtente == 1) {
+			if (!verificaP_IVA(identificatore))
+				return r.setStateAndReturn(RespState.FAILURE);
+		} else
+			return r.setStateAndReturn(RespState.ERROR);
+
+		String hash_pwd = DigestUtils.sha256Hex(password);
+		
+
+		Profilo p = Profilo.of(Connector.getInstance(), email, hash_pwd, nome, cognome, identificatore, comune,
+				tipoUtente);
+
+		this.inviaConferma(p);
+
+		return r.setStateAndReturn(RespState.SUCCESS);
 	}
 
 	public static void main(String[] args) throws SQLException, IOException {
 		RegistrazioneController rc = new RegistrazioneController();
-		System.out.print(rc.verificaID("RSTLRT99P07F158B"));
+		Response r = rc.registra("alberto.rosati99@gmail.com", "password", "Alberto", "Rosati", "RSTLRT99P07F158B",
+				"Bologna", "0");
+		System.out.println(r.toJson());
 	}
 
 }

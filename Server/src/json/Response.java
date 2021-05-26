@@ -53,6 +53,11 @@ public class Response {
 	public void setState(RespState state) {
 		this.state = state;
 	}
+	
+	public Response setStateAndReturn(RespState state) {
+		this.setState(state);
+		return this;
+	}
 
 	public String getNome() {
 		return nome;

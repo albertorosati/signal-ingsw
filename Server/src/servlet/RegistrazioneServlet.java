@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import autenticazione.RegistrazioneController;
+import json.RespState;
+import json.Response;
 
 public class RegistrazioneServlet extends HttpServlet {
 
@@ -34,26 +36,19 @@ public class RegistrazioneServlet extends HttpServlet {
 		String cognome = req.getParameter("cognome");
 		String identificatore = req.getParameter("identificatore");
 		String comune = req.getParameter("comune");
-		int tipoUtente;
-		try {
-			tipoUtente = Integer.parseInt(req.getParameter("tipoUtente"));
-		} catch (NumberFormatException e) {
-			return;
-		}
+		String tipoUtente = req.getParameter("tipoUtente");
 
-		if (tipoUtente != 0 || tipoUtente != 1)
-			return;
-
-		if (email.isBlank() || password.isBlank() || nome.isBlank() || cognome.isBlank() || identificatore.isBlank()
-				|| comune.isBlank())
-			return;
+		Response r = new Response(RespState.ERROR);
 		
 		try {
 			RegistrazioneController rc = new RegistrazioneController();
+			r = rc.registra(email, password, nome, cognome, identificatore, comune, tipoUtente);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+		resp.getWriter().write(r.toJson());
+
 		super.doPost(req, resp);
 	}
 }

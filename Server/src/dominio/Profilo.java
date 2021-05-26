@@ -1,11 +1,16 @@
 package dominio;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
+
+import database.Connector;
+import exceptions.EmailNotExistingException;
 
 public class Profilo {
 
-	private UUID id;
+	private int id;
 	private String email;
 	private String nome;
 	private String cognome;
@@ -16,7 +21,7 @@ public class Profilo {
 	private Comune comuneResidenza;
 	private List<CartaVirtuale> carteVirtuali;
 
-	public Profilo(UUID id, String email, String nome, String cognome, String identificatore, boolean sospeso,
+	public Profilo(int id, String email, String nome, String cognome, String identificatore, boolean sospeso,
 			float valutazione, RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) {
 		super();
 		this.id = id;
@@ -31,7 +36,38 @@ public class Profilo {
 		this.carteVirtuali = carteVirtuali;
 	}
 
-	public UUID getId() {
+	public static Profilo getProfiloByEmail(Connector conn, String email)
+			throws SQLException, EmailNotExistingException {
+		PreparedStatement ps = conn.prepare("SELECT * FROM Utenti WHERE email = ?");
+		ps.setString(1, email);
+		ResultSet rs = ps.executeQuery();
+		if (!rs.first())
+			throw new EmailNotExistingException("L'utente non esiste");
+
+		return new Profilo(rs.getInt("id"), rs.getString("email"), rs.getString("nome"), rs.getString("cognome"),
+				rs.getString("identificatore"), rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
+				RuoloUtente.values()[rs.getInt("tipoUtente")], null, null);
+	}
+
+	public static Profilo of(Connector conn, String email, String password, String nome, String cognome,
+			String identificatore, String comune, int tipoUtente) throws SQLException {
+		PreparedStatement ps = conn
+				.prepare("INSERT INTO Utenti (email, password, nome, cognome, identificatore) VALUES (?,?,?,?,?)");
+		ps.setString(1, email);
+		ps.setString(2, password);
+		ps.setString(3, nome);
+		ps.setString(4, cognome);
+		ps.setString(5, identificatore);
+		ps.execute();
+		try {
+			return Profilo.getProfiloByEmail(conn, email);
+		} catch (EmailNotExistingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public int getId() {
 		return id;
 	}
 
@@ -81,24 +117,24 @@ public class Profilo {
 	public List<CartaVirtuale> getCarteVirtuali() {
 		return carteVirtuali;
 	}
-	
+
 	public int getTotalPoints() {
-		int res=0;
-		for(CartaVirtuale card : this.carteVirtuali)
-			res+=card.getSaldo();
-		
+		int res = 0;
+		for (CartaVirtuale card : this.carteVirtuali)
+			res += card.getSaldo();
+
 		return res;
 	}
-	
-	public boolean addPoint(Comune comune,int points) {
-		boolean res=false;
-		
-		for(CartaVirtuale card : this.carteVirtuali)
-			if(card.getComune().equals(comune)) {
+
+	public boolean addPoint(Comune comune, int points) {
+		boolean res = false;
+
+		for (CartaVirtuale card : this.carteVirtuali)
+			if (card.getComune().equals(comune)) {
 				card.aggiungiPunti(points);
-				res=true;
+				res = true;
 			}
-		
+
 		return res;
 	}
 
