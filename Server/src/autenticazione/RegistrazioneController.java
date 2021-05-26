@@ -136,6 +136,11 @@ public class RegistrazioneController implements IRegistrazione {
 		ps = conn.prepare("UPDATE Utenti SET confermato=1 WHERE id=?");
 		ps.setInt(1, utente.getId());
 		ps.execute();
+		
+		ps = conn.prepare("INSERT INTO CacheSospeso (email, Sospeso) VALUES (?,?)");
+		ps.setString(1, utente.getEmail());
+		ps.setBoolean(2, false);
+		ps.execute();
 
 		return new Response(RespState.SUCCESS);
 	}
