@@ -11,6 +11,10 @@ public class Multimedia {
 		this.file = file;
 		this.tipoFile = tipoFile;
 	}
+	
+	public Multimedia(String path) {
+		file=new File(path);
+	}
 
 	public File getFile() {
 		return file;

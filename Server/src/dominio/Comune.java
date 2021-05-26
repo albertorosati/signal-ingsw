@@ -12,6 +12,14 @@ public class Comune {
 		this.stemma = stemma;
 		this.foto = foto;
 	}
+	
+	public Comune(String nome, String stemma, String foto) {
+		super();
+		this.nome = nome;
+		this.stemma = new Multimedia(stemma);
+		this.foto = new Multimedia(foto);
+	}
+	
 
 	public Multimedia getStemma() {
 		return stemma;

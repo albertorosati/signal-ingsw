@@ -16,7 +16,7 @@ public class CartaVirtuale {
 		this.saldo = saldo;
 		this.comune = comune;
 	}
-
+	
 	public int aggiungiPunti(int punti) {
 		saldo = this.saldo + punti;
 		return saldo;
