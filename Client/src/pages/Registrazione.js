@@ -24,6 +24,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import MuiAlert from "@material-ui/lab/Alert";
@@ -99,14 +100,6 @@ export default function Registrazione() {
         setOpenLoading(false);
         if (data.state === "success") {
           setOpenDialog(true);
-
-          setTimeout(function () {
-            history.push("/bacheca");
-            localStorage.setItem("id", data.id);
-            localStorage.setItem("nome", values.nome);
-            localStorage.setItem("cognome", values.cognome);
-            localStorage.setItem("email", values.email);
-          }, 3000);
         } else {
           handleChange({ registrationError: true, email: "", password: "" });
         }
@@ -118,16 +111,18 @@ export default function Registrazione() {
     <Box style={{ background: "linear-gradient(#7274ed, #c76d5a)" }}>
       <Dialog
         open={dialogOpen}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{"Ottimo lavoro!"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            La registrazione è andata a buon fine. Attendi prima di essere
-            reindirizzato all'applicazione.
+            La registrazione è andata a buon fine. Il prossimo passo è quello di confermare la mail.
           </DialogContentText>
         </DialogContent>
+        <DialogActions>
+          <Button onClick={e=>history.push("/login")} color="primary">
+            Torna al Login
+          </Button>
+        </DialogActions>
       </Dialog>
 
       <Grid
