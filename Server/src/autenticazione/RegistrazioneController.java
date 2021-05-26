@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
@@ -118,13 +119,24 @@ public class RegistrazioneController implements IRegistrazione {
 	}
 
 	@Override
-	public void convalidaEmail(Profilo utente) throws SQLException {
-		PreparedStatement ps = conn.prepare("DELETE FROM ConfermeRegistrazioni WHERE utente=?");
+	public Response convalidaEmail(Profilo utente, String hash) throws SQLException {
+		// Verifica che l'hash e l'utente esistano
+		PreparedStatement ps = conn.prepare("SELECT * FROM ConfermeRegistrazioni WHERE utente = ? AND hash = ?");
+		ps.setInt(1, utente.getId());
+		ps.setString(2, hash);
+		ResultSet rs = ps.executeQuery();
+		// Se l'hash non corrisponde o l'utente è già stato confermato
+		if (!rs.first())
+			return new Response(RespState.FAILURE);
+
+		ps = conn.prepare("DELETE FROM ConfermeRegistrazioni WHERE utente=?");
 		ps.setInt(1, utente.getId());
 		ps.execute();
 		ps = conn.prepare("UPDATE Utenti SET confermato=1 WHERE id=?");
 		ps.setInt(1, utente.getId());
 		ps.execute();
+		
+		return new Response(RespState.SUCCESS);
 	}
 
 	@Override
@@ -146,7 +158,7 @@ public class RegistrazioneController implements IRegistrazione {
 		} catch (NumberFormatException e) {
 			return r.setStateAndReturn(RespState.ERROR);
 		}
-		
+
 		if (tipoUtente == 0) {
 			if (!verificaID(identificatore))
 				return r.setStateAndReturn(RespState.FAILURE);
@@ -157,7 +169,6 @@ public class RegistrazioneController implements IRegistrazione {
 			return r.setStateAndReturn(RespState.ERROR);
 
 		String hash_pwd = DigestUtils.sha256Hex(password);
-		
 
 		Profilo p = Profilo.of(Connector.getInstance(), email, hash_pwd, nome, cognome, identificatore, comune,
 				tipoUtente);

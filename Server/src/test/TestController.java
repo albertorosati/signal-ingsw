@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,20 +49,20 @@ public class TestController {
 		comune = new Comune("Città Metropolitana di Bologna", stemma, foto);
 		CartaVirtuale carta = new CartaVirtuale(100, comune);
 
-		produttore = new Profilo(UUID.randomUUID(), "dangelo.harrison@mail.com", "D'Angelo", "Harrison",
+		produttore = new Profilo(1, "dangelo.harrison@mail.com", "D'Angelo", "Harrison",
 				"CODICEFISCALE", false, 5, RuoloUtente.BASE, comune, List.of(carta));
 		carta.setProfilo(produttore);
 
-		moderatore = new Profilo(UUID.randomUUID(), "darius.thompson@mail.com", "Darius", "Thompson", "CODICEFISCALE",
+		moderatore = new Profilo(2, "darius.thompson@mail.com", "Darius", "Thompson", "CODICEFISCALE",
 				false, 5, RuoloUtente.MODERATORE, comune, null);
 
-		gestore = new Profilo(UUID.randomUUID(), "derek.willis@mail.com", "Derek", "Willis", "CODICEFISCALE", false, 5,
+		gestore = new Profilo(3, "derek.willis@mail.com", "Derek", "Willis", "CODICEFISCALE", false, 5,
 				RuoloUtente.GESTORE, comune, null);
 
-		consumatore = new Profilo(UUID.randomUUID(), "nick.perkins@mail.com", "Nick", "Perkins", "CODICEFISCALE", false,
+		consumatore = new Profilo(4, "nick.perkins@mail.com", "Nick", "Perkins", "CODICEFISCALE", false,
 				5, RuoloUtente.PRO, comune, null);
 
-		pro_conv = new Profilo(UUID.randomUUID(), "frank.vitucci@mail.com", "Frank", "Vitucci", "CODICEFISCALE", false,
+		pro_conv = new Profilo(5, "frank.vitucci@mail.com", "Frank", "Vitucci", "CODICEFISCALE", false,
 				5, RuoloUtente.PRO_CONVENZIONATO, comune, null);
 
 		mock_seg = new Segnalazione("mock", "mock description", LocalDateTime.now(), null, false, null, null,

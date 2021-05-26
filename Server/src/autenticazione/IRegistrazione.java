@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.sql.SQLException;
 
 import dominio.Profilo;
+import json.Response;
 
 public interface IRegistrazione {
 	public boolean verificaID(String id);
@@ -15,7 +16,7 @@ public interface IRegistrazione {
 
 	public void inviaConferma(Profilo utente) throws SQLException;
 
-	public void convalidaEmail(Profilo utente) throws SQLException;
+	public Response convalidaEmail(Profilo utente, String hash) throws SQLException;
 
 	public void registra(Profilo utente, String hash_passwd) throws SQLException;
 }

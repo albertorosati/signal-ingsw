@@ -5,11 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import database.Connector;
 import dominio.Profilo;
-import dominio.RuoloUtente;
+import exceptions.EmailNotExistingException;
 
 public class RicercaUtenteController implements IRicercaUtente {
 
@@ -18,30 +17,27 @@ public class RicercaUtenteController implements IRicercaUtente {
 		Connector conn = Connector.getInstance();
 		if (conn == null)
 			return null;
-		PreparedStatement st = conn.prepare("SELECT * FROM Utenti WHERE email=?");
+		PreparedStatement st = conn.prepare("SELECT id FROM Utenti WHERE email=?");
 		st.setString(1, name);
 
 		ResultSet rs = st.executeQuery();
-		// Nessun risultato trovato
-		if (!rs.first())
-			return null;
-
 		List<Profilo> result = new ArrayList<>();
 
+		// Nessun risultato trovato
+		if (!rs.first())
+			return result;
+
 		while (rs.next()) {
-			//Bisogna inserire le carte ? e il comune ?
-			result.add(new Profilo(UUID.fromString(rs.getString("id")),
-					rs.getString("email"),
-					rs.getString("nome"),
-					rs.getString("cognome"),
-					rs.getString("identificatore"),
-					rs.getInt("sospeso") == 0 ? false : true,
-					rs.getFloat("valutazione"),
-					RuoloUtente.values()[rs.getInt("tipoUtente")],
-					null,
-					null));
+			try {
+				result.add(Profilo.getProfiloById(conn, Integer.parseInt(rs.getString("id"))));
+			} catch (NumberFormatException | SQLException | EmailNotExistingException e) {
+				// pressoché impossibile che venga lanciata questa eccezione
+				// stiamo facendo la get di id di utenti di cui siamo sicuri
+				// dell'esistenza
+				e.printStackTrace();
+			}
 		}
-		
+
 		return result;
 	}
 

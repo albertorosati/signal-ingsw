@@ -48,6 +48,19 @@ public class Profilo {
 				rs.getString("identificatore"), rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
 				RuoloUtente.values()[rs.getInt("tipoUtente")], null, null);
 	}
+	
+	public static Profilo getProfiloById(Connector conn, int id)
+			throws SQLException, EmailNotExistingException {
+		PreparedStatement ps = conn.prepare("SELECT * FROM Utenti WHERE id = ?");
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		if (!rs.first())
+			throw new EmailNotExistingException("L'utente non esiste");
+
+		return new Profilo(rs.getInt("id"), rs.getString("email"), rs.getString("nome"), rs.getString("cognome"),
+				rs.getString("identificatore"), rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
+				RuoloUtente.values()[rs.getInt("tipoUtente")], null, null);
+	}
 
 	public static Profilo of(Connector conn, String email, String password, String nome, String cognome,
 			String identificatore, String comune, int tipoUtente) throws SQLException {
