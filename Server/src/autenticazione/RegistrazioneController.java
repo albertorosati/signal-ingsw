@@ -2,10 +2,12 @@ package autenticazione;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -18,6 +20,8 @@ public class RegistrazioneController implements IRegistrazione {
 	private MyMailer mailer;
 	private Connector conn;
 
+	private List<Character> mesiCF = List.of('A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T');
+
 	public RegistrazioneController() throws SQLException {
 		mailer = MyMailer.getIstance();
 		conn = Connector.getInstance();
@@ -26,8 +30,52 @@ public class RegistrazioneController implements IRegistrazione {
 	// Verifica del Codice Fiscale
 	@Override
 	public boolean verificaID(String id) {
+		// esempio: RSSMRA85T10A562S
+		// il codice fiscale è lungo esattamente 16 caratteri
+		if (id.length() != 16)
+			return false;
+
+		int birthDay;
+		Month birthMonth;
+		int birthYear;
+		try {
+			birthDay = Integer.parseInt(id.substring(9, 11));
+			birthYear = Integer.parseInt(id.substring(6, 8));
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		// se è una donna, sottraiamo i 40
+		if (birthDay > 40)
+			birthDay -= 40;
+
+		// sistemo l'anno
+		if (birthYear < 5)
+			birthYear += 2000;
+		else
+			birthYear += 1900;
+
+		// get del mese
+		if (!mesiCF.contains(id.substring(8, 9).charAt(0)))
+			return false;
+
+		birthMonth = Month.of(mesiCF.indexOf(id.substring(8, 9).charAt(0)) + 1);
+
+		LocalDate birthDate = LocalDate.of(birthYear, birthMonth, birthDay);
 		
-		return false;
+		/*
+		 * Il carattere di controllo viene determinato nel modo seguente: si sommano i
+		 * valori di ciascuna delle cinque cifre di ordine dispari, partendo da
+		 * sinistra; si raddoppia ogni cifra di ordine pari e, se il risultato è un
+		 * numero di due cifre, esso si riduce ad una sola sommando la cifra relativa
+		 * alle decine e quella relativa alle unità; si sommano quindi tutti i
+		 * precedenti risultati; si determina il totale delle due somme di cui sopra; si
+		 * sottrae da dieci la cifra relativa alle unità del precedente totale. Il
+		 * carattere di controllo è la cifra relativa alle unità del risultato.
+		 * 
+		 */
+		
+		return birthDate.isBefore(LocalDate.now().minusYears(18));
 	}
 
 	@Override
@@ -42,8 +90,7 @@ public class RegistrazioneController implements IRegistrazione {
 		// quindi basta semplicemente verificare il codice HTTP
 		// restituito dalla pagina
 		try {
-			URL url = new URL("https://www.isvat.eu/IT/" + piva);
-			InputStreamReader reader = new InputStreamReader(url.openStream());
+			new URL("https://www.isvat.eu/IT/" + piva).openStream();
 		} catch (FileNotFoundException e) {
 			return false;
 		}
@@ -91,7 +138,7 @@ public class RegistrazioneController implements IRegistrazione {
 
 	public static void main(String[] args) throws SQLException, IOException {
 		RegistrazioneController rc = new RegistrazioneController();
-		System.out.println(rc.verificaP_IVA("01131710376"));
+		System.out.print(rc.verificaID("RSTLRT99P07F158B"));
 	}
 
 }
