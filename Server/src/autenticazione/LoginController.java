@@ -32,12 +32,21 @@ public class LoginController implements ILogin {
 		if (!rs.first())
 			return resp;
 		else {
+
+			// se l'utente è sospeso
+			if (rs.getBoolean("sospeso"))
+				return resp.setStateAndReturn(RespState.USER_SUSPENDED);
+
+			// se l'utente NON è stato confermato
+			if (!rs.getBoolean("confermato"))
+				return resp.setStateAndReturn(RespState.USER_NOT_VERIFIED);
+
 			// Bisogna inserire qui l'hash
 			resp.setState(RespState.SUCCESS);
 			resp.setNome(rs.getString("nome"));
 			resp.setCognome(rs.getString("cognome"));
 			resp.setTipoUtente(RuoloUtente.values()[rs.getInt("tipoUtente")]);
-			resp.setHash("ijadfioj2390j203r9j0ajf");
+			resp.setHash(DigestUtils.sha256Hex(System.currentTimeMillis() + "a"));
 			return resp;
 		}
 	}

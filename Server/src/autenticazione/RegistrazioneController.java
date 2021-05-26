@@ -14,6 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import database.Connector;
 import dominio.Profilo;
+import exceptions.EmailNotExistingException;
 import json.RespState;
 import json.Response;
 import mail.MyMailer;
@@ -135,7 +136,7 @@ public class RegistrazioneController implements IRegistrazione {
 		ps = conn.prepare("UPDATE Utenti SET confermato=1 WHERE id=?");
 		ps.setInt(1, utente.getId());
 		ps.execute();
-		
+
 		return new Response(RespState.SUCCESS);
 	}
 
@@ -178,7 +179,7 @@ public class RegistrazioneController implements IRegistrazione {
 		return r.setStateAndReturn(RespState.SUCCESS);
 	}
 
-	public static void main(String[] args) throws SQLException, IOException {
+	public static void main(String[] args) throws SQLException, IOException, EmailNotExistingException {
 		RegistrazioneController rc = new RegistrazioneController();
 		Response r = rc.registra("alberto.rosati99@gmail.com", "password", "Alberto", "Rosati", "RSTLRT99P07F158B",
 				"Bologna", "0");
