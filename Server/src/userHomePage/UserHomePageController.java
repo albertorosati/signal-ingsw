@@ -31,7 +31,7 @@ public class UserHomePageController implements IUserHomePage {
 				//	+ "FROM ? bb JOIN Segnalazioni s on bb.idSeg = s.id"
 				//	+ "WHERE bb.visible = TRUE ");
 			ps=connector.prepare("SELECT isSeg FROM ? WHERE visible = TRUE");
-			ps.setString(1, this.getTable(profilo.getRuolo()));
+			ps.setString(1, getTable(profilo.getRuolo()));
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
@@ -47,7 +47,7 @@ public class UserHomePageController implements IUserHomePage {
 	}
 	
 	
-	private String getTable(RuoloUtente role) {
+	private static String getTable(RuoloUtente role) {
 		String res="";
 	
 		switch(role) {

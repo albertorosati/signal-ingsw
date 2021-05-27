@@ -25,6 +25,12 @@ public class SospendiController implements ISospendi {
 			ps = connector.prepare("UPDATE CacheSospensione SET Sospeso=true WHERE email=?");
 			ps.setString(1, p.getEmail());
 			ps.execute();
+			
+			//foreach seg.state<5 --> set visible FALSE
+			ps=connector.prepare("UPDATE Segnalazioni SET stato = 9 WHERE autore = ? AND stato < 5");
+			ps.setString(1, p.getIdentificatore());
+			ps.execute();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
