@@ -58,6 +58,13 @@ public class MyMailer implements AutoCloseable {
 		String html = template.getHtml(url);
 		this.sendMail(destinatario, template.getOggetto(), html);
 	}
+	
+	public void sendMailSospeso(String destinatario, String hash) {
+		String url = MAIN_URL + "Ciao " + destinatario + ",\n il tuo profilo è stato sospeso.";
+		TemplateMail template = TemplateMail.UTENTE_SOSPESO;
+		String html = template.getHtml(url);
+		this.sendMail(destinatario, template.getOggetto(), html);
+	}
 
 	@Override
 	public void close() throws Exception {

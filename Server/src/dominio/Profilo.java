@@ -3,6 +3,7 @@ package dominio;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import database.Connector;
@@ -36,6 +37,7 @@ public class Profilo {
 		this.carteVirtuali = carteVirtuali;
 	}
 
+	//null Comune di residenza --> must per limitazione di conservazione dei dati
 	public static Profilo getProfiloByEmail(Connector conn, String email)
 			throws SQLException, EmailNotExistingException {
 		PreparedStatement ps = conn.prepare("SELECT * FROM Utenti WHERE email = ?");
@@ -56,10 +58,12 @@ public class Profilo {
 		ResultSet rs = ps.executeQuery();
 		if (!rs.first())
 			throw new EmailNotExistingException("L'utente non esiste");
-
-		return new Profilo(rs.getInt("id"), rs.getString("email"), rs.getString("nome"), rs.getString("cognome"),
+		
+		int idUser=rs.getInt("id");
+		
+		return new Profilo(idUser, rs.getString("email"), rs.getString("nome"), rs.getString("cognome"),
 				rs.getString("identificatore"), rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
-				RuoloUtente.values()[rs.getInt("tipoUtente")], null, null);
+				RuoloUtente.values()[rs.getInt("tipoUtente")], null, getCarte(conn,idUser));
 	}
 
 	public static Profilo of(Connector conn, String email, String password, String nome, String cognome,
@@ -78,6 +82,29 @@ public class Profilo {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private static List<CartaVirtuale> getCarte(Connector conn,int idUtente) {
+		List<CartaVirtuale> list = new ArrayList<>();
+
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			ps = conn.prepare("SELECT * FROM Carte WHERE utente = ?");
+			ps.setInt(1, idUtente);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Comune c = new Comune(rs.getString("name"), rs.getString("stemma"), rs.getString("foto"));
+				list.add(new CartaVirtuale(rs.getInt("id"), c));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 
 	public int getId() {

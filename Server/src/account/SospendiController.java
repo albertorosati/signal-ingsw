@@ -40,8 +40,8 @@ public class SospendiController implements ISospendi {
 
 	@Override
 	public void inviaEmail(Profilo p) {
-		// TODO Auto-generated method stub
-		
+		String hash = DigestUtils.sha256Hex(System.currentTimeMillis() + utente.getEmail() + "pirìpi");
+		mailer.sendMailSospeso(p.getEmail(), hash);		
 	}
 
 }

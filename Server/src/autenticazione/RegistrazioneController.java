@@ -14,6 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import database.Connector;
 import dominio.Profilo;
+import dominio.RuoloUtente;
 import exceptions.EmailNotExistingException;
 import json.RespState;
 import json.Response;
@@ -147,7 +148,12 @@ public class RegistrazioneController implements IRegistrazione {
 
 	@Override
 	public void registra(Profilo utente, String hash_passwd) throws SQLException {
-
+		try {
+			registra(utente.getEmail(),hash_passwd,utente.getNome(),utente.getCognome(),utente.getIdentificatore(),
+					utente.getComuneResidenza().getNome(),utente.getRuolo().toString());
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Response registra(String email, String password, String nome, String cognome, String identificatore,

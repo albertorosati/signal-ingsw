@@ -20,6 +20,13 @@ public class Comune {
 		this.foto = new Multimedia(foto);
 	}
 	
+	public Comune(String nome) {
+		super();
+		this.nome = nome;
+		this.stemma = null;
+		this.foto = null;
+	}
+	
 
 	public Multimedia getStemma() {
 		return stemma;

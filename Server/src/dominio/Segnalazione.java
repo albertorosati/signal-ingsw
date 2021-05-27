@@ -68,11 +68,20 @@ public class Segnalazione {
 				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), null, null, null, null,
 				rs.getString("imageSrc"), rs.getBoolean("pubblica"));
 	}
+	
+	public static void insert(Connector conn, Segnalazione s) {
+		try {
+			Segnalazione.of(conn, s.getAutore().getId(), s.getTitolo(), s.getDescrizione(), s.getTags(), s.getPosizione(),
+					s.getProduttore(), s.getImage(), s.getComune().getNome());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static Segnalazione of(Connector conn, int autore, String titolo, String descrizione, List<String> tags,
-			Posizione posizione, Profilo produttore, String imgSrc) throws SQLException {
+			Posizione posizione, Profilo produttore, String imgSrc, String comune) throws SQLException {
 		PreparedStatement st = conn.prepareReturn(
-				"INSERT INTO Segnalazioni (autore, titolo, descrizione, imageSrc, lat, lon) VALUES (?,?,?,?,?,?)");
+				"INSERT INTO Segnalazioni (autore, titolo, descrizione, imageSrc, lat, lon,comune) VALUES (?,?,?,?,?,?,?)");
 
 		st.setInt(1, autore);
 		st.setString(2, titolo);
@@ -80,6 +89,7 @@ public class Segnalazione {
 		st.setString(4, imgSrc);
 		st.setDouble(5, posizione.getLatitudine());
 		st.setDouble(6, posizione.getLongitudine());
+		st.setString(7, comune);
 		st.executeUpdate();
 
 		ResultSet rs = st.getGeneratedKeys();

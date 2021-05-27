@@ -11,6 +11,7 @@ import dominio.CartaVirtuale;
 import dominio.Comune;
 import dominio.Profilo;
 import dominio.RuoloUtente;
+import exceptions.EmailNotExistingException;
 
 public class GestioneProfiloController implements IGestioneProfilo {
 
@@ -30,43 +31,26 @@ public class GestioneProfiloController implements IGestioneProfilo {
 		PreparedStatement ps;
 		ResultSet rs = null;
 
-			ps = connector.prepare("SELECT * FROM Utenti WHERE email=?");
-			ps.setString(1, email);
-			rs = ps.executeQuery();
+		ps = connector.prepare("SELECT * FROM Utenti WHERE email=?");
+		ps.setString(1, email);
+		rs = ps.executeQuery();
 		
 
 			// change tab Utente --> add comune
-			String identificatore = rs.getString("identificatore");
-			res = new Profilo(rs.getInt("id"), email, rs.getString("nome"), rs.getString("cognome"),
-					identificatore, rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
-					RuoloUtente.values()[rs.getInt("tipoUtente")], null, getCarte(identificatore));
+			//String identificatore = rs.getString("identificatore");
+			//res = new Profilo(rs.getInt("id"), email, rs.getString("nome"), rs.getString("cognome"),
+			//		identificatore, rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
+			//		RuoloUtente.values()[rs.getInt("tipoUtente")], null, getCarte(identificatore));
 	
+		try {
+			res=Profilo.getProfiloByEmail(connector, email);			
+		} catch (SQLException | EmailNotExistingException e) {
+			e.printStackTrace();
+		}		
 
 		return res;
 	}
-
-	private List<CartaVirtuale> getCarte(String idUtente) {
-		List<CartaVirtuale> list = new ArrayList<>();
-
-		PreparedStatement ps;
-		ResultSet rs;
-
-		try {
-			ps = connector.prepare("SELECT * FROM Carte WHERE utente=?");
-			ps.setInt(1, idUtente);
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				Comune c = new Comune(rs.getString("name"), rs.getString("stemma"), rs.getString("foto"));
-				list.add(new CartaVirtuale(rs.getInt("id"), c));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}
+	
 
 	@Override
 	public void modificaInformazioni(Profilo utente, String old_value, String new_value) {
