@@ -32,6 +32,8 @@ public class Segnalazione {
 	private Assegnazione assegnazione; // TODO non mettere nel costruttore
 	private String imgSrc;
 	private boolean _public;
+	
+	private Connector connector;
 
 	public Segnalazione(int id, String titolo, String descrizione, LocalDateTime timestampCreazione, List<String> tags,
 			boolean visible, Stato stato, Posizione posizione, Comune comune, Profilo produttore, Profilo consumatore,
@@ -97,7 +99,18 @@ public class Segnalazione {
 	}
 
 	public Stato impostaStato(Stato stato) {
+		PreparedStatement ps;
+		try {
+			ps = connector.prepare("UPDATE Segnalazioni SET stato= ?  WHERE id = ?");
+			ps.setInt(1,stato.ordinal());
+			ps.setInt(2, id);
+			ResultSet rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
 		this.stato = stato;
+			
 		return this.stato;
 	}
 
@@ -105,20 +118,58 @@ public class Segnalazione {
 		return _public;
 	}
 
+	
+	//perché return List ??
 	public List<String> aggiungiTag(String tag) {
+		PreparedStatement ps;
+		try {
+			ps = connector.prepare("UPDATE Tag SET nome = ?  WHERE id = ?");
+			ps.setString(1,tag);
+			ps.setInt(2, this.id);
+			ResultSet rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+				
 		this.tags.add(tag);
 		return this.tags;
 	}
 
 	public void aggiungiRichiedente(Profilo richiedente) {
+		PreparedStatement ps;
+		try {
+			ps = connector.prepare("UPDATE Proposte SET utente = ?  WHERE segnalazione = ?");
+			ps.setString(1,richiedente.getIdentificatore());
+			ps.setInt(2, this.id);
+			ResultSet rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
 		this.richiedenti.add(richiedente);
 	}
 
+	//assegna(Profilo,metodoDiPagamento) - inizio fine servono davvero ??
 	public void assegna(Profilo profilo, Duration tempo) {
 		this.consumatore = profilo;
-		this.durataAssegnazione = tempo;
+		//this.durataAssegnazione = tempo;
 		this.timestampAssegnazione = LocalDateTime.now();
 		this.assegnazione = new Assegnazione(this, this.produttore, this.consumatore, LocalDate.now().plus(tempo));
+		
+		PreparedStatement ps;
+		try {
+			ps = connector.prepare("UPDATE Assegnazione metodoPagamento = ?,valorePagamento = ?,"
+					+ "segnalazione = ?,produttore = ?,consumatore = ? WHERE id = ?");
+			//ps.setString(1,this.);
+			ps.setInt(2, this.id);
+			
+			
+			//...
+			
+			ResultSet rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void revocaAssegnazione() {

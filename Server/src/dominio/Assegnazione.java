@@ -1,5 +1,8 @@
 package dominio;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Assegnazione {
@@ -17,6 +20,7 @@ public class Assegnazione {
 		this.consumatore = consumatore;
 		this.dataInizio = LocalDate.now();
 		this.dataFine = dataFine;
+				
 	}
 
 	public LocalDate getDataInizio() {

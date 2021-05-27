@@ -19,12 +19,6 @@ public class RicercaController implements IRicerca {
 	}
 
 	@Override
-	public Segnalazione[] getBacheca(Profilo utente) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Segnalazione> cercaSegnalazione(String key) throws SQLException {
 		PreparedStatement st = conn.prepare("SELECT S.*" + "FROM Segnalazioni S \n"
 				+ "JOIN Tag T ON T.segnalazione=S.id\n"
