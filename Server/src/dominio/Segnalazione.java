@@ -52,7 +52,8 @@ public class Segnalazione {
 		this.imgSrc = imgSrc;
 		this._public = _public;
 	}
-
+	
+	
 	public static Segnalazione getById(Connector conn, int id) throws SQLException {
 		PreparedStatement ps = conn.prepare(
 				"SELECT S.*, GROUP_CONCAT(T.nome) tags FROM Segnalazioni S JOIN Tag T ON T.segnalazione=S.id WHERE S.id = ?");
@@ -119,7 +120,7 @@ public class Segnalazione {
 	}
 
 	
-	//perché return List ??
+	//perché return List ?? --> bugia, forse ho capito
 	public List<String> aggiungiTag(String tag) {
 		PreparedStatement ps;
 		try {

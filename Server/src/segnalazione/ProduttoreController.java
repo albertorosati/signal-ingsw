@@ -8,11 +8,11 @@ import dominio.MetodoPagamento;
 import dominio.Profilo;
 import dominio.Segnalazione;
 
-public class Produttore implements IProduttore {
+public class ProduttoreController implements IProduttore {
 
 	private Connector conn;
 	
-	public Produttore() throws SQLException {
+	public ProduttoreController() throws SQLException {
 		this.conn = Connector.getInstance();
 	}
 	

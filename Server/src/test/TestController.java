@@ -26,7 +26,7 @@ import dominio.TipoBacheca;
 import dominio.TipoFile;
 import gestioneSegnalazioni.InserimentoController;
 import segnalazione.EffettuaSegnalazioneController;
-import segnalazione.Produttore;
+import segnalazione.ProduttoreController;
 import userHomePage.UserHomePageController;
 import verifica.VerificaController;
 
@@ -76,7 +76,7 @@ public class TestController {
 	public void testSospendi() throws SQLException {
 		Sospendi sospendiController = new Sospendi();
 		EffettuaSegnalazioneController es = new EffettuaSegnalazioneController();
-		Produttore prodController = new Produttore();
+		ProduttoreController prodController = new ProduttoreController();
 
 		sospendiController.sospendi(produttore);
 
