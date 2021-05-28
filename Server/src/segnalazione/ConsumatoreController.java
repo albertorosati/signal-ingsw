@@ -27,7 +27,7 @@ public class ConsumatoreController implements IConsumatore {
 		try {
 			st = conn.prepareReturn(
 					"SELECT * FROM Assegnazione a JOIN Utenti u ON a.assegnatario = u.id "
-					+ "WHERE u.identificatore = ? ;");
+					+ "WHERE u.identificatore = ? AND ;");
 			st.setString(1, p.getIdentificatore());
 			
 			rs=st.executeQuery();
@@ -79,5 +79,7 @@ public class ConsumatoreController implements IConsumatore {
 
 	public void richiediTerminazione(Segnalazione segnalazione) {
 		segnalazione.impostaStato(Stato.TERMINAZIONE);
+		
+		//aggiornamento tabella Assegnazione solo dopo aver dato valutazione
 	}
 }

@@ -32,6 +32,7 @@ public class ProduttoreController implements IProduttore {
 	public void assegna(Segnalazione segnalazione, Profilo consumatore) {
 		// TODO Auto-generated method stub
 
+		//set segnalazione.assegnatario
 	}
 
 	@Override

@@ -51,9 +51,64 @@ public class Segnalazione {
 		this.chat = chat;
 		this.imgSrc = imgSrc;
 		this._public = _public;
+		
+		try {
+			this.connector=Connector.getInstance();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
+	public Segnalazione (String titolo, String descrizione, List<String> tags,
+			Posizione posizione, String comune, Profilo produttore, String imgSrc) {
+				
+		this.visible=true;
+		this.stato=Stato.IN_APPROVAZIONE;
+		this.consumatore=null;
+		this.chat=null;
+		
+		this.titolo=titolo;
+		this.descrizione=descrizione;
+		this.tags=tags;
+		this.posizione=posizione;
+		this.comune=new Comune(comune);
+		this.produttore=produttore;
+		this.imgSrc=imgSrc;
+		
+		try {
+			this.connector=Connector.getInstance();
+			PreparedStatement ps;
+			ResultSet rs;
+			
+			ps=connector.prepare("INSERTO INTO Segnalazione (titolo,descrizione,lat,lon,Comune,autore,imageSrc)"
+					+ "VALUES (?,?,?,?,?,?,?) ;");
+			ps.setString(1,this.titolo);
+			ps.setString(2, this.descrizione);
+			ps.setDouble(3,this.posizione.getLatitudine());
+			ps.setDouble(4,this.posizione.getLongitudine());
+			ps.setString(5,this.comune.getNome());
+			ps.setInt(6,this.produttore.getId());
+			ps.setString(7, this.imgSrc);
+			
+			ps.execute();
+			rs=ps.getGeneratedKeys();
+			
+			this.id=rs.getInt("id");
+			
+			//create tags
+			for (String tag : tags) {
+				ps = connector.prepare("INSERT INTO Tag (nome, segnalazione) VALUES (?,?)");
+				ps.setString(1, tag);
+				ps.setInt(2, id);
+				ps.execute();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	//--------------------------------------------------------------------------------------------------------------------
 	public static Segnalazione getById(Connector conn, int id) throws SQLException {
 		PreparedStatement ps = conn.prepare(
 				"SELECT S.*, GROUP_CONCAT(T.nome) tags FROM Segnalazioni S JOIN Tag T ON T.segnalazione=S.id WHERE S.id = ?");
@@ -108,6 +163,8 @@ public class Segnalazione {
 
 		return Segnalazione.getById(conn, rs.getInt("id"));
 	}
+	
+	//--------------------------------------------------------------------------------------------------------------------
 
 	public Stato impostaStato(Stato stato) {
 		PreparedStatement ps;
@@ -149,10 +206,14 @@ public class Segnalazione {
 	public void aggiungiRichiedente(Profilo richiedente) {
 		PreparedStatement ps;
 		try {
+			
 			ps = connector.prepare("UPDATE Proposte SET utente = ?  WHERE segnalazione = ?");
 			ps.setString(1,richiedente.getIdentificatore());
 			ps.setInt(2, this.id);
 			ResultSet rs = ps.executeQuery();
+			
+			this.impostaStato(Stato.RICHIESTA_PRESA_IN_CARICO);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
@@ -160,32 +221,64 @@ public class Segnalazione {
 		this.richiedenti.add(richiedente);
 	}
 
-	//assegna(Profilo,metodoDiPagamento) - inizio fine servono davvero ??
-	public void assegna(Profilo profilo, Duration tempo) {
+	public void assegna(Profilo profilo) {
 		this.consumatore = profilo;
-		//this.durataAssegnazione = tempo;
 		this.timestampAssegnazione = LocalDateTime.now();
-		this.assegnazione = new Assegnazione(this, this.produttore, this.consumatore, LocalDate.now().plus(tempo));
+		this.assegnazione = new Assegnazione(this, this.produttore, this.consumatore);
 		
 		PreparedStatement ps;
 		try {
-			ps = connector.prepare("UPDATE Assegnazione metodoPagamento = ?,valorePagamento = ?,"
-					+ "segnalazione = ?,produttore = ?,consumatore = ? WHERE id = ?");
-			//ps.setString(1,this.);
+			//SET ASSEGNAZIONE
+			ps=connector.prepare("INSERT INTO Assegnazione (inizio,segnalazione,produttore,consumatore) "
+					+ "VALUES (?,?,?,?) ;");
+			ps.setString(1, this.timestampAssegnazione.toString());		
 			ps.setInt(2, this.id);
+			ps.setString(3, this.produttore.getIdentificatore());
+			ps.setString(4, this.consumatore.getIdentificatore());
 			
+			ps.execute();			
 			
-			//...
+			ResultSet idAss=ps.getGeneratedKeys();
 			
-			ResultSet rs = ps.executeQuery();
+			//SET SEGNALAZIONE
+			ps=connector.prepare("UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) "
+					+ "WHERE id = ? ;");
+			ps.setInt(1, idAss.getInt("id"));	
+			ps.setString(2, this.timestampAssegnazione.toString());
+			ps.setInt(3, this.id);
+			
+			ps.execute();		
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void revocaAssegnazione() {
-		this.assegnazione = null;
-		this.consumatore = null;
+		//cambia Segnalazione.assegnatario e Assegnazione.consumatore
+		PreparedStatement ps;
+		
+		this.assegnazione=null;
+		
+		try {
+			//SET ASSEGNAZIONE
+			ps=connector.prepare("DELETE FROM Assegnazione WHERE segnalazione ;");
+			ps.setInt(1, this.id);
+			ps.execute();			
+						
+			//SET SEGNALAZIONE
+			ps=connector.prepare("UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) ;"
+					+ "WHERE id = ? ;");
+			ps.setNull(1,java.sql.Types.INTEGER);	
+			ps.setNull(2, java.sql.Types.VARCHAR);
+			ps.setInt(3, this.id);
+			
+			ps.execute();		
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public Chat avviaChat() {
@@ -271,6 +364,18 @@ public class Segnalazione {
 
 	public void setPublic(boolean val) {
 		this._public = val;
+		
+		PreparedStatement ps;
+		
+		try {
+			ps=connector.prepare("UPDATE Segnalazioni SET pubblica = ? WHERE id = ? ;");
+			ps.setBoolean(1, val);
+			ps.setInt(2, this.id);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
