@@ -224,26 +224,15 @@ public class Segnalazione {
 	public void assegna(Profilo profilo) {
 		this.consumatore = profilo;
 		this.timestampAssegnazione = LocalDateTime.now();
-		this.assegnazione = new Assegnazione(this, this.produttore, this.consumatore);
+		this.assegnazione = new Assegnazione(this.id, this.produttore, this.consumatore);
 		
 		PreparedStatement ps;
 		try {
-			//SET ASSEGNAZIONE
-			ps=connector.prepare("INSERT INTO Assegnazione (inizio,segnalazione,produttore,consumatore) "
-					+ "VALUES (?,?,?,?) ;");
-			ps.setString(1, this.timestampAssegnazione.toString());		
-			ps.setInt(2, this.id);
-			ps.setString(3, this.produttore.getIdentificatore());
-			ps.setString(4, this.consumatore.getIdentificatore());
-			
-			ps.execute();			
-			
-			ResultSet idAss=ps.getGeneratedKeys();
-			
+					
 			//SET SEGNALAZIONE
 			ps=connector.prepare("UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) "
 					+ "WHERE id = ? ;");
-			ps.setInt(1, idAss.getInt("id"));	
+			ps.setInt(1, this.assegnazione.getId());	
 			ps.setString(2, this.timestampAssegnazione.toString());
 			ps.setInt(3, this.id);
 			
