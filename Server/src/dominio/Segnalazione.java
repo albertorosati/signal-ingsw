@@ -77,7 +77,7 @@ public class Segnalazione {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static Segnalazione of(Connector conn, int autore, String titolo, String descrizione, List<String> tags,
 			Posizione posizione, Profilo produttore, String imgSrc, String comune) throws SQLException {
 		PreparedStatement st = conn.prepareReturn(
