@@ -12,4 +12,8 @@ public class Punti implements MetodoPagamento {
 	public Integer getImporto() {
 		return importo;
 	}
+	
+	public String getName() {
+		return "punti";
+	}
 }

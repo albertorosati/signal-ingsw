@@ -18,8 +18,8 @@ public class ProduttoreController implements IProduttore {
 	
 	@Override
 	public Segnalazione[] getMieSegnalazioni(Profilo utente) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return utente.getMySegnalazioni();
 	}
 
 	@Override
@@ -30,21 +30,17 @@ public class ProduttoreController implements IProduttore {
 
 	@Override
 	public void assegna(Segnalazione segnalazione, Profilo consumatore) {
-		// TODO Auto-generated method stub
-
-		//set segnalazione.assegnatario
+		segnalazione.assegna(consumatore);
 	}
 
 	@Override
 	public void rifiuta(Segnalazione segnalazione, Profilo richiedente) {
-		// TODO Auto-generated method stub
-
+		segnalazione.rifiuta(richiedente);
 	}
 
 	@Override
 	public void inserisciMetodoDiPagamento(Segnalazione segnalazione, MetodoPagamento pay) {
-		// TODO Auto-generated method stub
-
+		segnalazione.setPay(pay);
 	}
 
 	@Override

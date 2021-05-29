@@ -11,4 +11,8 @@ public class Denaro implements MetodoPagamento {
 	public Float getImporto() {
 		return importo;
 	}
+	
+	public String getName() {
+		return "denaro";
+	}
 }

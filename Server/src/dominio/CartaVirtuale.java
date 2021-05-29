@@ -43,6 +43,11 @@ public class CartaVirtuale {
 	public String getComune() {
 		return this.comune.getNome();
 	}
+	
+	
+	public Comune getComuneComune() {
+		return this.comune;
+	}
 
 	public Profilo getProfilo() {
 		return this.profilo;

@@ -49,6 +49,28 @@ public class Assegnazione {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setMetodoPagamento(MetodoPagamento mp) {
+		this.metodoPagamento=mp;
+		PreparedStatement ps;
+		
+			
+		try {
+			//SET ASSEGNAZIONE
+			ps=connector.prepare("UPDATE Assegnazione (metodoPagamento,valorePagamento) "
+					+ "VALUES (?,?) ;");
+			ps.setString(1,mp.getName());		
+			ps.setFloat(2, mp.getImporto());
+			
+			ps.execute();			
+			
+			ResultSet idAss=ps.getGeneratedKeys();
+			this.id=idAss.getInt("id");		
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 		
 	public int getId() {
 		return this.id;

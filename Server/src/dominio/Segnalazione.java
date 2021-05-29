@@ -242,6 +242,32 @@ public class Segnalazione {
 			e.printStackTrace();
 		}
 	}
+	
+	public void rifiuta(Profilo profilo) {
+				
+		PreparedStatement ps;
+		try {
+					
+			//UPDATE PROPOSTE
+			ps=connector.prepare("DELETE * FROM Proposte WHERE (segnalazione,utente) = (?,?) ;");
+			ps.setInt(1, this.id);
+			ps.setInt(2, profilo.getId());
+			
+			ps.execute();		
+			
+			//check if prop==0
+			ps=connector.prepare("SELECT COUNT(*) AS Pippo FROM Proposte WHERE segnalazione = ? ;");
+			ps.setInt(1, this.id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.getInt("Pippo")==0)	
+				this.impostaStato(Stato.DISPONIBILE);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void revocaAssegnazione() {
 		//cambia Segnalazione.assegnatario e Assegnazione.consumatore
@@ -262,12 +288,33 @@ public class Segnalazione {
 			ps.setNull(2, java.sql.Types.VARCHAR);
 			ps.setInt(3, this.id);
 			
-			ps.execute();		
+			ps.execute();	
+			
+			//cosa fare con le vecchie proposte ??
+			//le scartiamo tutte al momento della presa in carico ?? io direi di sì
+			//dopo revoca segnalazione torna in stato disponibile (come da casi d'uso) --> riflessione inutile, ho risolto
+			
+			this.impostaStato(Stato.DISPONIBILE);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public boolean setPay(MetodoPagamento pay) {
+		boolean res=true;
+		
+		//check if punti --> puntiDisponibili??
+		if(pay.getName().compareTo("punti")==0) 			
+			if(this.produttore.getPoint(this.comune)<(int)pay.getImporto())
+				return false;
+		
+		//update Point(comune)
+		this.assegnazione.setMetodoPagamento(pay);
+		this.impostaStato(Stato.IN_CORSO);
+		
+		return res;
 	}
 
 	public Chat avviaChat() {
