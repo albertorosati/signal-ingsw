@@ -26,43 +26,49 @@ import Logo from "../res/logo_white.png";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-export default function Login() {
-  const [values, setValues] = React.useState({
-    email: "",
-    password: "",
-    showPassword: false,
-    wrongPassword: false,
-  });
+export default class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      showPassword: false,
+      wrongPassword: false,
+      accountConfirmed: this.checkVerifica(),
+      loadingOpen: false
+    };
+  }
 
-  const history = useHistory();
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+  handleClickShowPassword = () => {
+    this.setState({ showPassword: !this.state.showPassword });
   };
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const [loadingOpen, setOpenLoading] = React.useState(false);
-  const handleCloseLoading = () => {
-    setOpenLoading(false);
-  };
-  const handleToggleLoading = () => {
-    setOpenLoading(!open);
-  };
-
-  const callAPI = (e) => {
+  handleMouseDownPassword = (e) => {
     e.preventDefault();
-    handleToggleLoading();
+  };
+  handleCloseLoading = () => {
+    this.setState({ loadingOpen: false });
+  };
+  handleToggleLoading = () => {
+    this.setState({ loadingOpen: !this.state.open });
+  };
+
+  checkVerifica() {
+    let hash = this.props.match.params.hash;
+    let email = this.props.match.params.email;
+    return (hash != null && email != null);
+  };
+
+  callAPI = (e) => {
+    e.preventDefault();
+    this.handleToggleLoading();
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: values.email, password: values.password }),
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      }),
     };
     fetch("/api/login", requestOptions)
       .then((res) => res.json())
@@ -88,122 +94,149 @@ export default function Login() {
               break;
           }
         } else {
-          setValues({ wrongPassword: true, email: "", password: "" });
+          this.setState({ wrongPassword: true, email: "", password: "" });
         }
-        handleCloseLoading();
+        this.handleCloseLoading();
       })
       .catch((err) => console.log(err));
   };
 
-  return (
-    <Box style={{ background: "linear-gradient(#7274ed, #c76d5a)" }}>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justify="center"
-        style={{ minHeight: "100vh", overflow: "hidden" }}
-      >
-        <Grid item>
-          <img src={Logo} width="150" />
-          <br />
-          <br />
-        </Grid>
-        <Grid item>
-          <Typography variant="h6" style={{ color: "white" }}>
-            Effettua l'accesso alla tua comunità
-          </Typography>
-          <br />
-        </Grid>
-
-        {values.wrongPassword ? (
+  render() {
+    return (
+      <Box style={{ background: "linear-gradient(#7274ed, #c76d5a)" }}>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: "100vh", overflow: "hidden" }}
+        >
           <Grid item>
-            <MuiAlert elevation={6} variant="filled" severity="error" fullWidth>
-              La password inserita è errata! Riprova
-            </MuiAlert>
+            <img src={Logo} width="150" />
+            <br />
             <br />
           </Grid>
-        ) : null}
+          <Grid item>
+            <Typography variant="h6" style={{ color: "white" }}>
+              Effettua l'accesso alla tua comunità
+            </Typography>
+            <br />
+          </Grid>
 
-        <Grid item>
-          <Card>
-            <CardContent>
-              <form onSubmit={callAPI}>
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel htmlFor="email">E-Mail</InputLabel>
-                  <OutlinedInput
-                    id="email"
-                    type="email"
-                    value={values.email}
-                    onChange={handleChange("email")}
-                    labelWidth={50}
-                    required
-                  />
-                </FormControl>
-                <br />
-                <br />
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel htmlFor="password">Password</InputLabel>
-                  <OutlinedInput
-                    id="password"
-                    type={values.showPassword ? "text" : "password"}
-                    value={values.password}
-                    onChange={handleChange("password")}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {values.showPassword ? (
-                            <Visibility />
-                          ) : (
-                            <VisibilityOff />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    required
-                    labelWidth={70}
-                  />
+          {this.state.accountConfirmed ? (
+            <Grid item>
+              <MuiAlert
+                elevation={6}
+                variant="filled"
+                severity="success"
+                fullWidth
+              >
+                Il tuo account è stato confermato con successo.
+                <br /> Adesso puoi effettuare l'accesso
+              </MuiAlert>
+              <br />
+            </Grid>
+          ) : null}
 
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    color="primary"
-                    style={{ margin: 0, marginTop: "15px" }}
-                  >
-                    Accedi
-                  </Button>
-                </FormControl>
-              </form>
-            </CardContent>
-          </Card>
+          {this.state.wrongPassword ? (
+            <Grid item>
+              <MuiAlert
+                elevation={6}
+                variant="filled"
+                severity="error"
+                fullWidth
+              >
+                La password inserita è errata! Riprova
+              </MuiAlert>
+              <br />
+            </Grid>
+          ) : null}
+
+          <Grid item>
+            <Card>
+              <CardContent>
+                <form onSubmit={this.callAPI}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel htmlFor="email">E-Mail</InputLabel>
+                    <OutlinedInput
+                      id="email"
+                      type="email"
+                      value={this.state.email}
+                      onChange={(e, value) => this.setState({ email: value })}
+                      labelWidth={50}
+                      required
+                    />
+                  </FormControl>
+                  <br />
+                  <br />
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <OutlinedInput
+                      id="password"
+                      type={this.state.showPassword ? "text" : "password"}
+                      value={this.state.password}
+                      onChange={(e, value) =>
+                        this.setState({ password: value })
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={this.handleClickShowPassword}
+                            onMouseDown={this.handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {this.state.showPassword ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      required
+                      labelWidth={70}
+                    />
+
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      size="large"
+                      color="primary"
+                      style={{ margin: 0, marginTop: "15px" }}
+                    >
+                      Accedi
+                    </Button>
+                  </FormControl>
+                </form>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item>
+            <br />
+            <span style={{ color: "white" }}>oppure</span>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              component={Link}
+              to="/registrazione"
+              size="large"
+              color="primary"
+              style={{ margin: 0, marginTop: "15px" }}
+            >
+              Registrati adesso
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <br />
-          <span style={{ color: "white" }}>oppure</span>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/registrazione"
-            size="large"
-            color="primary"
-            style={{ margin: 0, marginTop: "15px" }}
-          >
-            Registrati adesso
-          </Button>
-        </Grid>
-      </Grid>
-      <Backdrop open={loadingOpen} style={{ zIndex: 100, color: "#fff" }}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    </Box>
-  );
+        <Backdrop
+          open={this.state.loadingOpen}
+          style={{ zIndex: 100, color: "#fff" }}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Box>
+    );
+  }
 }

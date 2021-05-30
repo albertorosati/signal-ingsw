@@ -70,6 +70,7 @@ function App(props) {
             <Switch>
               <Route exact path="/" component={Login} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/verifica/:email/:hash" component={Login} />
               <Route exact path="/registrazione" component={Registrazione} />
 
               <div>
