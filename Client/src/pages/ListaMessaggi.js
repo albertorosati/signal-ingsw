@@ -32,7 +32,7 @@ export default class ListaMessaggi extends React.Component {
                 alignItems="flex-start"
                 button
                 component={Link}
-                to="/chat"
+                to="/chat/1"
               >
                 <ListItemAvatar>
                   <Avatar alt={item.name} src="/static/images/avatar/1.jpg" />

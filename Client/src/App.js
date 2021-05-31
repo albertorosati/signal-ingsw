@@ -99,7 +99,7 @@ function App(props) {
                     path="/listaMessaggi"
                     component={ListaMessaggi}
                   />
-                  <Route exact path="/chat" component={Chat} />
+                  <Route exact path="/chat/:id" component={Chat} />
                   <Route
                     exact
                     path="/metodoPagamento"
