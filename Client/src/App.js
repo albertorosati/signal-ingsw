@@ -29,7 +29,7 @@ import Moment from 'react-moment';
 import 'moment/locale/it';
 
 
-// Set the locale for every react-moment instance to French.
+// Set the locale for every react-moment instance to Italian.
 Moment.globalLocale = 'it';
 
 const useStyles = makeStyles((theme) => ({

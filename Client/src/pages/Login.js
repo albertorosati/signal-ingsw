@@ -39,6 +39,10 @@ export default class Login extends React.Component {
     };
   }
 
+  handleChange = (e) => {
+    this.setState({ [e.target.id] : e.target.value});
+  };
+
   handleClickShowPassword = () => {
     this.setState({ showPassword: !this.state.showPassword });
   };
@@ -61,6 +65,7 @@ export default class Login extends React.Component {
 
   callAPI = (e) => {
     e.preventDefault();
+    console.log(this.state);
     this.handleToggleLoading();
     const requestOptions = {
       method: "POST",
@@ -79,6 +84,7 @@ export default class Login extends React.Component {
           localStorage.setItem("cognome", data.cognome);
           localStorage.setItem("email", data.email);
           localStorage.setItem("tipoUtente", data.tipoUtente);
+          let history = this.props.history;
           switch (data.tipoUtente) {
             case 0:
               history.push("/bacheca");
@@ -163,7 +169,7 @@ export default class Login extends React.Component {
                       id="email"
                       type="email"
                       value={this.state.email}
-                      onChange={(e, value) => this.setState({ email: value })}
+                      onChange={this.handleChange}
                       labelWidth={50}
                       required
                     />
@@ -176,9 +182,7 @@ export default class Login extends React.Component {
                       id="password"
                       type={this.state.showPassword ? "text" : "password"}
                       value={this.state.password}
-                      onChange={(e, value) =>
-                        this.setState({ password: value })
-                      }
+                      onChange={this.handleChange}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
