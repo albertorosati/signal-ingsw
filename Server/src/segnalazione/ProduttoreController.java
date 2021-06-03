@@ -7,6 +7,7 @@ import database.Connector;
 import dominio.MetodoPagamento;
 import dominio.Profilo;
 import dominio.Segnalazione;
+import dominio.Stato;
 
 public class ProduttoreController implements IProduttore {
 
@@ -18,14 +19,13 @@ public class ProduttoreController implements IProduttore {
 	
 	@Override
 	public Segnalazione[] getMieSegnalazioni(Profilo utente) {
-		
 		return utente.getMySegnalazioni();
 	}
 
 	@Override
 	public void modificaTag(Segnalazione segnalazione, String old_tag, String new_tag) {
-		// TODO Auto-generated method stub
-
+		if(segnalazione.getStato().compareTo(Stato.IN_APPROVAZIONE)==0)
+			segnalazione.modificaTag(old_tag, new_tag);
 	}
 
 	@Override
@@ -45,16 +45,12 @@ public class ProduttoreController implements IProduttore {
 
 	@Override
 	public void termina(Segnalazione segnalazione) {
-		// TODO Auto-generated method stub
-
+		segnalazione.termina();
 	}
 
 	@Override
 	public void inserisciValutazione(Profilo consumatore, int valutazione) throws SQLException {
-		PreparedStatement st = conn.prepare("UPDATE Utenti SET reputazione = (reputazione + ?) / 2 WHERE email = ?");
-		st.setDouble(1, (double) valutazione);
-		st.setString(2, consumatore.getEmail());
-		st.execute();
+		consumatore.inserisciValutazione(valutazione);
 	}
 
 }

@@ -166,6 +166,9 @@ public class Segnalazione {
 	
 	//--------------------------------------------------------------------------------------------------------------------
 
+	
+	//-----------------------------------------------METHODS-------------------------------------------------------------
+	
 	public Stato impostaStato(Stato stato) {
 		PreparedStatement ps;
 		try {
@@ -185,9 +188,30 @@ public class Segnalazione {
 	public boolean is_public() {
 		return _public;
 	}
+	
+	public void modificaTag(String old, String niu) {
+		
+		int pos=this.tags.indexOf(old);
+		
+		if(pos>0) {
+			this.tags.set(pos, niu); 
+				
+			PreparedStatement ps;
+			try {
+				ps = connector.prepare("UPDATE Tag SET nome = ?  WHERE id = ? AND nome = ? ; ");
+				ps.setString(1,niu);
+				ps.setInt(2, this.id);
+				ps.setString(3,old);
+				ps.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 
 	
-	//perché return List ?? --> bugia, forse ho capito
 	public List<String> aggiungiTag(String tag) {
 		PreparedStatement ps;
 		try {
@@ -270,29 +294,30 @@ public class Segnalazione {
 	}
 
 	public void revocaAssegnazione() {
-		//cambia Segnalazione.assegnatario e Assegnazione.consumatore
 		PreparedStatement ps;
 		
 		this.assegnazione=null;
 		
 		try {
 			//SET ASSEGNAZIONE
-			ps=connector.prepare("DELETE FROM Assegnazione WHERE segnalazione ;");
+			ps=connector.prepare("DELETE FROM Assegnazione WHERE segnalazione = ?;");
 			ps.setInt(1, this.id);
 			ps.execute();			
 						
-			//SET SEGNALAZIONE
-			ps=connector.prepare("UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) ;"
+			//SET SEGNALAZIONE			
+			ps=connector.prepare("UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) "
 					+ "WHERE id = ? ;");
 			ps.setNull(1,java.sql.Types.INTEGER);	
 			ps.setNull(2, java.sql.Types.VARCHAR);
-			ps.setInt(3, this.id);
-			
+			ps.setInt(3, this.id);			
 			ps.execute();	
 			
 			//cosa fare con le vecchie proposte ??
 			//le scartiamo tutte al momento della presa in carico ?? io direi di sì
-			//dopo revoca segnalazione torna in stato disponibile (come da casi d'uso) --> riflessione inutile, ho risolto
+			//SET PROPOSTE
+			ps=connector.prepare("DELETE FROM Proposte WHERE segnalazione = ?;");
+			ps.setInt(1, this.id);
+			ps.execute();			
 			
 			this.impostaStato(Stato.DISPONIBILE);
 			
@@ -300,6 +325,22 @@ public class Segnalazione {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void termina() {
+		
+		PreparedStatement ps;
+		try {
+			//SET ASSEGNAZIONE
+			ps=connector.prepare("DELETE FROM Assegnazione WHERE segnalazione = ? ;");
+			ps.setInt(1, this.id);
+			ps.execute();			
+								
+			this.impostaStato(Stato.CONCLUSA);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean setPay(MetodoPagamento pay) {
@@ -321,6 +362,9 @@ public class Segnalazione {
 		this.chat = new Chat(produttore, consumatore);
 		return this.chat;
 	}
+	
+	//-------------------------------------------------------------------------------------------------------------------
+	//-------------------------------------------GETTERS & SETTERS-------------------------------------------------------
 
 	public int getId() {
 		return id;

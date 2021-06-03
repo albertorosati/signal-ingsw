@@ -25,11 +25,9 @@ public class ConsumatoreController implements IConsumatore {
 		boolean unique=true;
 		
 		try {
-			st = conn.prepareReturn(
-					"SELECT * FROM Assegnazione a JOIN Utenti u ON a.assegnatario = u.id "
-					+ "WHERE u.identificatore = ? AND ;");
-			st.setString(1, p.getIdentificatore());
-			
+			st = conn.prepare(
+					"SELECT * FROM Assegnazione a WHERE a.consumatore = ? ;");
+			st.setInt(1, p.getId());			
 			rs=st.executeQuery();
 			
 			unique=rs.first();
@@ -39,22 +37,8 @@ public class ConsumatoreController implements IConsumatore {
 		
 		//no segnalazioni già in corso
 		if(unique) {
-			try {
-				st = conn.prepareReturn(
-						"INSERT INTO Assegnazione (inizio,segnalazione,consumatore)"
-						+ "VALUES ();");
-				st.setString(1, LocalDate.now().toString());
-				st.setString(2, segnalazione.getTitolo());
-				st.setString(3, p.getIdentificatore());
-				
-				st.execute();
-				
-				segnalazione.impostaStato(Stato.RICHIESTA_PRESA_IN_CARICO);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
+			segnalazione.aggiungiRichiedente(p);
+		}		
 	}
 
 	public Segnalazione getMyJob(Profilo profilo) {

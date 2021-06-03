@@ -207,9 +207,15 @@ public class Profilo {
 		PreparedStatement ps;
 
 		try {
+			//update Utenti
 			ps = connector.prepare("UPDATE Utenti SET sospeso = ? WHERE id = ? ;");	
 			ps.setBoolean(1, true);
 			ps.setInt(2, this.id);
+			ps.execute();
+			
+			//update visibile
+			ps = connector.prepare("UPDATE Segnalazioni SET visibile = false WHERE autore = ? AND stato < 5;");	
+			ps.setInt(1,this.id);
 			ps.execute();
 			
 			//CacheSospeso -- dovremmo fare un insert or replace ma facciamo finta di no
@@ -226,17 +232,28 @@ public class Profilo {
 
 	public float inserisciValutazione(int valutazione) {
 		// nel dominio è un float ma per me essendo stelline ha senso		 
-		// metterla come int ¯\__(ツ)__/¯
-		
+		// metterla come int ¯\__(ツ)__/¯		
 		// --> int input  ; output --> float media()
+		this.valutazione=this.calculateVal(valutazione);
 		
-		
-		//this.valutazione = (this.valutazione + valutazione) / (float) 2;
-		
-		//create sql function updateMedia(valutazione)
-				
+		PreparedStatement ps;
+
+		try {
+			ps = connector.prepare("UPDATE Utenti SET (reputazione,numVal) = (?,?) WHERE id = ? ;");	
+			ps.setFloat(1,this.valutazione);
+			ps.setInt(2,this.numVal);
+			ps.setInt(3, this.id);
+			ps.execute();
+						
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return this.valutazione;
+	}
+	
+	private float calculateVal(int valutazione) {
+		return ((this.valutazione*this.numVal)+valutazione)/++this.valutazione;
 	}
 
 	public Comune getComuneResidenza() {
