@@ -262,8 +262,19 @@ public class Segnalazione {
 			
 			ps.execute();		
 			
-			//SET BACHECA
+			//SET Segnalazione invisible
+			this.setVisibility(false);
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void inserisciInBacheca() {
+		//check: gestore deve aver prima fatto setPublic o private
+		
+		try {
+			this.add2Bacheca();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -321,30 +332,17 @@ public class Segnalazione {
 			ps.setInt(1, this.id);
 			ps.execute();
 			
-			//DELETE BACHECA
+			//RESET VISIBLE ON BACHECA
+			this.setVisibility(true);
+			
 			
 			this.impostaStato(Stato.DISPONIBILE);
-			this.setBacheca(null);
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-	}
-	
-	private void deleteBacheca() {
-		if(this.is_public()) {
-			//delete pro and pro_conv
-			
-			ps=connector.prepare("DELETE FROM ? WHERE segnalazione = ?;");
-			ps.setString(1, x);
-			ps.setInt(2, this.id);
-			ps.execute();
-			
-			
-		}else {
-			//delete pro and base
-		}
 	}
 	
 	public void termina() {
@@ -357,8 +355,9 @@ public class Segnalazione {
 			ps.execute();
 			
 			//DELETEBACHECA
-			//...
+			this.deleteBacheca();
 								
+			this.setBacheca(null);
 			this.impostaStato(Stato.CONCLUSA);
 			
 		} catch (SQLException e) {
@@ -386,27 +385,73 @@ public class Segnalazione {
 		return this.chat;
 	}
 	
-	public void setBacheca(TipoBacheca b) {
-		
-		
-		PreparedStatement ps;
-		try {
-			//SET BACHECA
-			ps=connector.prepare("  ;");
+	//--------------------------SET BACHECA-----------------------------------------
+	
+		private void add2Bacheca() throws SQLException {
+			PreparedStatement ps;
 			
-			//UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) "
-			//+ "WHERE id = ? ;");
+			if(this.is_public()) {
+				ps=connector.prepare("INSERT INTO BachecaPROConv (idSeg) = ? ;");
+				ps.setInt(1, this.id);
+				ps.execute();
+			}else {
+				ps=connector.prepare("INSERT INTO BachecaBase (idSeg) = ? ;");
+				ps.setInt(1, this.id);
+				ps.execute();
+			}
 			
+			//add BACHECA PRO
+			ps=connector.prepare("INSERT INTO BachecaPRO (idSeg) = ? ;");
 			ps.setInt(1, this.id);
 			ps.execute();
-			
-			this.setBacheca(b);		
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
-	}
-	
+		private void deleteBacheca() throws SQLException {
+			PreparedStatement ps;
+			
+			if(this.is_public()) {
+				//delete pro_conv			
+				ps=connector.prepare("DELETE FROM BachecaPROConv WHERE idSeg = ? ;");
+				ps.setInt(1, this.id);
+				ps.execute();			
+				
+			}else {
+				//delete and base
+				ps=connector.prepare("DELETE FROM BachecaBase WHERE idSeg = ? ;");
+				ps.setInt(1, this.id);
+				ps.execute();
+			}
+			
+			//delete pro
+			ps=connector.prepare("DELETE FROM BachecaPRO WHERE idSeg = ? ;");
+			ps.setInt(1, this.id);
+			ps.execute();
+		}
+		
+		private void setVisibility(boolean vis) throws SQLException {
+			PreparedStatement ps;
+			
+			if(this.is_public()) {
+				ps=connector.prepare("UPDATE BachecaPROConv SET visible = ? WHERE idSeg = ? ;");
+				ps.setBoolean(1, vis);
+				ps.setInt(2, this.id);
+				ps.execute();
+			}else {
+				ps=connector.prepare("UPDATE BachecaBase SET visible = ? WHERE idSeg = ? ;");
+				ps.setBoolean(1, vis);
+				ps.setInt(2, this.id);
+				ps.execute();
+			}
+			
+			//add BACHECA PRO
+			ps=connector.prepare("UPDATE BachecaPRO SET visible = ? WHERE idSeg = ? ;");
+			ps.setBoolean(1, vis);
+			ps.setInt(2, this.id);
+			ps.execute();
+		}
+		
+	//-----------------------------------------------------------------------------
+		
 	//-------------------------------------------------------------------------------------------------------------------
 	//-------------------------------------------GETTERS & SETTERS-------------------------------------------------------
 
@@ -438,8 +483,12 @@ public class Segnalazione {
 		return produttore;
 	}
 
-	public TipoBacheca getTipoBacheca() {
+	public TipoBacheca[] getTipoBacheca() {
 		return tipoBacheca;
+	}
+	
+	public void setBacheca(TipoBacheca[] b) {
+		this.tipoBacheca=b;
 	}
 
 	public Stato getStato() {

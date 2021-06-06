@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import database.Connector;
 import dominio.Chat;
+import dominio.Messaggio;
 import dominio.Profilo;
 import dominio.Segnalazione;
 
@@ -20,19 +21,12 @@ public class HandshakeController implements IHandshake {
 
 	@Override
 	public void sendMessage(Chat chat, Profilo mittente, String mex) throws SQLException {
-		PreparedStatement st = conn.prepare("INSERT INTO Messaggi (chat, mittente, messaggio) VALUES (?,?, ?)");
-		// chat.getId()
-		st.setInt(1, 11223);
-		// mittente.getId()
-		st.setInt(2, 4534);
-		st.setString(3, mex);
-
+		chat.inviaMessaggio(Messaggio.getMessaggio(chat.getId(), mex, mittente, conn),conn);
 	}
 
 	@Override
 	public void sendMedia(Chat chat, Profilo mittente, File file) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

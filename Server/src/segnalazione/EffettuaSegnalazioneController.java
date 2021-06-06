@@ -18,6 +18,10 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 	@Override
 	public void effettuaSegnalazione(Segnalazione segnalazione) throws SQLException {
 		Segnalazione.insert(conn, segnalazione);
+		
+		//insert comune
+		//insert tags
+		//insert cacheSegnalazioni 
 	}
 
 	@Override

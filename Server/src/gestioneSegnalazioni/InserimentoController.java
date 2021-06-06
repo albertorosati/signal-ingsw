@@ -17,23 +17,17 @@ public class InserimentoController implements Iinserimento {
 	
 	@Override
 	public void aggiungiTag(Segnalazione segnalazione, String tag) throws SQLException {
-		PreparedStatement st = conn.prepare("INSERT INTO Tag (nome, segnalazione) VALUES (?, ?)");
-		st.setString(1, tag);
-		st.setInt(2, segnalazione.getId());
-		st.execute();
+		segnalazione.aggiungiTag(tag);
 	}
 
+	//in realta le bacheche non servono. Basta vedere se la segnalazione
+	//è pubblica o meno
 	@Override
 	public void inserisciInBacheca(Segnalazione segnalazione, TipoBacheca[] bacheca) {
 		
 		//insert Segnalazione 
-		Segnalazione.insert(conn, segnalazione);
-		
-		//insert comune
-		
-		//insert tags
-		
-		//insert cacheSegnalazioni 
+		//Segnalazione.insert(conn, segnalazione);
+		segnalazione.inserisciInBacheca();		
 		
 	}
 
