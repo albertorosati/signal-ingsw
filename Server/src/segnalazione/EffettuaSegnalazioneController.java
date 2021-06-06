@@ -3,6 +3,8 @@ package segnalazione;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import database.Connector;
 import dominio.Segnalazione;
@@ -17,11 +19,40 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 
 	@Override
 	public void effettuaSegnalazione(Segnalazione segnalazione) throws SQLException {
-		Segnalazione.insert(conn, segnalazione);
 		
-		//insert comune
-		//insert tags
-		//insert cacheSegnalazioni 
+		//update cacheSegnalazioni
+		PreparedStatement ps;
+		ResultSet rs;
+		LocalDateTime now=LocalDateTime.now();
+		
+		try {
+			ps = conn.prepare("SELECT * FROM CacheSegnlazione WHERE email = ? ;");
+			ps.setString(1, segnalazione.getAutore().getEmail());
+			rs = ps.executeQuery();
+			
+			if(!rs.first() || Duration.between(LocalDateTime.parse(rs.getString("lastSeg")),now).toMinutes()>5 ) {
+				//OK
+				Segnalazione.insert(conn, segnalazione);
+				
+				if(rs.first()) {
+					//update cache
+					ps = conn.prepare("UPDATE CacheSegnlazione SET lastSeg = ? WHERE email = ? ;");
+					ps.setString(1, now.toString());
+					ps.setString(2, segnalazione.getAutore().getEmail());
+					ps.execute();
+				}else {
+					//new cache entry
+					ps = conn.prepare("INSERT INTO CacheSegnlazione (lastSeg,email) VALUES (?,?) ;");
+					ps.setString(1, now.toString());
+					ps.setString(2, segnalazione.getAutore().getEmail());
+					ps.execute();
+				}
+								
+			}			
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+		}		
 	}
 
 	@Override

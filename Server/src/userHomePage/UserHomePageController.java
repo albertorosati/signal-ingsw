@@ -27,9 +27,6 @@ public class UserHomePageController implements IUserHomePage {
 		ResultSet rs;
 		
 		try {
-			//ps = connector.prepare("SELECT s.*"
-				//	+ "FROM ? bb JOIN Segnalazioni s on bb.idSeg = s.id"
-				//	+ "WHERE bb.visible = TRUE ");
 			ps=connector.prepare("SELECT isSeg FROM ? WHERE visible = TRUE");
 			ps.setString(1, getTable(profilo.getRuolo()));
 			rs = ps.executeQuery();
@@ -40,10 +37,9 @@ public class UserHomePageController implements IUserHomePage {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}	
 		
-		
-		return null;
+		return (Segnalazione[]) res.toArray();
 	}
 	
 	

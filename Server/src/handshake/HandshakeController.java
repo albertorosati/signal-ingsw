@@ -10,6 +10,7 @@ import dominio.Chat;
 import dominio.Messaggio;
 import dominio.Profilo;
 import dominio.Segnalazione;
+import exceptions.EmailNotExistingException;
 
 public class HandshakeController implements IHandshake {
 
@@ -26,22 +27,16 @@ public class HandshakeController implements IHandshake {
 
 	@Override
 	public void sendMedia(Chat chat, Profilo mittente, File file) {
-		// TODO Auto-generated method stub
+		// ...
 	}
 
 	@Override
 	public Chat getMessages(Segnalazione segnalazione) throws SQLException {
-		PreparedStatement st = conn.prepare("SELECT * FROM Chat WHERE segnalazione = ?");
-		// segnalazione.getId()
-		st.setInt(1, 2342394);
-		ResultSet rs = st.executeQuery();
-
-		if (!rs.first())
-			return null;
+		Chat res;
 		
-		//Chat chat = new Chat(rs.getInt("utente1"), rs.getInt("utente2"));
+		res=Chat.getChat(segnalazione.getId(),conn);
 		
-		return null;
+		return res;
 	}
 
 }

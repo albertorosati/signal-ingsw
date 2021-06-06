@@ -25,8 +25,7 @@ public class ConsumatoreController implements IConsumatore {
 		boolean unique=true;
 		
 		try {
-			st = conn.prepare(
-					"SELECT * FROM Assegnazione a WHERE a.consumatore = ? ;");
+			st = conn.prepare("SELECT * FROM Assegnazione a WHERE a.consumatore = ? ;");
 			st.setInt(1, p.getId());			
 			rs=st.executeQuery();
 			
@@ -45,14 +44,11 @@ public class ConsumatoreController implements IConsumatore {
 		Segnalazione seg=null;
 		
 		try {
-			PreparedStatement st = conn.prepareReturn(
-					"SELECT s.id"
-					+ "FROM Segnalazioni s JOIN Utenti u ON s.assegnatario = u.id"
-					+ "WHERE u.identificatore = ? ");
+			PreparedStatement st = conn.prepareReturn("SELECT * FROM Assegnazione a WHERE a.consumatore = ? ;");
 			st.setString(1, profilo.getIdentificatore());
 						
 			ResultSet rs=st.executeQuery();
-			seg=Segnalazione.getById(conn, rs.getInt("id"));
+			seg=Segnalazione.getById(conn, rs.getInt("segnalazione"));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -63,7 +59,6 @@ public class ConsumatoreController implements IConsumatore {
 
 	public void richiediTerminazione(Segnalazione segnalazione) {
 		segnalazione.impostaStato(Stato.TERMINAZIONE);
-		
 		//aggiornamento tabella Assegnazione solo dopo aver dato valutazione
 	}
 }
