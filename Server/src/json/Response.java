@@ -14,7 +14,9 @@ public class Response {
 	private String password;
 	private String identificatore;
 	private String email;
-	
+	private boolean sospeso;
+	private String comune;
+		
 	private String autore;
 	private String titolo;
 	private String descrizione;
@@ -26,6 +28,38 @@ public class Response {
 	private Float reputazione;
 	private String[] tags;
 	
+	private String stemma;
+	private int segnalazioniTotali;
+	private int segnalazioniInCorso;
+	
+	public String getStemma() {
+		return stemma;
+	}
+
+	public void setStemma(String stemma) {
+		this.stemma = stemma;
+	}
+
+	public int getSegnalazioniTotali() {
+		return segnalazioniTotali;
+	}
+
+	public void setSegnalazioniTotali(int segnalazioniTotali) {
+		this.segnalazioniTotali = segnalazioniTotali;
+	}
+
+	public int getSegnalazioniInCorso() {
+		return segnalazioniInCorso;
+	}
+
+	public void setSegnalazioniInCorso(int segnalazioniInCorso) {
+		this.segnalazioniInCorso = segnalazioniInCorso;
+	}
+
+	public void setReputazione(Float reputazione) {
+		this.reputazione = reputazione;
+	}
+
 	public Response(RespState state) {
 		this.state = state;
 	}
@@ -59,6 +93,22 @@ public class Response {
 		return this;
 	}
 
+	public String getComune() {
+		return comune;
+	}
+
+	public void setComune(String comune) {
+		this.comune = comune;
+	}
+	
+	public boolean getSospeso() {
+		return sospeso;
+	}
+	
+	public void setSospeso(boolean sospeso) {
+		this.sospeso=sospeso;
+	}
+	
 	public String getNome() {
 		return nome;
 	}

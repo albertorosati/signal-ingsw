@@ -24,7 +24,7 @@ public class Segnalazione {
 	private Stato stato;
 	private Comune comune;
 	private Posizione posizione;
-	private TipoBacheca tipoBacheca;
+	private TipoBacheca[] tipoBacheca;
 	private List<Profilo> richiedenti;
 	private Profilo produttore;
 	private Profilo consumatore;
@@ -80,7 +80,7 @@ public class Segnalazione {
 			PreparedStatement ps;
 			ResultSet rs;
 			
-			ps=connector.prepare("INSERTO INTO Segnalazione (titolo,descrizione,lat,lon,Comune,autore,imageSrc)"
+			ps=connector.prepare("INSERTO INTO Segnalazioni (titolo,descrizione,lat,lon,Comune,autore,imageSrc)"
 					+ "VALUES (?,?,?,?,?,?,?) ;");
 			ps.setString(1,this.titolo);
 			ps.setString(2, this.descrizione);
@@ -254,13 +254,15 @@ public class Segnalazione {
 		try {
 					
 			//SET SEGNALAZIONE
-			ps=connector.prepare("UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) "
+			ps=connector.prepare("UPDATE Segnalazioni SET (assegnatario,timestampAssegnazione) = (?,?) "
 					+ "WHERE id = ? ;");
 			ps.setInt(1, this.assegnazione.getId());	
 			ps.setString(2, this.timestampAssegnazione.toString());
 			ps.setInt(3, this.id);
 			
 			ps.execute();		
+			
+			//SET BACHECA
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -305,7 +307,7 @@ public class Segnalazione {
 			ps.execute();			
 						
 			//SET SEGNALAZIONE			
-			ps=connector.prepare("UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) "
+			ps=connector.prepare("UPDATE Segnalazioni SET (assegnatario,timestampAssegnazione) = (?,?) "
 					+ "WHERE id = ? ;");
 			ps.setNull(1,java.sql.Types.INTEGER);	
 			ps.setNull(2, java.sql.Types.VARCHAR);
@@ -317,14 +319,32 @@ public class Segnalazione {
 			//SET PROPOSTE
 			ps=connector.prepare("DELETE FROM Proposte WHERE segnalazione = ?;");
 			ps.setInt(1, this.id);
-			ps.execute();			
+			ps.execute();
+			
+			//DELETE BACHECA
 			
 			this.impostaStato(Stato.DISPONIBILE);
+			this.setBacheca(null);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void deleteBacheca() {
+		if(this.is_public()) {
+			//delete pro and pro_conv
+			
+			ps=connector.prepare("DELETE FROM ? WHERE segnalazione = ?;");
+			ps.setString(1, x);
+			ps.setInt(2, this.id);
+			ps.execute();
+			
+			
+		}else {
+			//delete pro and base
+		}
 	}
 	
 	public void termina() {
@@ -334,7 +354,10 @@ public class Segnalazione {
 			//SET ASSEGNAZIONE
 			ps=connector.prepare("DELETE FROM Assegnazione WHERE segnalazione = ? ;");
 			ps.setInt(1, this.id);
-			ps.execute();			
+			ps.execute();
+			
+			//DELETEBACHECA
+			//...
 								
 			this.impostaStato(Stato.CONCLUSA);
 			
@@ -361,6 +384,27 @@ public class Segnalazione {
 	public Chat avviaChat() {
 		this.chat = new Chat(produttore, consumatore);
 		return this.chat;
+	}
+	
+	public void setBacheca(TipoBacheca b) {
+		
+		
+		PreparedStatement ps;
+		try {
+			//SET BACHECA
+			ps=connector.prepare("  ;");
+			
+			//UPDATE Segnalazione SET (assegnatario,timestampAssegnazione) = (?,?) "
+			//+ "WHERE id = ? ;");
+			
+			ps.setInt(1, this.id);
+			ps.execute();
+			
+			this.setBacheca(b);		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------

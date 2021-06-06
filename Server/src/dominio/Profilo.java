@@ -8,6 +8,7 @@ import java.util.List;
 
 import database.Connector;
 import exceptions.EmailNotExistingException;
+import json.Response;
 
 public class Profilo {
 
@@ -24,6 +25,8 @@ public class Profilo {
 	private List<CartaVirtuale> carteVirtuali;
 	
 	private Connector connector;
+	
+	//----------------------------------------------COSTRUTTORI-----------------------------------------------------
 
 	public Profilo(int id, String email, String nome, String cognome, String identificatore, boolean sospeso,
 			float valutazione, RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) {
@@ -40,7 +43,7 @@ public class Profilo {
 		this.carteVirtuali = carteVirtuali;
 		this.numVal=0;
 	}
-
+	
 	//null Comune di residenza --> must per limitazione di conservazione dei dati
 	public static Profilo getProfiloByEmail(Connector conn, String email)
 			throws SQLException, EmailNotExistingException {
@@ -118,6 +121,25 @@ public class Profilo {
 		return null;
 	}
 	
+	
+	//----------------------------------------------METODI-----------------------------------------------------
+	
+	public Response toResponse() {
+		Response res=new Response();
+			
+		res.setEmail(this.getEmail());
+		res.setNome(this.getNome());
+		res.setCognome(this.cognome);
+		res.setIdentificatore(this.identificatore);
+		res.setSospeso(this.sospeso);
+		res.setReputazione(this.valutazione);
+		res.setTipoUtente(this.getRuolo());
+		res.setComune(this.comuneResidenza.getNome());
+		//carteVirtuali
+		
+		return res;
+	}	
+	
 	private static List<CartaVirtuale> getCarte(Connector conn,int idUtente) {
 		List<CartaVirtuale> list = new ArrayList<>();
 
@@ -169,37 +191,7 @@ public class Profilo {
 	
 	
 
-	public int getId() {
-		return id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public String getIdentificatore() {
-		return identificatore;
-	}
-
-	public boolean isSospeso() {
-		return sospeso;
-	}
-
-	public float getValutazione() {
-		return valutazione;
-	}
-
-	public RuoloUtente getRuolo() {
-		return ruolo;
-	}
+	
 
 	public void sospendi() {
 		this.sospeso = true;
@@ -256,13 +248,6 @@ public class Profilo {
 		return ((this.valutazione*this.numVal)+valutazione)/++this.valutazione;
 	}
 
-	public Comune getComuneResidenza() {
-		return comuneResidenza;
-	}
-
-	public List<CartaVirtuale> getCarteVirtuali() {
-		return carteVirtuali;
-	}
 
 	public int getTotalPoints() {
 		int res = 0;
@@ -299,6 +284,48 @@ public class Profilo {
 			}
 
 		return res;
+	}
+	
+	//--------------------------------------GETTERS-----------------------------------------------------
+	
+	public int getId() {
+		return id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public String getIdentificatore() {
+		return identificatore;
+	}
+
+	public boolean isSospeso() {
+		return sospeso;
+	}
+
+	public float getValutazione() {
+		return valutazione;
+	}
+
+	public RuoloUtente getRuolo() {
+		return ruolo;
+	}
+	
+	public Comune getComuneResidenza() {
+		return comuneResidenza;
+	}
+
+	public List<CartaVirtuale> getCarteVirtuali() {
+		return carteVirtuali;
 	}
 
 }

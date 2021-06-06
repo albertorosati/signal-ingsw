@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import database.Connector;
+import json.Response;
 
 public class Stats {
 	private Comune comune;
@@ -48,6 +49,17 @@ public class Stats {
 			e.printStackTrace();
 		}
 				
+		return res;
+	}
+	
+	public Response toResponse() {
+		Response res=new Response();
+		
+		res.setComune(this.comune.getNome());
+		res.setStemma(this.comune.getStemma().getPath());
+		res.setSegnalazioniTotali(this.totalSeg);
+		res.setSegnalazioniInCorso(this.waitingSeg);
+		
 		return res;
 	}
 	

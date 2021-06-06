@@ -2,7 +2,8 @@ package adminHomePage;
 
 import dominio.Comune;
 import dominio.Stats;
+import json.Response;
 
 public interface IAdminHomePage {
-	public Stats getTotalStats(Comune comune);
+	public Response getTotalStats(Comune comune);
 }

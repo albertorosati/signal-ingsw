@@ -12,6 +12,7 @@ import dominio.Comune;
 import dominio.Profilo;
 import dominio.RuoloUtente;
 import exceptions.EmailNotExistingException;
+import json.Response;
 
 public class GestioneProfiloController implements IGestioneProfilo {
 
@@ -26,7 +27,7 @@ public class GestioneProfiloController implements IGestioneProfilo {
 	}
 
 	@Override
-	public Profilo getInformazioni(String email) throws SQLException {
+	public Response getInformazioni(String email) throws SQLException {
 		Profilo res = null;
 		PreparedStatement ps;
 		ResultSet rs = null;
@@ -46,9 +47,9 @@ public class GestioneProfiloController implements IGestioneProfilo {
 			res=Profilo.getProfiloByEmail(connector, email);			
 		} catch (SQLException | EmailNotExistingException e) {
 			e.printStackTrace();
-		}		
-
-		return res;
+		}
+			
+		return res.toResponse();
 	}
 	
 
