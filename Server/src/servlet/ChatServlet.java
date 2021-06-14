@@ -43,6 +43,10 @@ public class ChatServlet extends HttpServlet {
 			
 			try {
 				res =hc.getMessages(r.getIdSegnalazione(), email);
+				
+				//local = direction:right
+				//					left	
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

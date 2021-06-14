@@ -13,7 +13,9 @@ export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messaggio: "",
+      idSegnalazione: "",
+	  idChat: "",
+	  messaggio: "",
       messaggi: [
         {
           messaggio: "Ciao a tutti, questo è un messaggio di prova",
@@ -33,6 +35,60 @@ export default class Chat extends React.Component {
       ],
     };
   }
+  
+  appendMessage = (msg,dir) => {
+     var joined = this.state.messaggi.concat({
+     messaggio: msg,
+     direction: dir,
+	 timestamp: new Date(),
+     });
+     this.setState({
+        messaggi: joined,
+        messaggio: "",
+     });
+	}
+  
+  updateChat = (e) => {
+  const requestOptions = {
+	method: "POST",
+	headers: { "Content-Type": "application/json" },
+	body: JSON.stringify({
+		idSegnalazione: this.state.segnalazione
+		email:localStorage.getItem("email")
+		),
+	};
+				  
+	fetch("/api/getChat", requestOptions)
+		.then((res) => res.json())
+			.then((data) => {
+				if (data.state === "success"){
+					this.state=data.idChat
+					//destinatario
+					//numeri.forEach(valore => console.log(valore));
+					data.messages.forEach( (messaggio, direction) => appendMessage(messaggio,direction) )
+				}
+			} 
+  }
+  
+  sendMessage = (e) => {
+  const requestOptions = {
+	method: "POST",
+	headers: { "Content-Type": "application/json" },
+	body: JSON.stringify({
+		idChat: this.state.idChat,
+		messaggio: this.state.messaggio,
+		),
+	};
+				  
+	fetch("/api/inviamessaggio", requestOptions)
+		.then((res) => res.json())
+			.then((data) => {
+				if (data.status === "error"){
+					//modify spunta
+				}
+			}  
+  }
+  
   render() {
     return (
       <Box p={3}>
@@ -75,7 +131,7 @@ export default class Chat extends React.Component {
                     messaggi: joined,
                     messaggio: "",
                   });
-                }}
+				}				  
               >
                 <SendIcon />
               </IconButton>
