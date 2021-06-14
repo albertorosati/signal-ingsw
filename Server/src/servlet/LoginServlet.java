@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import autenticazione.ILogin;
 import autenticazione.LoginController;
+import json.JsonHandler;
 import json.Response;
 
 
@@ -19,12 +20,14 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("email") || !req.getParameterMap().containsKey("password")) {
+		if (!req.getParameterMap().containsKey("body")) {
 			return;
 		}
 		
-		String email = req.getParameter("email");
-		String password = req.getParameter("password");
+		Response r = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		
+		String email = r.getEmail();
+		String password = r.getPassword();
 		
 		LoginController loginController = new LoginController();
 		Response result = new Response();

@@ -31,7 +31,7 @@ import userHomePage.UserHomePageController;
 import verifica.VerificaController;
 
 public class TestController {
-
+/*
 	Comune comune;
 
 	Profilo produttore;
@@ -125,5 +125,5 @@ public class TestController {
 
 		assertEquals(points_Before + 50, points_After);
 	}
-
+*/
 }
