@@ -13,7 +13,14 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		//Segnalazioni con ricerca
+		if (req.getParameterMap().containsKey("search")) {
+			String search = req.getParameter("search");
+		}
+		//Mie-Segnalazioni
+		if (req.getParameterMap().containsKey("id")) {
+			int id = Integer.parseInt(req.getParameter("id"));
+		}
 		super.doPost(req, resp);
 	}
 	

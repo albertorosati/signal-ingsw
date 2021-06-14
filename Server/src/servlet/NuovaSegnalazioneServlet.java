@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,47 +15,47 @@ import dominio.Posizione;
 import dominio.Profilo;
 import dominio.Segnalazione;
 import exceptions.EmailNotExistingException;
+import json.JsonHandler;
 import json.RespState;
 import json.Response;
 import segnalazione.EffettuaSegnalazioneController;
 
-public class NuovaSegnalazioneServlet extends HttpServlet  {
+public class NuovaSegnalazioneServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6132644101777643724L;
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Response res = new Response();
-		
-		if(!req.getParameterMap().containsKey("email") || !req.getParameterMap().containsKey("titolo") 
-			|| !req.getParameterMap().containsKey("descrizione")  || !req.getParameterMap().containsKey("tags")
-			|| !req.getParameterMap().containsKey("imgSource")|| !req.getParameterMap().containsKey("lat")
-			|| !req.getParameterMap().containsKey("lon")
-				) {
+
+		if (!req.getParameterMap().containsKey("body")) {
 			res.setState(RespState.FAILURE);
 		}
-		
-		String email = req.getParameter("email");
-		String titolo = req.getParameter("titolo");
-		String descrizione = req.getParameter("descrizione");
-		String allTags = req.getParameter("tags");
-		String img = req.getParameter("imgSource");
-		double lat = Double.parseDouble(req.getParameter("lat"));
-		double lon = Double.parseDouble(req.getParameter("lon"));
-		String comune = req.getParameter("comune"); //TODO: aggiungere nel json della request
-		
-		String[] tagsString = allTags.split(",");
+
+		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+
+		String email = in.getEmail();
+		String titolo = in.getTitolo();
+		String descrizione = in.getDescrizione();
+		String[] allTags = in.getTags();
+		String img = in.getImageSrc();
+		double lat = in.getLat();
+		double lon = in.getLon();
+		String comune = in.getComune(); // TODO: aggiungere nel json della request
+
 		List<String> tags = new ArrayList<>();
-		for(String s : tagsString) {
+		for (String s : allTags) {
 			tags.add(s.trim());
 		}
-		
+
 		Segnalazione segnalazione;
-		EffettuaSegnalazioneController controller = null;
 		try {
+			EffettuaSegnalazioneController controller = new EffettuaSegnalazioneController();
 			Connector conn = Connector.getInstance();
-			segnalazione = new Segnalazione(titolo, descrizione, tags, new Posizione(lat, lon), comune, Profilo.getProfiloByEmail(conn, email),img);
-			if(res.getState() != RespState.FAILURE) { //ext: controllare che l'utente non ne abbia fatta un'altra negli ultimi 5 minuti
+			segnalazione = new Segnalazione(titolo, descrizione, tags, new Posizione(lat, lon), comune,
+					Profilo.getProfiloByEmail(conn, email), img);
+			if (res.getState() != RespState.FAILURE) { // ext: controllare che l'utente non ne abbia fatta un'altra
+														// negli ultimi 5 minuti
 				controller.effettuaSegnalazione(segnalazione);
 				res.setState(RespState.SUCCESS);
 			}
@@ -68,10 +66,10 @@ public class NuovaSegnalazioneServlet extends HttpServlet  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		resp.getWriter().print(res);
 		super.doPost(req, resp);
-		//cambiamento fittizio
+		// cambiamento fittizio
 	}
-	
+
 }

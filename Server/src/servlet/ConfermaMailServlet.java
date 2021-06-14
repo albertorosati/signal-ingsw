@@ -12,6 +12,7 @@ import autenticazione.RegistrazioneController;
 import database.Connector;
 import dominio.Profilo;
 import exceptions.EmailNotExistingException;
+import json.JsonHandler;
 import json.RespState;
 import json.Response;
 
@@ -21,14 +22,15 @@ public class ConfermaMailServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("email") || !req.getParameterMap().containsKey("hash"))
+		if (!req.getParameterMap().containsKey("body"))
 			return;
 
-		String hash = req.getParameter("hash");
+		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+
 		try {
 			RegistrazioneController rc = new RegistrazioneController();
-			Profilo utente = Profilo.getProfiloByEmail(Connector.getInstance(), req.getParameter("email"));
-			Response r = rc.convalidaEmail(utente, hash);
+			Profilo utente = Profilo.getProfiloByEmail(Connector.getInstance(), in.getEmail());
+			Response r = rc.convalidaEmail(utente, in.getHash());
 			resp.getWriter().write(r.toJson());
 		} catch (SQLException | EmailNotExistingException e) {
 			resp.getWriter().write(new Response(RespState.FAILURE).toJson());

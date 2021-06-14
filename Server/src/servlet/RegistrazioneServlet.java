@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import autenticazione.RegistrazioneController;
+import json.JsonHandler;
 import json.RespState;
 import json.Response;
 
@@ -24,19 +25,18 @@ public class RegistrazioneServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("email") || !req.getParameterMap().containsKey("password")
-				|| !req.getParameterMap().containsKey("nome") || !req.getParameterMap().containsKey("cognome")
-				|| !req.getParameterMap().containsKey("identificatore") || !req.getParameterMap().containsKey("comune")
-				|| !req.getParameterMap().containsKey("tipoUtente"))
+		if (!req.getParameterMap().containsKey("body"))
 			return;
+		
+		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
 
-		String email = req.getParameter("email");
-		String password = req.getParameter("password");
-		String nome = req.getParameter("nome");
-		String cognome = req.getParameter("cognome");
-		String identificatore = req.getParameter("identificatore");
-		String comune = req.getParameter("comune");
-		String tipoUtente = req.getParameter("tipoUtente");
+		String email = in.getEmail();
+		String password = in.getPassword();
+		String nome = in.getNome();
+		String cognome = in.getCognome();
+		String identificatore = in.getIdentificatore();
+		String comune = in.getComune();
+		String tipoUtente = in.getTipoUtente().getId() + "";
 
 		Response r = new Response(RespState.ERROR);
 		

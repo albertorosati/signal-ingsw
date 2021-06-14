@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import database.Connector;
 import dominio.Segnalazione;
+import json.JsonHandler;
 import json.RespState;
 import json.Response;
 
@@ -22,9 +23,11 @@ public class SegnalazioneServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		super.doPost(req, resp);
-		if (!req.getParameterMap().containsKey("segnalazione")) {
+		if (!req.getParameterMap().containsKey("body")) {
 			return;
 		}
+		
+		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
 		
 		int id_segnalazione = Integer.parseInt(req.getParameter("segnalazione"));
 		Response r = new Response(RespState.FAILURE);
