@@ -12,6 +12,6 @@ public interface IHandshake {
 
 	public void sendMedia(Chat chat, Profilo mittente, File file) throws SQLException;
 
-	public String[][] getMessages(Segnalazione segnalazione, Profilo user) throws SQLException;
+	public String[][] getMessages(int idSegnalazione, String userEmail) throws SQLException;
 
 }

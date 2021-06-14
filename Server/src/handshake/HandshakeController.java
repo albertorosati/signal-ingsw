@@ -43,9 +43,18 @@ public class HandshakeController implements IHandshake {
 	}
 
 	@Override
-	public String[][] getMessages(Segnalazione segnalazione, Profilo user) throws SQLException {
+	public String[][] getMessages(int  idSegnalazione, String userEmail) throws SQLException {
 		String[][] res;
 		Chat ch;
+		
+		Profilo user=null;
+		Segnalazione segnalazione=Segnalazione.getById(conn, idSegnalazione);
+		
+		try {
+			user = Profilo.getProfiloByEmail(conn, userEmail);
+		} catch (SQLException | EmailNotExistingException e) {
+			e.printStackTrace();
+		}
 		
 		ch=Chat.getChat(segnalazione.getId(),user.getId(),conn);
 		res=ch.returnOldMessages(user.getId(), conn);

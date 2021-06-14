@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,7 @@ public class ChatServlet extends HttpServlet {
 		Response r = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
 		String email = r.getEmail();
 		
+		Response response=new Response();
 				
 		//if req = /api/inviamessaggio
 		//        |-> nuvoMessaggio
@@ -37,15 +39,27 @@ public class ChatServlet extends HttpServlet {
 
 //			idSegnalazione: 23 
 //			email: “pippo@pluto”
+			String[][] res=null;
 			
-			hc.sendMessage(r.getIdSegnalazione(), email, r.getMessaggio());
+			try {
+				res =hc.getMessages(r.getIdSegnalazione(), email);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 		}else {
 //			chat: 1, 
 //			messaggio: “Lorem ipsum dolor sit amet”
+			try {
+				
+				//make boolean output --> error DB Connection
+				hc.sendMessage(r.getIdSegnalazione(), email, r.getMessaggio());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		
-		
+		resp.getWriter().print(response);		
 		
 		super.doPost(req, resp);
 	}
