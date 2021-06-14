@@ -32,10 +32,20 @@ public class Response {
 	private int segnalazioniTotali;
 	private int segnalazioniInCorso;
 	
+	private int segnalazione;
+	
 	public String getStemma() {
 		return stemma;
 	}
+	
+	public int getSegnalazione() {
+		return segnalazione;
+	}
 
+	public void setSegnalazione(int s) {
+		this.segnalazione = s;
+	}
+	
 	public void setStemma(String stemma) {
 		this.stemma = stemma;
 	}

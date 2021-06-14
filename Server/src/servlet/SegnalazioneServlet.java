@@ -29,7 +29,7 @@ public class SegnalazioneServlet extends HttpServlet {
 		
 		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
 		
-		int id_segnalazione = Integer.parseInt(req.getParameter("segnalazione"));
+		int id_segnalazione = in.getSegnalazione();
 		Response r = new Response(RespState.FAILURE);
 		
 		try {
