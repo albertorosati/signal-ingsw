@@ -1,7 +1,6 @@
 package json;
 
 import com.google.gson.Gson;
-
 import dominio.RuoloUtente;
 
 public class Response {
@@ -34,6 +33,35 @@ public class Response {
 	
 	private int segnalazione;
 	
+	//CHAT
+	private int idChat;
+	private String messaggio;
+	private int idSegnalazione;
+	
+	public int getIdChat() {
+		return idChat;
+	}
+
+	public String getMessaggio() {
+		return messaggio;
+	}
+
+	public int getIdSegnalazione() {
+		return idSegnalazione;
+	}
+	
+	public void setIdChat(int idChat) {
+		this.idChat = idChat;
+	}
+
+	public void setMessaggio(String messaggio) {
+		this.messaggio = messaggio;
+	}
+
+	public void setIdSegnalazione(int idSegnalazione) {
+		this.idSegnalazione = idSegnalazione;
+	}
+
 	public String getStemma() {
 		return stemma;
 	}

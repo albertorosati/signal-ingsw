@@ -16,14 +16,24 @@ public class HandshakeController implements IHandshake {
 
 	private Connector conn;
 	
-	public HandshakeController() throws SQLException {
-		this.conn = Connector.getInstance();
+	public HandshakeController(){
+		try {
+			this.conn = Connector.getInstance();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void sendMessage(int idSeg, Profilo mittente, String mex) throws SQLException {
+	public void sendMessage(int idSeg, String emailMittente, String mex) throws SQLException {
 		Chat chat;
-		chat=Chat.getChat(idSeg, mittente.getId(), conn)
+		Profilo mittente=null;
+		try {
+			mittente = Profilo.getProfiloByEmail(conn, emailMittente);
+		} catch (SQLException | EmailNotExistingException e) {
+			e.printStackTrace();
+		}
+		chat=Chat.getChat(idSeg, mittente.getId(), conn);
 		chat.inviaMessaggio(mex, mittente.getId(), conn);
 	}
 

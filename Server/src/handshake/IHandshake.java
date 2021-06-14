@@ -8,7 +8,7 @@ import dominio.Profilo;
 import dominio.Segnalazione;
 
 public interface IHandshake {
-	public void sendMessage(int idSeg, Profilo mittente, String mex) throws SQLException;
+	public void sendMessage(int idSeg, String emailMittente, String mex) throws SQLException;
 
 	public void sendMedia(Chat chat, Profilo mittente, File file) throws SQLException;
 

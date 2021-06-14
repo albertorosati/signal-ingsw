@@ -23,14 +23,28 @@ public class ChatServlet extends HttpServlet {
 			return;
 		}
 		
-		Response r = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
-		String email = r.getEmail();
-				
-		//getMessageText
-		
 		HandshakeController hc=new HandshakeController(); 
 		
-		//
+		Response r = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		String email = r.getEmail();
+		
+				
+		//if req = /api/inviamessaggio
+		//        |-> nuvoMessaggio
+		//elif req = /api/getChat
+		//			|-> getOldMessages
+		if(req.getRequestURI().startsWith("/api/getChat")) {
+
+//			idSegnalazione: 23 
+//			email: “pippo@pluto”
+			
+			hc.sendMessage(r.getIdSegnalazione(), email, r.getMessaggio());
+		}else {
+//			chat: 1, 
+//			messaggio: “Lorem ipsum dolor sit amet”
+		}
+		
+		
 		
 		
 		super.doPost(req, resp);
