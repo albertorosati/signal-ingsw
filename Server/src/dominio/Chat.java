@@ -162,7 +162,7 @@ public class Chat {
 		return res;
 	}
 	
-	public void inviaMessaggio(Messaggio messaggio, int idMittente, Connector conn) {
+	public void inviaMessaggio(String messaggio, int idMittente, Connector conn) {
 		
 		/*WEB-SOCKET
 		if(idMittente==this.utente1.getId())
@@ -183,7 +183,7 @@ public class Chat {
 			st=conn.prepare("INSERT INTO Messaggi (chat, mittente, messaggio) VALUES (?,?,?) ; ");
 			st.setInt(1, this.id);
 			st.setInt(2, idMittente);
-			st.setString(3, messaggio.getTesto());
+			st.setString(3, messaggio);
 			st.execute();		
 		}catch(SQLException e) {
 			e.printStackTrace();

@@ -21,8 +21,10 @@ public class HandshakeController implements IHandshake {
 	}
 
 	@Override
-	public void sendMessage(Chat chat, Profilo mittente, String mex) throws SQLException {
-		chat.inviaMessaggio(Messaggio.getMessaggio(chat.getId(), mex, mittente, conn),conn);
+	public void sendMessage(int idSeg, Profilo mittente, String mex) throws SQLException {
+		Chat chat;
+		chat=Chat.getChat(idSeg, mittente.getId(), conn)
+		chat.inviaMessaggio(mex, mittente.getId(), conn);
 	}
 
 	@Override
@@ -31,12 +33,14 @@ public class HandshakeController implements IHandshake {
 	}
 
 	@Override
-	public Chat getMessages(Segnalazione segnalazione) throws SQLException {
-		Chat res;
+	public String[][] getMessages(Segnalazione segnalazione, Profilo user) throws SQLException {
+		String[][] res;
+		Chat ch;
 		
-		res=Chat.getChat(segnalazione.getId(),conn);
+		ch=Chat.getChat(segnalazione.getId(),user.getId(),conn);
+		res=ch.returnOldMessages(user.getId(), conn);
 		
-		return res;
+		return res;		
 	}
 
 }
