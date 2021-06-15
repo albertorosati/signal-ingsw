@@ -43,6 +43,7 @@ public class LoginController implements ILogin {
 
 			// Bisogna inserire qui l'hash
 			resp.setState(RespState.SUCCESS);
+			resp.setEmail(rs.getString("email"));
 			resp.setNome(rs.getString("nome"));
 			resp.setCognome(rs.getString("cognome"));
 			resp.setTipoUtente(RuoloUtente.values()[rs.getInt("tipoUtente")]);
