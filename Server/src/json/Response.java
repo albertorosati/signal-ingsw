@@ -32,10 +32,10 @@ public class Response {
 	private String[] tags;
 	
 	private String stemma;
-	private int segnalazioniTotali;
-	private int segnalazioniInCorso;
+	private Integer segnalazioniTotali;
+	private Integer segnalazioniInCorso;
 	
-	private int segnalazione;
+	private Integer segnalazione;
 	
 	//CERCA_SEGNALAZIONI
 	//INPUT
@@ -51,17 +51,17 @@ public class Response {
 	//OUTPUT
 	private Float reputazione;
 	//segnalazioniTotali
-	private int segnalazioniRisolte;
+	private Integer segnalazioniRisolte;
 	private Card[] carte;
 	
 	//CHAT
 	//INPUT
 	private String messaggio;
-	private int idSegnalazione;
+	private Integer idSegnalazione;
 	//OUTPUT
-	private int idChat;
+	private Integer idChat;
 	private Mess[] messages;
-	private boolean esito;
+	private Boolean esito;
 	
 	
 	

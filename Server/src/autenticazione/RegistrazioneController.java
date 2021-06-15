@@ -150,26 +150,21 @@ public class RegistrazioneController implements IRegistrazione {
 	public void registra(Profilo utente, String hash_passwd) throws SQLException {
 		try {
 			registra(utente.getEmail(),hash_passwd,utente.getNome(),utente.getCognome(),utente.getIdentificatore(),
-					utente.getComuneResidenza().getNome(),utente.getRuolo().toString());
+					utente.getComuneResidenza().getNome(),utente.getRuolo().getId());
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public Response registra(String email, String password, String nome, String cognome, String identificatore,
-			String comune, String tipoUtenteStr) throws SQLException, IOException {
+			String comune, int tipoUtente) throws SQLException, IOException {
 		Response r = new Response();
+		
+		System.out.println(email + " " + password + " " + nome + " " + cognome + " " + identificatore + " " + comune + " " + tipoUtente);
 
 		if (email.isBlank() || password.isBlank() || nome.isBlank() || cognome.isBlank() || identificatore.isBlank()
-				|| comune.isBlank() || tipoUtenteStr.isBlank())
+				|| comune.isBlank())
 			return r.setStateAndReturn(RespState.ERROR);
-
-		int tipoUtente;
-		try {
-			tipoUtente = Integer.parseInt(tipoUtenteStr);
-		} catch (NumberFormatException e) {
-			return r.setStateAndReturn(RespState.ERROR);
-		}
 
 		if (tipoUtente == 0) {
 			if (!verificaID(identificatore))
@@ -193,7 +188,7 @@ public class RegistrazioneController implements IRegistrazione {
 	public static void main(String[] args) throws SQLException, IOException, EmailNotExistingException {
 		RegistrazioneController rc = new RegistrazioneController();
 		Response r = rc.registra("alberto.rosati99@gmail.com", "password", "Alberto", "Rosati", "RSTLRT99P07F158B",
-				"Bologna", "0");
+				"Bologna", 0);
 		System.out.println(r.toJson());
 	}
 

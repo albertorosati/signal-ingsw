@@ -104,7 +104,7 @@ public class Profilo {
 	public static Profilo of(Connector conn, String email, String password, String nome, String cognome,
 			String identificatore, String comune, int tipoUtente) throws SQLException {
 		PreparedStatement ps = conn
-				.prepare("INSERT INTO Utenti (email, password, nome, cognome, identificatore) VALUES (?,?,?,?,?)");
+				.prepareReturn("INSERT INTO Utenti (email, password, nome, cognome, identificatore) VALUES (?,?,?,?,?)");
 		ps.setString(1, email);
 		ps.setString(2, password);
 		ps.setString(3, nome);
@@ -112,7 +112,7 @@ public class Profilo {
 		ps.setString(5, identificatore);
 		ps.execute();
 		
-		ResultSet rs=ps.getGeneratedKeys();
+		ResultSet rs = ps.getGeneratedKeys();
 		
 		
 		try {
