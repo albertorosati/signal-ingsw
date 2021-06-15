@@ -92,6 +92,7 @@ export default function Registrazione() {
         nome: values.nome,
         cognome: values.cognome,
         identificatore: values.identificatore,
+        tipoUtente: values.tipo == "base" ? 0 : 1
       }),
     };
     fetch("/api/registrazione", requestOptions)
