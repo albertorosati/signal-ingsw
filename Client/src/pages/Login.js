@@ -34,9 +34,10 @@ export default class Login extends React.Component {
       password: "",
       showPassword: false,
       wrongPassword: false,
-      accountConfirmed: this.checkVerifica(),
       loadingOpen: false,
+      accountConfirmed: null,
     };
+    this.checkVerifica();
   }
 
   handleChange = (e) => {
@@ -50,14 +51,16 @@ export default class Login extends React.Component {
   handleMouseDownPassword = (e) => {
     e.preventDefault();
   };
+
   handleCloseLoading = () => {
     this.setState({ loadingOpen: false });
   };
+
   handleToggleLoading = () => {
-    this.setState({ loadingOpen: !this.state.open });
+    this.setState({ loadingOpen: !this.state.loadingOpen });
   };
 
-  checkVerifica() {
+  checkVerifica = () => {
     let hash = this.props.match.params.hash;
     let email = this.props.match.params.email;
 
@@ -80,16 +83,16 @@ export default class Login extends React.Component {
             //already in login page
             //let history = this.props.history;
             //history.push("/login");
-            return true;
+            this.setState({ accountConfirmed: true });
           } else {
-            return "error";
+            this.setState({ accountConfirmed: "error" });
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => this.setState({ accountConfirmed: "error" }));
     }
 
-    return false;
-  }
+    this.setState({ accountConfirmed: false });
+  };
 
   callAPI = (e) => {
     e.preventDefault();
@@ -159,7 +162,8 @@ export default class Login extends React.Component {
             <br />
           </Grid>
 
-          {this.state.accountConfirmed && this.state.accountConfirmed == true ? (
+          {this.state.accountConfirmed &&
+          this.state.accountConfirmed == true ? (
             <Grid item>
               <MuiAlert
                 elevation={6}
@@ -183,7 +187,7 @@ export default class Login extends React.Component {
                 severity="error"
                 fullWidth
               >
-                Link conferma email non valido.
+                La richiesta di conferma email non è andata a buon fine. Riprova più tardi.
               </MuiAlert>
               <br />
             </Grid>
