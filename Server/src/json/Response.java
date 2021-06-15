@@ -1,7 +1,11 @@
 package json;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.Gson;
 import dominio.RuoloUtente;
+import dominio.Segnalazione;
 
 public class Response {
 	
@@ -33,6 +37,14 @@ public class Response {
 	
 	private int segnalazione;
 	
+	//CERCA_SEGNALAZIONI
+	//INPUT
+	private String key;
+	//OUTPUT
+	private Signal[] risultatiRicerca;	//cambia Segnalazione.class --> Signal.class 
+	private Signal[] bacheca;
+	
+	
 	//PROFILO PERSONALE
 	//INPUT
 	//email
@@ -53,6 +65,52 @@ public class Response {
 	
 	
 	
+	public Signal[] getBacheca() {
+		return bacheca;
+	}
+
+	public void setBacheca(Segnalazione[] bacheca) {
+		List<Signal> res=new ArrayList<>();
+		
+		for(Segnalazione seg : bacheca)
+			res.add(Signal.toSignal(seg));
+		
+		this.risultatiRicerca = (Signal[]) res.toArray();
+	}
+
+	public void setRisultatiRicerca(Signal[] risultatiRicerca) {
+		this.risultatiRicerca = risultatiRicerca;
+	}
+
+	public Signal[] getRisultatiRicerca() {
+		return risultatiRicerca;
+	}
+
+	public void setRisultatiRicerca(Segnalazione[] risultatiRicerca) {
+		List<Signal> res=new ArrayList<>();
+		
+		for(Segnalazione seg : risultatiRicerca)
+			res.add(Signal.toSignal(seg));
+		
+		this.risultatiRicerca = (Signal[]) res.toArray();
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public void setLon(Double lon) {
+		this.lon = lon;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
 	public int getSegnalazioniRisolte() {
 		return segnalazioniRisolte;
 	}

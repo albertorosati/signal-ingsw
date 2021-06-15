@@ -1,8 +1,10 @@
 package userHomePage;
 
-import dominio.Profilo;
+import java.sql.SQLException;
+
 import dominio.Segnalazione;
+import exceptions.EmailNotExistingException;
 
 public interface IUserHomePage {
-	public Segnalazione[] getBacheca(Profilo profilo);
+	public Segnalazione[] getBacheca(String email) throws SQLException, EmailNotExistingException;
 }

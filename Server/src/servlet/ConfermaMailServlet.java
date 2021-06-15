@@ -24,10 +24,14 @@ public class ConfermaMailServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("body"))
+		String body = Utils.getReqBody(req);
+		
+		if (body.isEmpty()) {
+			resp.getWriter().write(new Response(RespState.FAILURE).toJson());
 			return;
-
-		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		}
+		
+		Response in = JsonHandler.getInstance().getGson().fromJson(body, Response.class);
 
 		try {
 			RegistrazioneController rc = new RegistrazioneController();
@@ -37,8 +41,7 @@ public class ConfermaMailServlet extends HttpServlet {
 		} catch (SQLException | EmailNotExistingException e) {
 			resp.getWriter().write(new Response(RespState.FAILURE).toJson());
 		}
-
-		super.doPost(req, resp);
+		
 	}
 
 }

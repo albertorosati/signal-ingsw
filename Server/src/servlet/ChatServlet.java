@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dominio.Profilo;
 import handshake.HandshakeController;
 import json.JsonHandler;
+import json.RespState;
 import json.Response;
 
 @WebServlet(value = "/getChat")
@@ -22,13 +23,16 @@ public class ChatServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		if (!req.getParameterMap().containsKey("body")) {
+		String body = Utils.getReqBody(req);
+		
+		if (body.isEmpty()) {
+			resp.getWriter().write(new Response(RespState.FAILURE).toJson());
 			return;
 		}
 		
-		HandshakeController hc=new HandshakeController(); 
+		Response r = JsonHandler.getInstance().getGson().fromJson(body, Response.class);
 		
-		Response r = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		HandshakeController hc=new HandshakeController(); 
 		String email = r.getEmail();
 		
 		Response response=new Response();
@@ -42,9 +46,8 @@ public class ChatServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 					
-		resp.getWriter().print(response);		
+		resp.getWriter().print(response.toJson());		
 		
-		super.doPost(req, resp);
 	}
 
 }

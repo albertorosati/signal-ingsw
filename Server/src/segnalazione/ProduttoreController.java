@@ -8,6 +8,7 @@ import dominio.MetodoPagamento;
 import dominio.Profilo;
 import dominio.Segnalazione;
 import dominio.Stato;
+import exceptions.EmailNotExistingException;
 
 public class ProduttoreController implements IProduttore {
 
@@ -18,7 +19,8 @@ public class ProduttoreController implements IProduttore {
 	}
 	
 	@Override
-	public Segnalazione[] getMieSegnalazioni(Profilo utente) {
+	public Segnalazione[] getMieSegnalazioni(String email) throws SQLException, EmailNotExistingException {
+		Profilo utente=Profilo.getProfiloByEmail(conn, email);
 		return utente.getMySegnalazioni();
 	}
 
@@ -53,4 +55,5 @@ public class ProduttoreController implements IProduttore {
 		consumatore.inserisciValutazione(valutazione);
 	}
 
+	
 }

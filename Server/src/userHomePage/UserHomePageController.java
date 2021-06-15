@@ -10,6 +10,7 @@ import database.Connector;
 import dominio.Profilo;
 import dominio.RuoloUtente;
 import dominio.Segnalazione;
+import exceptions.EmailNotExistingException;
 
 public class UserHomePageController implements IUserHomePage {
 	
@@ -19,7 +20,9 @@ public class UserHomePageController implements IUserHomePage {
 		this.connector = Connector.getInstance();
 	}
 	
-	public Segnalazione[] getBacheca(Profilo profilo) {
+	public Segnalazione[] getBacheca(String email) throws SQLException, EmailNotExistingException {
+		
+		Profilo profilo=Profilo.getProfiloByEmail(connector, email);
 		
 		List<Segnalazione> res=new ArrayList<>();
 		
