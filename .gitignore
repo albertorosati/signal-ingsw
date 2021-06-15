@@ -8,3 +8,5 @@ Server/.classpath
 Server/bin/
 
 **/.DS_Store
+
+Server/build/
