@@ -1,4 +1,4 @@
-package json;
+ package json;
 
 
 import java.util.ArrayList;
@@ -19,7 +19,8 @@ public class Signal {
 	private Profile produttore;
 	private Profile consumatore;
 	private int idChat;
-	private String img64;
+	private String imageSrc;
+	private String timestamp;
 	
 	public Signal() {
 		super();
@@ -36,7 +37,7 @@ public class Signal {
 		res.setLat(seg.getPosizione().getLatitudine());
 		res.setLon(seg.getPosizione().getLongitudine());
 		res.setIdChat(seg.getId());
-		res.setImg64(seg.getImage());
+		res.setImageSrc(seg.getImage());
 		res.setProduttore(Profile.toProfile(seg.getProduttore()));
 		res.setConsumatore(Profile.toProfile(seg.getConsumatore()));
 		res.setRichiedenti(seg.getRichiedenti());
@@ -137,14 +138,20 @@ public class Signal {
 		this.idChat = idChat;
 	}
 
-	public String getImg64() {
-		return img64;
+	public String getImageSrc() {
+		return imageSrc;
 	}
 
-	public void setImg64(String img64) {
-		this.img64 = img64;
+	public void setImageSrc(String imageSrc) {
+		this.imageSrc = imageSrc;
 	}
-	
-	
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
 	
 }

@@ -4,10 +4,9 @@ import dominio.Profilo;
 
 public class Profile {
 	
-	private String nome;
-	private String cognome;
+	private String autore;
 	private float reputazione;
-	private String role;
+	private String userType;
 	
 	public Profile() {
 		super();
@@ -16,45 +15,38 @@ public class Profile {
 	public static Profile toProfile(Profilo pr) {
 		Profile res=new Profile();
 		
-		res.setNome(pr.getNome());
-		res.setCognome(pr.getCognome());
+		res.setAutore(pr.getNome().concat(" "+pr.getCognome()));
 		res.setReputazione(pr.getValutazione());
-		res.setRole(pr.getRuolo().toString());
+		res.setUserType(pr.getRuolo().toString());
 		
 		return res;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getAutore() {
+		return autore;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
-	}
-
-	public float getReputazione() {
-		return reputazione;
+	public void setAutore(String autore) {
+		this.autore = autore;
 	}
 
 	public void setReputazione(float reputazione) {
 		this.reputazione = reputazione;
 	}
 
-	public String getRole() {
-		return role;
+	public String getUserType() {
+		return userType;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
+
+	public float getReputazione() {
+		return reputazione;
+	}
+
+	
 	
 		
 
