@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import database.Connector;
 import exceptions.EmailNotExistingException;
+import json.Mess;
 
 public class Chat {
 
@@ -59,10 +60,10 @@ public class Chat {
 		this.idSegnalazione=idSeg;
 	}
 	
-	//return JSON {direction,message}
-	public String returnOldMessages(int idProfile, Connector conn) {
+	public Mess[] returnOldMessages(int idProfile, Connector conn) {
 	
-		String res;
+		Mess[] res= null;
+		List<Mess> tmp=new ArrayList<>();
 		
 		//Local-->right
 		//Remote-->left
@@ -78,7 +79,7 @@ public class Chat {
 		PreparedStatement st;
 		ResultSet rs;
 		
-		Map<String,String> tmp=new HashMap<>();
+		//Map<String,String> tmp=new HashMap<>();
 		
 		try {
 			//GET LOCAL MESSAGES
@@ -90,7 +91,7 @@ public class Chat {
 			rs = st.executeQuery();
 			
 			while(rs.next()) 
-				tmp.put("right", rs.getString("messaggio"));
+				tmp.add(new Mess("right",rs.getString("messaggio")));
 							
 			//GET REMOTE MESSAGES
 			st=conn.prepare("SELECT messaggio FROM Messaggi WHERE chat = ? AND mittente != ? ; ");
@@ -101,15 +102,13 @@ public class Chat {
 			rs = st.executeQuery();
 			
 			while(rs.next()) 
-				tmp.put("left", rs.getString("messaggio"));
+				tmp.add(new Mess("left",rs.getString("messaggio")));
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		Gson g=new Gson();
-		res=g.toJson(tmp);
-		
+		res=(Mess[]) tmp.toArray();
 		return res;
 	}
 	

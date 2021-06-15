@@ -33,11 +33,23 @@ public class Response {
 	
 	private int segnalazione;
 	
-	//CHAT
-	private int idChat;
+	//CHAT INPUT
 	private String messaggio;
 	private int idSegnalazione;
+	//CHAT OUTPUT
+	private int idChat;
+	private Mess[] messages;
 	
+	
+	
+	public Mess[] getMessages() {
+		return messages;
+	}
+
+	public void setMessages(Mess[] messages) {
+		this.messages = messages;
+	}
+
 	public int getIdChat() {
 		return idChat;
 	}

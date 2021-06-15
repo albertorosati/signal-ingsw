@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import database.Connector;
 import dominio.Chat;
@@ -11,6 +13,8 @@ import dominio.Messaggio;
 import dominio.Profilo;
 import dominio.Segnalazione;
 import exceptions.EmailNotExistingException;
+import json.Mess;
+import json.Response;
 
 public class HandshakeController implements IHandshake {
 
@@ -43,8 +47,11 @@ public class HandshakeController implements IHandshake {
 	}
 
 	@Override
-	public String getMessages(int  idSegnalazione, String userEmail) throws SQLException {
-		String res;
+	public Response getMessages(int  idSegnalazione, String userEmail) throws SQLException {
+		Mess[] res;
+		Response result;
+		
+		
 		Chat ch;
 		
 		Profilo user=null;
@@ -59,7 +66,10 @@ public class HandshakeController implements IHandshake {
 		ch=Chat.getChat(segnalazione.getId(),user.getId(),conn);
 		res=ch.returnOldMessages(user.getId(), conn);
 		
-		return res;		
+		result=new Response();
+		result.setMessages(res);
+		
+		return result;		
 	}
 
 }
