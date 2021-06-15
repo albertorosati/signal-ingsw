@@ -41,6 +41,7 @@ public class InviaMessaggioServlet extends HttpServlet  {
 			e.printStackTrace();
 		}
 	
+		
 		resp.getWriter().print(response.toJson());	
 	}
 	

@@ -17,6 +17,12 @@ public class Mess {
 		this.messaggio=text;
 	}
 
+	public Mess(String direction, String text,String timestamp) {
+		super();
+		this.direction=direction;
+		this.messaggio=text;
+		this.timestamp=timestamp;
+	}
 
 	public String getDirection() {
 		return direction;

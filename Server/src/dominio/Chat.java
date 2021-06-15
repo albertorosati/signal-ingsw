@@ -100,7 +100,7 @@ public class Chat {
 			rs = st.executeQuery();
 			
 			while(rs.next()) 
-				tmp.add(new Mess("right",rs.getString("messaggio")));
+				tmp.add(new Mess("right",rs.getString("messaggio"),rs.getDate("datetime").toString()));
 							
 			//GET REMOTE MESSAGES
 			st=conn.prepare("SELECT messaggio FROM Messaggi WHERE chat = ? AND mittente != ? ; ");
@@ -111,7 +111,7 @@ public class Chat {
 			rs = st.executeQuery();
 			
 			while(rs.next()) 
-				tmp.add(new Mess("left",rs.getString("messaggio")));
+				tmp.add(new Mess("left",rs.getString("messaggio"),rs.getDate("datetime").toString()));
 			
 		}catch(SQLException e) {
 			e.printStackTrace();

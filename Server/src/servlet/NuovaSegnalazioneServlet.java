@@ -29,12 +29,14 @@ public class NuovaSegnalazioneServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Response res = new Response();
-
-		if (!req.getParameterMap().containsKey("body")) {
-			res.setState(RespState.FAILURE);
+		String body = Utils.getReqBody(req);
+		
+		if (body.isEmpty()) {
+			resp.getWriter().write(new Response(RespState.FAILURE).toJson());
+			return;
 		}
-
-		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		
+		Response in = JsonHandler.getInstance().getGson().fromJson(body, Response.class);
 
 		String email = in.getEmail();
 		String titolo = in.getTitolo();
@@ -43,8 +45,8 @@ public class NuovaSegnalazioneServlet extends HttpServlet {
 		String img = in.getImageSrc();
 		double lat = in.getLat();
 		double lon = in.getLon();
-		String comune = in.getComune(); // TODO: aggiungere nel json della request
-
+		String comune = in.getComune(); 
+		
 		List<String> tags = new ArrayList<>();
 		for (String s : allTags) {
 			tags.add(s.trim());
@@ -56,21 +58,21 @@ public class NuovaSegnalazioneServlet extends HttpServlet {
 			Connector conn = Connector.getInstance();
 			segnalazione = new Segnalazione(titolo, descrizione, tags, new Posizione(lat, lon), comune,
 					Profilo.getProfiloByEmail(conn, email), img);
-			if (res.getState() != RespState.FAILURE) { // ext: controllare che l'utente non ne abbia fatta un'altra
-														// negli ultimi 5 minuti
-				controller.effettuaSegnalazione(segnalazione);
-				res.setState(RespState.SUCCESS);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EmailNotExistingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			controller.effettuaSegnalazione(segnalazione);
+			res.setState(RespState.SUCCESS);
+			
+		} catch (SQLException | EmailNotExistingException e) {
+			//e.printStackTrace();
+			res.setState(RespState.ERROR);
+		} catch (RuntimeException e) {
+			//e.printStackTrace();
+			//utente ha già fatto segnalazione negli ultimi 5 minuti
+			res.setState(RespState.FAILURE);
 		}
 
-		resp.getWriter().print(res);
-		super.doPost(req, resp);
+		resp.getWriter().print(res.toJson());
+		
 		// cambiamento fittizio
 	}
 

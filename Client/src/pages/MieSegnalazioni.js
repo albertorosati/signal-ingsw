@@ -21,7 +21,7 @@ export default class MieSegnalazioni extends React.Component {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: localStorage.getItem("id") }),
+      body: JSON.stringify({ email: localStorage.getItem("email") }),
     };
     fetch("/api/getListaSegnalazioni", requestOptions)
       .then((res) => res.json())
