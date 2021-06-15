@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import autenticazione.ILogin;
 import autenticazione.LoginController;
 import json.JsonHandler;
+import json.RespState;
 import json.Response;
 
 //@WebServlet(value = "/login")
@@ -23,10 +24,12 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("body")) {
+		String body = Utils.getReqBody(req);
+		
+		if (body.isEmpty()) {
+			resp.getWriter().write(new Response(RespState.FAILURE).toJson());
 			return;
 		}
-		String body = Utils.getReqBody(req);
 		
 		Response r = JsonHandler.getInstance().getGson().fromJson(body, Response.class);
 		
