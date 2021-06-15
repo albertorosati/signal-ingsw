@@ -34,7 +34,7 @@ public class ChatServlet extends HttpServlet {
 		Response response=new Response();
 
 //			idSegnalazione: 23 
-//			email: “pippo@pluto”
+//			email: pippo@pluto
 			
 			try {
 				response =hc.getMessages(r.getIdSegnalazione(), email);				

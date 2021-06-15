@@ -60,7 +60,7 @@ public class MyMailer implements AutoCloseable {
 	}
 	
 	public void sendMailSospeso(String destinatario) {
-		String url = MAIN_URL + "Ciao " + destinatario + ",\n il tuo profilo è stato sospeso.";
+		String url = MAIN_URL + "Ciao " + destinatario + ",\n il tuo profilo e' stato sospeso.";
 		TemplateMail template = TemplateMail.UTENTE_SOSPESO;
 		String html = template.getHtml(url);
 		this.sendMail(destinatario, template.getOggetto(), html);

@@ -34,7 +34,7 @@ public class ConsumatoreController implements IConsumatore {
 			e.printStackTrace();
 		}
 		
-		//no segnalazioni già in corso
+		//no segnalazioni gia' in corso
 		if(unique) {
 			segnalazione.aggiungiRichiedente(p);
 		}		

@@ -33,7 +33,7 @@ public class Chat {
 	//e vengono inseriti nel DB solo i nuovi messaggi
 	
 	
-	//Non serve mantenere due profili. Nel caso di segnalazioni pubbliche qualsiasi gestore può scrivere in chat
+	//Non serve mantenere due profili. Nel caso di segnalazioni pubbliche qualsiasi gestore puo' scrivere in chat
 	//obbligatorio salvare sempre Consumatore
 	//Consumatore
 	private Profilo utente1;
@@ -165,7 +165,7 @@ public class Chat {
 		}
 		
 		//utente1 e 2 da prendere con JOIN Assegnazione
-		//utente2 può rimanere null per i motivi di cui sopra
+		//utente2 puo' rimanere null per i motivi di cui sopra
 		Chat res=null;
 		
 		try {

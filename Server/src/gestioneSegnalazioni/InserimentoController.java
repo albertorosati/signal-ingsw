@@ -21,7 +21,7 @@ public class InserimentoController implements Iinserimento {
 	}
 
 	//in realta le bacheche non servono. Basta vedere se la segnalazione
-	//è pubblica o meno
+	//e' pubblica o meno
 	@Override
 	public void inserisciInBacheca(Segnalazione segnalazione, TipoBacheca[] bacheca) {
 		
