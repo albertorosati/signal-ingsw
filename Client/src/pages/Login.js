@@ -89,6 +89,7 @@ export default class Login extends React.Component {
           }
         })
         .catch((err) => this.setState({ accountConfirmed: "error" }));
+        this.handleCloseLoading();
     }
 
     this.setState({ accountConfirmed: false });
