@@ -92,6 +92,7 @@ export default function Registrazione() {
         nome: values.nome,
         cognome: values.cognome,
         identificatore: values.identificatore,
+        comune: values.comune,
         tipoUtente: values.tipo == "base" ? 0 : 1
       }),
     };
