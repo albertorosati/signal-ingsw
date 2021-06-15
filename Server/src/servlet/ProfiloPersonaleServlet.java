@@ -14,6 +14,7 @@ import account.GestioneProfiloController;
 import database.Connector;
 import dominio.Profilo;
 import exceptions.EmailNotExistingException;
+import json.RespState;
 import json.Response;
 
 @WebServlet(value = "/getProfiloPersonale")
@@ -23,24 +24,18 @@ public class ProfiloPersonaleServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("email")) {
-			return;
-		}
-		
-		String email = req.getParameter("email");
-		GestioneProfiloController gp=new GestioneProfiloController();
-		
-		Response r = new Response();	
-		
+		Response r = Utils.getResponseByReq(req);
+
+		String email = r.getEmail();
+		GestioneProfiloController gp = new GestioneProfiloController();
+
 		try {
-			r=gp.getInformazioni(email);
+			r = gp.getInformazioni(email);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			r.setState(RespState.FAILURE);
 		}
-		
-		resp.getWriter().print(r);
-		
-		super.doPost(req, resp);
+
+		resp.getWriter().print(r.toJson());
 	}
-	
+
 }
