@@ -30,10 +30,6 @@ export default class Profilo extends React.Component {
     };
 
     this.getInfo();
-
-    //functions bind
-    this.getInfo = this.getInfo.bind(this);
-    this.appendCard = this.appendCard.bind(this);
   }
 
   appendCard(titolo, img, punti) {
@@ -61,9 +57,9 @@ export default class Profilo extends React.Component {
       .then((data) => {
         if (data.state === "success") {
           this.state.idChat = data.idChat;
-          this.reputazione = data.reputazione;
-          this.totSegnalazioniEffettuate = data.segnalazioniTotali;
-          this.totSegnalazioniRisolte = data.segnalazioniRisolte;
+          this.setState({reputazione: data.reputazione});
+          this.setState({totSegnalazioniEffettuate: data.segnalazioniTotali});
+          this.setState({totSegnalazioniRisolte: data.segnalazioniRisolte});
           data.carte.forEach((titolo, img, punti) =>
             this.appendCard(titolo, img, punti)
           );
