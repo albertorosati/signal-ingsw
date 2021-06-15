@@ -62,6 +62,7 @@ export default class Login extends React.Component {
     let email = this.props.match.params.email;
 
     if (hash != null && email != null) {
+      this.handleToggleLoading();
       const conferma = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -74,6 +75,7 @@ export default class Login extends React.Component {
       fetch("/api/confermaRegistrazione", conferma)
         .then((res) => res.json())
         .then((data) => {
+          this.handleToggleLoading();
           if (data.state === "success") {
             //already in login page
             //let history = this.props.history;
@@ -82,12 +84,11 @@ export default class Login extends React.Component {
           } else {
             return "error";
           }
-          this.handleCloseLoading();
         })
         .catch((err) => console.log(err));
     }
 
-    return "error";
+    return false;
   }
 
   callAPI = (e) => {
