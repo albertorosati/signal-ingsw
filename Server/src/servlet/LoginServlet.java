@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +25,9 @@ public class LoginServlet extends HttpServlet {
 		if (!req.getParameterMap().containsKey("body")) {
 			return;
 		}
+		String body = Utils.getReqBody(req);
 		
-		Response r = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		Response r = JsonHandler.getInstance().getGson().fromJson(body, Response.class);
 		
 		String email = r.getEmail();
 		String password = r.getPassword();
