@@ -15,7 +15,8 @@ import autenticazione.LoginController;
 import json.JsonHandler;
 import json.Response;
 
-@WebServlet(value = "/login")
+//@WebServlet(value = "/login")
+
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 129509529672956551L;
