@@ -8,27 +8,28 @@
 
   <display-name>Signal</display-name>
   
-  
+  <servlet>
+  <servlet-name>LoginServlet</servlet-name>
+  <servlet-class>servlet.LoginServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>LoginServlet</servlet-name>
+  <url-pattern>/login</url-pattern>
+</servlet-mapping>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-	<welcome-file>index.js</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
-  <!-- Define an error handler for 404 pages --> 
+
 	<error-page> 
- 		<error-code>404</error-code> 
- 		<location>/errors/notfound.html</location> 
+		<error-code>404</error-code> 
+		<location>/error.html</location> 
 	</error-page> 
-	<!-- Define an error handler for java.lang.Exception --> 
+
 	<error-page> 
- 		<exception-type>java.lang.Exception</exception-type> 
- 		<location>/errors/exception.html</location> 
+		<exception-type>java.lang.Exception</exception-type> 
+		<location>/except.html</location> 
 	</error-page>
 	
 </web-app>
