@@ -30,7 +30,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		String cognome = in.getCognome();
 		String identificatore = in.getIdentificatore();
 		String comune = in.getComune();
-		String tipoUtente = in.getTipoUtente().getId() + "";
+		int tipoUtente = in.getTipoUtente().getId();
 
 		Response r = new Response(RespState.ERROR);
 		
