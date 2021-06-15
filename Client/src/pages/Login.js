@@ -158,7 +158,7 @@ export default class Login extends React.Component {
             <br />
           </Grid>
 
-          {this.state.accountConfirmed ? (
+          {this.state.accountConfirmed && this.state.accountConfirmed == true ? (
             <Grid item>
               <MuiAlert
                 elevation={6}
