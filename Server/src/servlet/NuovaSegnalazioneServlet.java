@@ -67,7 +67,7 @@ public class NuovaSegnalazioneServlet extends HttpServlet {
 			res.setState(RespState.ERROR);
 		} catch (RuntimeException e) {
 			//e.printStackTrace();
-			//utente ha già fatto segnalazione negli ultimi 5 minuti
+			//utente ha gia' fatto segnalazione negli ultimi 5 minuti
 			res.setState(RespState.FAILURE);
 		}
 

@@ -42,7 +42,5 @@ public class RegistrazioneServlet extends HttpServlet {
 		}
 		
 		resp.getWriter().write(r.toJson());
-
-		super.doPost(req, resp);
 	}
 }
