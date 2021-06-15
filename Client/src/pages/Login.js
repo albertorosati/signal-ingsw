@@ -78,7 +78,7 @@ export default class Login extends React.Component {
       fetch("/api/confermaRegistrazione", conferma)
         .then((res) => res.json())
         .then((data) => {
-          this.handleToggleLoading();
+          this.handleCloseLoading();
           if (data.state === "success") {
             //already in login page
             //let history = this.props.history;
