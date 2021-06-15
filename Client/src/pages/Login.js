@@ -75,10 +75,10 @@ export default class Login extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.state === "success") {
-          //go to login page
-          let history = this.props.history;
-          history.push("/login");
-          
+          //already in login page
+          //let history = this.props.history;
+          //history.push("/login");
+          this.state.accountConfirmed=true;
         } else {
           console.log("Errore conferma");
         }
