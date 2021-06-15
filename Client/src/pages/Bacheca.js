@@ -28,7 +28,7 @@ export default class Bacheca extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(options),
     };
-    fetch("/api/listaSegnalazioni", requestOptions)
+    fetch("/api/getListaSegnalazioni", requestOptions)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ segnalazioni: data });
