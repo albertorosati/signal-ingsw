@@ -19,6 +19,11 @@ public class Connector implements AutoCloseable {
 	private static Connector instance;
 
 	private Connector() throws SQLException {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		conn = DriverManager.getConnection(URL);
 	}
 
@@ -38,11 +43,7 @@ public class Connector implements AutoCloseable {
 
 	public static Connector getInstance() throws SQLException {
 		if (instance == null)
-			try {
-				instance = new Connector();
-			} catch (SQLException e) {
-				throw new SQLException();
-			}
+			instance = new Connector();
 		return instance;
 	}
 

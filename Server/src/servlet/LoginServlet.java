@@ -44,9 +44,7 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		resp.getWriter().print(result);
-		
-		super.doPost(req, resp);
+		resp.getWriter().print(result.toJson());
 	}
 	
 	public static void main(String[] args) throws SQLException {
