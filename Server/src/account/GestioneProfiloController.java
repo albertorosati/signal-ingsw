@@ -30,43 +30,41 @@ public class GestioneProfiloController implements IGestioneProfilo {
 
 	@Override
 	public Response getInformazioni(String email) throws SQLException {
-		Profilo res = null;
-		Response resp=new Response();
-		
-		PreparedStatement ps;
-		ResultSet rs = null;
+		Response resp = new Response();
 
-		ps = connector.prepare("SELECT * FROM Utenti WHERE email=?");
+		PreparedStatement ps = connector.prepare("SELECT * FROM Utenti WHERE email=?");
 		ps.setString(1, email);
-		rs = ps.executeQuery();
-		
+		ResultSet rs = ps.executeQuery();
+
 		try {
-			res=Profilo.getProfiloByEmail(connector, email);
-			
-			resp=res.toResponse();
-			
-			//getSegnalazioniTotali (effettuate)
+			Profilo res = Profilo.getProfiloByEmail(connector, email);
+
+			resp = res.toResponse();
+
+			// getSegnalazioniTotali (effettuate)
 			resp.setSegnalazioniTotali(res.getTotalSegnalazioniEffettute());
-			//getSegnalazioniRisolte
+			// getSegnalazioniRisolte
 			resp.setSegnalazioniRisolte(res.getTotalSegnalazioniRisolte());
-			
-			//list Carte: CarteVirtuali.class --> Card.class
-			List<Card> carte=new ArrayList<>();
-			for(CartaVirtuale c : res.getCarteVirtuali())
-				carte.add(Card.toCard(c));
+
+			// list Carte: CarteVirtuali.class --> Card.class
+			if (res.getCarteVirtuali() != null) {
+				List<Card> carte = new ArrayList<>();
+				for (CartaVirtuale c : res.getCarteVirtuali())
+					carte.add(Card.toCard(c));
 				
-			resp.setCarte((Card[])carte.toArray());
-			
+				resp.setCarte((Card[]) carte.toArray());
+			}
+
+
 			resp.setState(RespState.SUCCESS);
-			
+
 		} catch (SQLException | EmailNotExistingException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			resp.setState(RespState.USER_NOT_EXISTING);
 		}
-		
+
 		return resp;
 	}
-	
 
 	@Override
 	public void modificaInformazioni(Profilo utente, String old_value, String new_value) {
