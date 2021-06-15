@@ -39,11 +39,9 @@ public class ChatServlet extends HttpServlet {
 
 //			idSegnalazione: 23 
 //			email: “pippo@pluto”
-			Response res;
-			res=new Response();
 			
 			try {
-				res =hc.getMessages(r.getIdSegnalazione(), email);				
+				response =hc.getMessages(r.getIdSegnalazione(), email);				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -54,7 +52,7 @@ public class ChatServlet extends HttpServlet {
 			try {
 				
 				//make boolean output --> error DB Connection
-				hc.sendMessage(r.getIdSegnalazione(), email, r.getMessaggio());
+				response=hc.sendMessage(r.getIdSegnalazione(), email, r.getMessaggio());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

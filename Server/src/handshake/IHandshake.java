@@ -10,7 +10,7 @@ import json.Mess;
 import json.Response;
 
 public interface IHandshake {
-	public void sendMessage(int idSeg, String emailMittente, String mex) throws SQLException;
+	public Response sendMessage(int idSeg, String emailMittente, String mex) throws SQLException;
 
 	public void sendMedia(Chat chat, Profilo mittente, File file) throws SQLException;
 

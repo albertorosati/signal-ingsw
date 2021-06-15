@@ -39,9 +39,18 @@ public class Response {
 	//CHAT OUTPUT
 	private int idChat;
 	private Mess[] messages;
+	private boolean esito;
 	
 	
 	
+	public boolean isEsito() {
+		return esito;
+	}
+
+	public void setEsito(boolean esito) {
+		this.esito = esito;
+	}
+
 	public Mess[] getMessages() {
 		return messages;
 	}

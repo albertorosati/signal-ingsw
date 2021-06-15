@@ -29,16 +29,22 @@ public class HandshakeController implements IHandshake {
 	}
 
 	@Override
-	public void sendMessage(int idSeg, String emailMittente, String mex) throws SQLException {
+	public Response sendMessage(int idSeg, String emailMittente, String mex) throws SQLException {
 		Chat chat;
 		Profilo mittente=null;
+		boolean esito;
+		Response res=new Response();
+		
 		try {
 			mittente = Profilo.getProfiloByEmail(conn, emailMittente);
 		} catch (SQLException | EmailNotExistingException e) {
 			e.printStackTrace();
 		}
 		chat=Chat.getChat(idSeg, mittente.getId(), conn);
-		chat.inviaMessaggio(mex, mittente.getId(), conn);
+		esito=chat.inviaMessaggio(mex, mittente.getId(), conn);
+		
+		res.setEsito(esito);
+		return res;
 	}
 
 	@Override
