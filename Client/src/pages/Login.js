@@ -78,16 +78,16 @@ export default class Login extends React.Component {
             //already in login page
             //let history = this.props.history;
             //history.push("/login");
-            this.setState({ accountConfirmed: true });
+            return true;
           } else {
-            console.log("Errore conferma");
+            return "error";
           }
           this.handleCloseLoading();
         })
         .catch((err) => console.log(err));
     }
 
-    return hash != null && email != null;
+    return "error";
   }
 
   callAPI = (e) => {
@@ -168,6 +168,21 @@ export default class Login extends React.Component {
               >
                 Il tuo account è stato confermato con successo.
                 <br /> Adesso puoi effettuare l'accesso
+              </MuiAlert>
+              <br />
+            </Grid>
+          ) : null}
+
+          {this.state.accountConfirmed &&
+          this.state.accountConfirmed === "error" ? (
+            <Grid item>
+              <MuiAlert
+                elevation={6}
+                variant="filled"
+                severity="error"
+                fullWidth
+              >
+                Link conferma email non valido.
               </MuiAlert>
               <br />
             </Grid>

@@ -53,7 +53,7 @@ public class MyMailer implements AutoCloseable {
 	}
 
 	public void sendMailVerifica(String destinatario, String hash) {
-		String url = MAIN_URL + "confermaRegistrazione?m=" + destinatario + "&h=" + hash;
+		String url = MAIN_URL + "confermaRegistrazione/" + destinatario + "/" + hash;
 		TemplateMail template = TemplateMail.VERIFICA_UTENTE;
 		String html = template.getHtml(url);
 		this.sendMail(destinatario, template.getOggetto(), html);
