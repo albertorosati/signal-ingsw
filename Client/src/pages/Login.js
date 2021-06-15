@@ -60,6 +60,35 @@ export default class Login extends React.Component {
   checkVerifica() {
     let hash = this.props.match.params.hash;
     let email = this.props.match.params.email;
+
+    if(hash != null && email != null){
+      const conferma = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          hash: hash,
+        }),
+      };
+
+      fetch("/api/confermaRegistrazione", conferma)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.state === "success") {
+          //go to login page
+          let history = this.props.history;
+          history.push("/login");
+          
+        } else {
+          console.log("Errore conferma");
+        }
+        this.handleCloseLoading();
+      })
+      .catch((err) => console.log(err));
+
+
+    }
+
     return (hash != null && email != null);
   };
 
