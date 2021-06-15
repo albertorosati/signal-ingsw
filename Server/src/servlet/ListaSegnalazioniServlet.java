@@ -40,7 +40,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 		Response response=new Response();
 		
 		//Segnalazioni con ricerca
-		if (req.getParameterMap().containsKey("key")) {
+		if (r.getKey()!=null) {
 			String key=r.getKey();
 			
 			try {
@@ -50,7 +50,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);
 			}							
-		}else if(req.getParameterMap().containsKey("bacheca")) {
+		}else if(r.getBacheca()!=null) {
 			//Get Bacheca
 			try {
 				UserHomePageController hp=new UserHomePageController();
