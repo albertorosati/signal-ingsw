@@ -50,7 +50,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);
 			}							
-		}else if(r.getBacheca()!=null) {
+		}else if(r.isHomePage()==true) {
 			//Get Bacheca
 			try {
 				UserHomePageController hp=new UserHomePageController();

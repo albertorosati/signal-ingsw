@@ -40,6 +40,7 @@ public class Response {
 	//CERCA_SEGNALAZIONI
 	//INPUT
 	private String key;
+	private boolean homePage;
 	//OUTPUT
 	private Signal[] risultatiRicerca;	//cambia Segnalazione.class --> Signal.class 
 	private Signal[] bacheca;
@@ -65,6 +66,54 @@ public class Response {
 	
 	
 	
+	public boolean isHomePage() {
+		return homePage;
+	}
+
+	public void setHomePage(boolean homePage) {
+		this.homePage = homePage;
+	}
+
+	public Boolean getEsito() {
+		return esito;
+	}
+
+	public void setEsito(Boolean esito) {
+		this.esito = esito;
+	}
+
+	public void setSospeso(Boolean sospeso) {
+		this.sospeso = sospeso;
+	}
+
+	public void setSegnalazioniTotali(Integer segnalazioniTotali) {
+		this.segnalazioniTotali = segnalazioniTotali;
+	}
+
+	public void setSegnalazioniInCorso(Integer segnalazioniInCorso) {
+		this.segnalazioniInCorso = segnalazioniInCorso;
+	}
+
+	public void setSegnalazione(Integer segnalazione) {
+		this.segnalazione = segnalazione;
+	}
+
+	public void setBacheca(Signal[] bacheca) {
+		this.bacheca = bacheca;
+	}
+
+	public void setSegnalazioniRisolte(Integer segnalazioniRisolte) {
+		this.segnalazioniRisolte = segnalazioniRisolte;
+	}
+
+	public void setIdSegnalazione(Integer idSegnalazione) {
+		this.idSegnalazione = idSegnalazione;
+	}
+
+	public void setIdChat(Integer idChat) {
+		this.idChat = idChat;
+	}
+
 	public Signal[] getBacheca() {
 		return bacheca;
 	}

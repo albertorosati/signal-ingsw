@@ -78,7 +78,7 @@ export default function Registrazione() {
 
   const callAPI = (e) => {
     e.preventDefault();
-    if (!validaCodiceFiscale(values.identificatore)) {
+    if (values.identificatore === "base" && !validaCodiceFiscale(values.identificatore)) {
       setValues({ ...values, codiceFiscaleError: true });
       return;
     }
