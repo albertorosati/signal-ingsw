@@ -5,7 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
 
 import database.Connector;
 import exceptions.EmailNotExistingException;
@@ -55,18 +59,26 @@ public class Chat {
 		this.idSegnalazione=idSeg;
 	}
 	
+	//return JSON {direction,message}
+	public String returnOldMessages(int idProfile, Connector conn) {
 	
-	public String[][] returnOldMessages(int idProfile, Connector conn) {
-	
-		String [][] res=new String[2][];
-		//LOCAL  Messages...
-		//REMOTE Messages...
+		String res;
+		
+		//Local-->right
+		//Remote-->left
+		
+		//RESULT=
+		//right  txt
+		//right  txt
+		//...
+		//left	 txt
+		//...
 		
 		//getFromDB --> messaggi.{Local|Remote}
 		PreparedStatement st;
 		ResultSet rs;
 		
-		List<String> tmp=new ArrayList<>();
+		Map<String,String> tmp=new HashMap<>();
 		
 		try {
 			//GET LOCAL MESSAGES
@@ -78,12 +90,8 @@ public class Chat {
 			rs = st.executeQuery();
 			
 			while(rs.next()) 
-				tmp.add(rs.getString("messaggio"));
-			
-			res[0]=(String[]) tmp.toArray();
-			
-			tmp.clear();
-			
+				tmp.put("right", rs.getString("messaggio"));
+							
 			//GET REMOTE MESSAGES
 			st=conn.prepare("SELECT messaggio FROM Messaggi WHERE chat = ? AND mittente != ? ; ");
 			st.setInt(1, this.id);
@@ -93,16 +101,15 @@ public class Chat {
 			rs = st.executeQuery();
 			
 			while(rs.next()) 
-				tmp.add(rs.getString("messaggio"));
-			
-			res[1]=(String[]) tmp.toArray();
-			
-			tmp.clear();
+				tmp.put("left", rs.getString("messaggio"));
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-				
+		
+		Gson g=new Gson();
+		res=g.toJson(tmp);
+		
 		return res;
 	}
 	

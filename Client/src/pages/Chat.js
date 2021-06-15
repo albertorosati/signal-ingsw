@@ -37,23 +37,27 @@ export default class Chat extends React.Component {
   }
   
   appendMessage = (msg,dir) => {
-     var joined = this.state.messaggi.concat({
+     var newMessage = this.state.messaggi.concat({
      messaggio: msg,
      direction: dir,
 	 timestamp: new Date(),
      });
      this.setState({
-        messaggi: joined,
+        messaggi: newMessage,
         messaggio: "",
      });
 	}
+  
+  
+  //polling chat ogni secondo
+  //setInterval(updateChat,1)
   
   updateChat = (e) => {
   const requestOptions = {
 	method: "POST",
 	headers: { "Content-Type": "application/json" },
 	body: JSON.stringify({
-		idSegnalazione: this.state.segnalazione
+		idSegnalazione: this.state.idSegnalazione
 		email:localStorage.getItem("email")
 		),
 	};
@@ -62,7 +66,7 @@ export default class Chat extends React.Component {
 		.then((res) => res.json())
 			.then((data) => {
 				if (data.state === "success"){
-					this.state=data.idChat
+					this.state.idChat=data.idChat
 					//destinatario
 					//numeri.forEach(valore => console.log(valore));
 					data.messages.forEach( (messaggio, direction) => appendMessage(messaggio,direction) )

@@ -43,8 +43,8 @@ public class HandshakeController implements IHandshake {
 	}
 
 	@Override
-	public String[][] getMessages(int  idSegnalazione, String userEmail) throws SQLException {
-		String[][] res;
+	public String getMessages(int  idSegnalazione, String userEmail) throws SQLException {
+		String res;
 		Chat ch;
 		
 		Profilo user=null;

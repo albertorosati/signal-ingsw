@@ -39,14 +39,11 @@ public class ChatServlet extends HttpServlet {
 
 //			idSegnalazione: 23 
 //			email: “pippo@pluto”
-			String[][] res=null;
+			String res;
 			
 			try {
-				res =hc.getMessages(r.getIdSegnalazione(), email);
-				
-				//local = direction:right
-				//					left	
-				
+				//already json
+				res =hc.getMessages(r.getIdSegnalazione(), email);				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
