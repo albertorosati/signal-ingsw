@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import json.RespState;
 import json.Response;
 import segnalazione.EffettuaSegnalazioneController;
 
+@WebServlet(value = "/nuovaSegnalazione")
 public class NuovaSegnalazioneServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6132644101777643724L;
