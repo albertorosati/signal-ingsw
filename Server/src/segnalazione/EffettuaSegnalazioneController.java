@@ -18,7 +18,7 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 	}
 
 	@Override
-	public void effettuaSegnalazione(Segnalazione segnalazione) throws SQLException {
+	public void effettuaSegnalazione(Segnalazione segnalazione) throws RuntimeException {
 		
 		//update cacheSegnalazioni
 		PreparedStatement ps;
@@ -48,7 +48,9 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 					ps.execute();
 				}
 								
-			}			
+			}else {
+				throw new RuntimeException();
+			}
 			
 			} catch (SQLException e) {
 				e.printStackTrace();
