@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import autenticazione.RegistrazioneController;
-import json.JsonHandler;
 import json.RespState;
 import json.Response;
 
@@ -22,10 +21,8 @@ public class RegistrazioneServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("body"))
-			return;
 		
-		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		Response in = Utils.getResponseByReq(req);
 
 		String email = in.getEmail();
 		String password = in.getPassword();

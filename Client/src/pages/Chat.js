@@ -7,6 +7,7 @@ import SendIcon from "@material-ui/icons/Send";
 import IconButton from "@material-ui/core/IconButton";
 import InputLabel from "@material-ui/core/InputLabel";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Moment from "react-moment";
 
 export default class Chat extends React.Component {
@@ -14,7 +15,7 @@ export default class Chat extends React.Component {
     super(props);
     this.state = {
       idSegnalazione: "",
-      idChat: "",
+      idChat: this.props.match.params.id,
       messaggio: "",
       messaggi: [
         {
@@ -106,6 +107,7 @@ export default class Chat extends React.Component {
               marginRight: item.direction == "left" ? "20%" : 0,
               marginLeft: item.direction == "right" ? "20%" : 0,
               marginBottom: "20px",
+              opacity: item.sending ? 0.5 : 1,
             }}
           >
             {item.messaggio}
@@ -115,10 +117,20 @@ export default class Chat extends React.Component {
               variant="caption"
               display="block"
             >
-              <Moment fromNow ago>
-                {item.timestamp}
-              </Moment>{" "}
-              fa
+              {item.sending ? (
+                <Box>
+                  {" "}
+                  <CircularProgress size={10} style={{ marginRight: 5 }} />
+                  Invio in corso...
+                </Box>
+              ) : (
+                <Box>
+                  <Moment fromNow ago>
+                    {item.timestamp}
+                  </Moment>{" "}
+                  fa
+                </Box>
+              )}
             </Typography>
           </Card>
         ))}
@@ -132,6 +144,7 @@ export default class Chat extends React.Component {
                   var joined = this.state.messaggi.concat({
                     messaggio: this.state.messaggio,
                     direction: "right",
+                    sending: true,
                   });
                   this.setState({
                     messaggi: joined,
