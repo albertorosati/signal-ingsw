@@ -138,10 +138,10 @@ public class RegistrazioneController implements IRegistrazione {
 		ps.setInt(1, utente.getId());
 		ps.execute();
 		
-		ps = conn.prepare("INSERT INTO CacheSospeso (email, Sospeso) VALUES (?,?)");
+		/*ps = conn.prepare("INSERT INTO CacheSospeso (email, Sospeso) VALUES (?,?)");
 		ps.setString(1, utente.getEmail());
 		ps.setBoolean(2, false);
-		ps.execute();
+		ps.execute();*/
 
 		return new Response(RespState.SUCCESS);
 	}

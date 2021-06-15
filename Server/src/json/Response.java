@@ -17,7 +17,7 @@ public class Response {
 	private String password;
 	private String identificatore;
 	private String email;
-	private boolean sospeso;
+	private Boolean sospeso;
 	private String comune;
 		
 	private String autore;
