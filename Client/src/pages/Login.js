@@ -79,13 +79,14 @@ export default class Login extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.state === "success") {
+          let tipoUtente = parseInt(data.tipoUtente);
           localStorage.setItem("id", data.id);
           localStorage.setItem("nome", data.nome);
           localStorage.setItem("cognome", data.cognome);
           localStorage.setItem("email", data.email);
-          localStorage.setItem("tipoUtente", data.tipoUtente);
+          localStorage.setItem("tipoUtente", tipoUtente);
           let history = this.props.history;
-          switch (data.tipoUtente) {
+          switch (tipoUtente) {
             case 0:
               history.push("/bacheca");
               break;
