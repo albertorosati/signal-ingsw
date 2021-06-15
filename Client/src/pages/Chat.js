@@ -87,7 +87,7 @@ export default class Chat extends React.Component {
 	fetch("/api/inviamessaggio", requestOptions)
 		.then((res) => res.json())
 			.then((data) => {
-				if (data.esito === false){
+				if (data.state === "success"){
 					//modify spunta
 				}
 			}  

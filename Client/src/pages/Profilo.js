@@ -14,9 +14,64 @@ const toInitials = (str) =>
     .substring(0, 2);
 
 export default class Profilo extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      reputazione : "",
+	  totSegnalazioniEffettuate: "",
+	  totSegnalazioniRisolte: "",
+      carte: [
+        {
+          titolo: "Città metropolitana di Bologna",
+          image: "advewv516vw165165==",
+          points: "",
+        },
+      ],
+    };
+	
+	//functions bind
+	this.getInfo = this.getInfo.bind(this)
+	this.appendCard = this.appendCard.bind(this)
+  }
+  
+  function appendCard(titolo,img,punti){
+	var card = this.state.carte.concat({
+      titolo: titolo,
+      image: img,
+      points: punti,
+     });
+     this.setState({
+        carte: card
+     });
+  }
+  
+  function getInfo(){
+    const requestOptions = {
+	method: "POST",
+	headers: { "Content-Type": "application/json" },
+	body: JSON.stringify({
+		email:localStorage.getItem("email")
+		),
+	};
+  }			  
+	fetch("/api/getProfiloPersonale", requestOptions)
+		.then((res) => res.json())
+			.then((data) => {
+				if (data.state === "success"){
+					this.state.idChat=data.idChat
+					this.reputazione=data.reputazione
+					this.totSegnalazioniEffettuate=data.segnalazioniTotali
+					this.totSegnalazioniRisolte=data.segnalazioniRisolte
+					data.carte.forEach( (titolo,img,punti) => this.appendCard(titolo,img,punti) )
+				}
+			}  
+  }
+  
+  
   render() {
     return (
-      <Box p={3}>
+      <Box p={3} onLoad=this.getInfo() >
         <Paper style={{ padding: 16 }}>
           <Grid
             container
@@ -89,7 +144,8 @@ export default class Profilo extends React.Component {
         <Typography style={{ padding: 16, marginTop: 16 }} variant="h5">
           Carte Virtuali
         </Typography>
-        {[
+        /*
+		{[
           {
             nome: "Città Metropolitana di Bologna",
             punti: "1700",
@@ -105,6 +161,11 @@ export default class Profilo extends React.Component {
         ].map((item, index) => (
           <CartaVirtuale nome={item.nome} punti={item.punti} logo={item.logo} />
         ))}
+		*/
+		this.carte.map((item, index) => (
+          <CartaVirtuale nome={item.titolo} punti={item.points} logo={item.image} />
+        ))}
+		
       </Box>
     );
   }

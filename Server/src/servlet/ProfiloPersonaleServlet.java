@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import account.GestioneProfiloController;
 import database.Connector;
 import dominio.Profilo;
 import exceptions.EmailNotExistingException;
@@ -25,19 +26,17 @@ public class ProfiloPersonaleServlet extends HttpServlet {
 		}
 		
 		String email = req.getParameter("email");
-		Random rand = new Random();
+		GestioneProfiloController gp=new GestioneProfiloController();
+		
+		Response r = new Response();	
 		
 		try {
-			Profilo p = Profilo.getProfiloByEmail(Connector.getInstance(), email);
-			Response r = new Response();
-			r.setReputazione(p.getValutazione());
-			r.setSegnalazioniTotali(rand.nextInt(10)+5);
-			r.setSegnalazioniInCorso(rand.nextInt(5)+4);
-			
-		} catch (SQLException | EmailNotExistingException e) {
+			r=gp.getInformazioni(email);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+		resp.getWriter().print(r);
 		
 		super.doPost(req, resp);
 	}

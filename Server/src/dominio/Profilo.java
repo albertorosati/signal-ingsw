@@ -190,7 +190,44 @@ public class Profilo {
 	}
 	
 	
+	public int getTotalSegnalazioniEffettute() {
+		int res=0;
+		PreparedStatement ps;
+		ResultSet rs;
 
+		try {
+			ps = connector.prepare("SELECT COUNT(*) AS Total FROM Segnalazioni WHERE autore = ? ;");	
+			ps.setInt(1, this.id);
+			rs=ps.executeQuery();
+			
+			res=rs.getInt("Total");
+						
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	public int getTotalSegnalazioniRisolte() {
+		int res=0;
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			//query da rivedere
+			ps = connector.prepare("SELECT COUNT(*) AS Total FROM Segnalazioni WHERE consumatore = ? AND stato = 7 ;");	
+			ps.setInt(1, this.id);
+			rs=ps.executeQuery();
+			
+			res=rs.getInt("Total");
+						
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
 	
 
 	public void sospendi() {

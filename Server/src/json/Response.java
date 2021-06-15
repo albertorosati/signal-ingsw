@@ -24,7 +24,7 @@ public class Response {
 	private Double lon;
 	
 	private String timestamp;
-	private Float reputazione;
+	
 	private String[] tags;
 	
 	private String stemma;
@@ -33,16 +33,42 @@ public class Response {
 	
 	private int segnalazione;
 	
-	//CHAT INPUT
+	//PROFILO PERSONALE
+	//INPUT
+	//email
+	//OUTPUT
+	private Float reputazione;
+	//segnalazioniTotali
+	private int segnalazioniRisolte;
+	private Card[] carte;
+	
+	//CHAT
+	//INPUT
 	private String messaggio;
 	private int idSegnalazione;
-	//CHAT OUTPUT
+	//OUTPUT
 	private int idChat;
 	private Mess[] messages;
 	private boolean esito;
 	
 	
 	
+	public int getSegnalazioniRisolte() {
+		return segnalazioniRisolte;
+	}
+
+	public void setSegnalazioniRisolte(int segnalazioniRisolte) {
+		this.segnalazioniRisolte = segnalazioniRisolte;
+	}
+
+	public Card[] getCarte() {
+		return carte;
+	}
+
+	public void setCarte(Card[] carte) {
+		this.carte = carte;
+	}
+
 	public boolean isEsito() {
 		return esito;
 	}

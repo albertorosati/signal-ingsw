@@ -14,6 +14,7 @@ import dominio.Profilo;
 import dominio.Segnalazione;
 import exceptions.EmailNotExistingException;
 import json.Mess;
+import json.RespState;
 import json.Response;
 
 public class HandshakeController implements IHandshake {
@@ -43,7 +44,11 @@ public class HandshakeController implements IHandshake {
 		chat=Chat.getChat(idSeg, mittente.getId(), conn);
 		esito=chat.inviaMessaggio(mex, mittente.getId(), conn);
 		
-		res.setEsito(esito);
+		if(esito)
+			res.setState(RespState.SUCCESS);
+		else
+			res.setState(RespState.SUCCESS);
+		
 		return res;
 	}
 
@@ -55,8 +60,9 @@ public class HandshakeController implements IHandshake {
 	@Override
 	public Response getMessages(int  idSegnalazione, String userEmail) throws SQLException {
 		Mess[] res;
-		Response result;
+		Response result=new Response();
 		
+		result.setState(RespState.SUCCESS);
 		
 		Chat ch;
 		
@@ -66,13 +72,13 @@ public class HandshakeController implements IHandshake {
 		try {
 			user = Profilo.getProfiloByEmail(conn, userEmail);
 		} catch (SQLException | EmailNotExistingException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			result.setState(RespState.ERROR);
 		}
 		
 		ch=Chat.getChat(segnalazione.getId(),user.getId(),conn);
 		res=ch.returnOldMessages(user.getId(), conn);
 		
-		result=new Response();
 		result.setMessages(res);
 		
 		return result;		

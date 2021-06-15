@@ -12,6 +12,8 @@ import dominio.Comune;
 import dominio.Profilo;
 import dominio.RuoloUtente;
 import exceptions.EmailNotExistingException;
+import json.Card;
+import json.RespState;
 import json.Response;
 
 public class GestioneProfiloController implements IGestioneProfilo {
@@ -29,6 +31,8 @@ public class GestioneProfiloController implements IGestioneProfilo {
 	@Override
 	public Response getInformazioni(String email) throws SQLException {
 		Profilo res = null;
+		Response resp=new Response();
+		
 		PreparedStatement ps;
 		ResultSet rs = null;
 
@@ -36,20 +40,31 @@ public class GestioneProfiloController implements IGestioneProfilo {
 		ps.setString(1, email);
 		rs = ps.executeQuery();
 		
-
-			// change tab Utente --> add comune
-			//String identificatore = rs.getString("identificatore");
-			//res = new Profilo(rs.getInt("id"), email, rs.getString("nome"), rs.getString("cognome"),
-			//		identificatore, rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
-			//		RuoloUtente.values()[rs.getInt("tipoUtente")], null, getCarte(identificatore));
-	
 		try {
-			res=Profilo.getProfiloByEmail(connector, email);			
-		} catch (SQLException | EmailNotExistingException e) {
-			e.printStackTrace();
-		}
+			res=Profilo.getProfiloByEmail(connector, email);
 			
-		return res.toResponse();
+			resp=res.toResponse();
+			
+			//getSegnalazioniTotali (effettuate)
+			resp.setSegnalazioniTotali(res.getTotalSegnalazioniEffettute());
+			//getSegnalazioniRisolte
+			resp.setSegnalazioniRisolte(res.getTotalSegnalazioniRisolte());
+			
+			//list Carte: CarteVirtuali.class --> Card.class
+			List<Card> carte=new ArrayList<>();
+			for(CartaVirtuale c : res.getCarteVirtuali())
+				carte.add(Card.toCard(c));
+				
+			resp.setCarte((Card[])carte.toArray());
+			
+			resp.setState(RespState.SUCCESS);
+			
+		} catch (SQLException | EmailNotExistingException e) {
+			//e.printStackTrace();
+			resp.setState(RespState.USER_NOT_EXISTING);
+		}
+		
+		return resp;
 	}
 	
 
