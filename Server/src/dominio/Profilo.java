@@ -8,6 +8,7 @@ import java.util.List;
 
 import database.Connector;
 import exceptions.EmailNotExistingException;
+import json.RespState;
 import json.Response;
 
 public class Profilo {
@@ -29,7 +30,7 @@ public class Profilo {
 	//----------------------------------------------COSTRUTTORI-----------------------------------------------------
 
 	public Profilo(int id, String email, String nome, String cognome, String identificatore, boolean sospeso,
-			float valutazione, RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) {
+			float valutazione, RuoloUtente ruolo, Comune comuneResidenza, List<CartaVirtuale> carteVirtuali) throws SQLException {
 		super();
 		this.id = id;
 		this.email = email;
@@ -42,6 +43,7 @@ public class Profilo {
 		this.comuneResidenza = comuneResidenza;
 		this.carteVirtuali = carteVirtuali;
 		this.numVal=0;
+		connector = Connector.getInstance();
 	}
 	
 	//null Comune di residenza --> must per limitazione di conservazione dei dati
@@ -127,6 +129,7 @@ public class Profilo {
 	public Response toResponse() {
 		Response res=new Response();
 			
+		res.setState(RespState.SUCCESS);
 		res.setEmail(this.getEmail());
 		res.setNome(this.getNome());
 		res.setCognome(this.cognome);
@@ -134,7 +137,6 @@ public class Profilo {
 		res.setSospeso(this.sospeso);
 		res.setReputazione(this.valutazione);
 		res.setTipoUtente(this.getRuolo());
-		res.setComune(this.comuneResidenza.getNome());
 		//carteVirtuali
 		
 		return res;

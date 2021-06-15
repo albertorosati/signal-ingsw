@@ -18,11 +18,11 @@ export default class Profilo extends React.Component {
     super(props);
     this.state = {
       reputazione: "",
-      totSegnalazioniEffettuate: "",
-      totSegnalazioniRisolte: "",
+      totSegnalazioniEffettuate: "...",
+      totSegnalazioniRisolte: "...",
       carte: [
         {
-          titolo: "Città metropolitana di Bologna",
+          titolo: "Città Metropolitana di Bologna",
           image: "advewv516vw165165==",
           points: "",
         },
@@ -117,7 +117,7 @@ export default class Profilo extends React.Component {
                   SEGNALAZIONI TOTALI
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                  10
+                  {this.state.totSegnalazioniEffettuate}
                 </Typography>
               </Paper>
             </Grid>
@@ -133,7 +133,7 @@ export default class Profilo extends React.Component {
                   SEGNALAZIONI RISOLTE
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                  6
+                  {this.state.totSegnalazioniRisolte}
                 </Typography>
               </Paper>
             </Grid>
