@@ -34,6 +34,10 @@ export default class Chat extends React.Component {
         },
       ],
     };
+	
+	//functions bind
+	this.updateChat = this.updateChat.bind(this)
+	this.sendMessage = this.sendMessage.bind(this)
   }
   
   appendMessage = (msg,dir) => {
@@ -47,12 +51,8 @@ export default class Chat extends React.Component {
         messaggio: "",
      });
 	}
-  
-  
-  //polling chat ogni secondo
-  //setInterval(updateChat,1)
-  
-  updateChat = (e) => {
+    
+  function updateChat() {
   const requestOptions = {
 	method: "POST",
 	headers: { "Content-Type": "application/json" },
@@ -61,7 +61,7 @@ export default class Chat extends React.Component {
 		email:localStorage.getItem("email")
 		),
 	};
-				  
+  }			  
 	fetch("/api/getChat", requestOptions)
 		.then((res) => res.json())
 			.then((data) => {
@@ -74,7 +74,7 @@ export default class Chat extends React.Component {
 			} 
   }
   
-  sendMessage = (e) => {
+  function sendMessage(){
   const requestOptions = {
 	method: "POST",
 	headers: { "Content-Type": "application/json" },
@@ -83,7 +83,7 @@ export default class Chat extends React.Component {
 		messaggio: this.state.messaggio,
 		),
 	};
-				  
+  }			  
 	fetch("/api/inviamessaggio", requestOptions)
 		.then((res) => res.json())
 			.then((data) => {
@@ -95,7 +95,7 @@ export default class Chat extends React.Component {
   
   render() {
     return (
-      <Box p={3}>
+      <Box p={3} onLoad="setInterval('updateChat()',500)">	//updateChat 0.5 sec
         {this.state.messaggi.map((item, index) => (
           <Card
             style={{
@@ -135,6 +135,7 @@ export default class Chat extends React.Component {
                     messaggi: joined,
                     messaggio: "",
                   });
+				  this.sendMessage()
 				}				  
               >
                 <SendIcon />
