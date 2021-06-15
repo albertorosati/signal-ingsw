@@ -326,7 +326,7 @@ public class Segnalazione {
 			ps.execute();	
 			
 			//cosa fare con le vecchie proposte ??
-			//le scartiamo tutte al momento della presa in carico ?? io direi di sì
+			//le scartiamo tutte al momento della presa in carico ?? io direi di si'
 			//SET PROPOSTE
 			ps=connector.prepare("DELETE FROM Proposte WHERE segnalazione = ?;");
 			ps.setInt(1, this.id);
