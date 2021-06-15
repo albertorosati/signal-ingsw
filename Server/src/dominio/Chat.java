@@ -51,6 +51,15 @@ public class Chat {
 		this.idSegnalazione=idSeg;
 	}
 	
+	public Chat(Profilo utente1, Profilo utente2, int idSeg) {
+		this.messaggiLocal = new ArrayList<>();
+		this.messaggiLocal = new ArrayList<>();
+		this.utente1 = utente1;
+		this.utente2 = utente2;
+		this.id=-1;
+		this.idSegnalazione=idSeg;
+	}
+	
 	public Chat(int id, int consumatore, int idSeg,Connector conn) throws SQLException, EmailNotExistingException {
 		this.messaggiLocal = new ArrayList<>();
 		this.messaggiLocal = new ArrayList<>();

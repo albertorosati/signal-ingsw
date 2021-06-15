@@ -381,7 +381,7 @@ public class Segnalazione {
 	}
 
 	public Chat avviaChat() {
-		this.chat = new Chat(produttore, consumatore);
+		this.chat = new Chat(produttore, consumatore,this.id);
 		return this.chat;
 	}
 	

@@ -6,56 +6,15 @@
 		id="WebApp_ID" 
 		version="3.0">
 
-  <display-name>02b_TecWeb_solved</display-name>
+  <display-name>Signal</display-name>
   
-  <servlet>
-    <description></description>
-    <display-name>HelloWorldServlet</display-name>
-    <servlet-name>HelloWorldServlet</servlet-name>
-    <servlet-class>it.unibo.tw.web.HelloWorldServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>HelloWorldServlet</servlet-name>
-    <url-pattern>/HelloWorldServlet</url-pattern>
-  </servlet-mapping>
   
-  <servlet>
-    <description></description>
-    <display-name>LearningServlet1</display-name>
-    <servlet-name>LearningServlet1</servlet-name>
-    <servlet-class>it.unibo.tw.web.LearningServlet1</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LearningServlet1</servlet-name>
-    <url-pattern>/LearningServlet1</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <description></description>
-    <display-name>LearningServlet2</display-name>
-    <servlet-name>LearningServlet2</servlet-name>
-    <servlet-class>it.unibo.tw.web.LearningServlet2</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LearningServlet2</servlet-name>
-    <url-pattern>/LearningServlet2</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <description></description>
-    <display-name>LearningServlet3</display-name>
-    <servlet-name>LearningServlet3</servlet-name>
-    <servlet-class>it.unibo.tw.web.LearningServlet3</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LearningServlet3</servlet-name>
-    <url-pattern>/LearningServlet3</url-pattern>
-  </servlet-mapping>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
+	<welcome-file>index.js</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>

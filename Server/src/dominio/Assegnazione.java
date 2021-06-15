@@ -81,15 +81,15 @@ public class Assegnazione {
 	}
 
 	public boolean isValida() {
-		return this.dataInizio.isBefore(this.dataFine) && metodoPagamento.getImporto().intValue() > 0;
+		return metodoPagamento.getImporto().intValue() > 0;
 	}
 
 	public MetodoPagamento getMetodoPagamento() {
 		return metodoPagamento;
 	}
 
-	public Segnalazione getSegnalazione() {
-		return segnalazione;
+	public int getSegnalazione() {
+		return this.segnalazione;
 	}
 
 	public Profilo getProduttore() {

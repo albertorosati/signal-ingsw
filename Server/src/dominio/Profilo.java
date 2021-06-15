@@ -216,7 +216,7 @@ public class Profilo {
 
 		try {
 			//query da rivedere
-			ps = connector.prepare("SELECT COUNT(*) AS Total FROM Segnalazioni WHERE consumatore = ? AND stato = 7 ;");	
+			ps = connector.prepare("SELECT COUNT(*) AS Total FROM Segnalazioni WHERE assegnatario = ? AND stato = 7 ;");	
 			ps.setInt(1, this.id);
 			rs=ps.executeQuery();
 			
