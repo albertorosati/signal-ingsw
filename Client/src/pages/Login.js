@@ -35,12 +35,12 @@ export default class Login extends React.Component {
       showPassword: false,
       wrongPassword: false,
       accountConfirmed: this.checkVerifica(),
-      loadingOpen: false
+      loadingOpen: false,
     };
   }
 
   handleChange = (e) => {
-    this.setState({ [e.target.id] : e.target.value});
+    this.setState({ [e.target.id]: e.target.value });
   };
 
   handleClickShowPassword = () => {
@@ -61,7 +61,7 @@ export default class Login extends React.Component {
     let hash = this.props.match.params.hash;
     let email = this.props.match.params.email;
 
-    if(hash != null && email != null){
+    if (hash != null && email != null) {
       const conferma = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -72,25 +72,23 @@ export default class Login extends React.Component {
       };
 
       fetch("/api/confermaRegistrazione", conferma)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.state === "success") {
-          //already in login page
-          //let history = this.props.history;
-          //history.push("/login");
-          this.state.accountConfirmed=true;
-        } else {
-          console.log("Errore conferma");
-        }
-        this.handleCloseLoading();
-      })
-      .catch((err) => console.log(err));
-
-
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.state === "success") {
+            //already in login page
+            //let history = this.props.history;
+            //history.push("/login");
+            this.setState({ accountConfirmed: true });
+          } else {
+            console.log("Errore conferma");
+          }
+          this.handleCloseLoading();
+        })
+        .catch((err) => console.log(err));
     }
 
-    return (hash != null && email != null);
-  };
+    return hash != null && email != null;
+  }
 
   callAPI = (e) => {
     e.preventDefault();
