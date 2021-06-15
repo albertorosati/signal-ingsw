@@ -14,8 +14,8 @@ export default class Chat extends React.Component {
     super(props);
     this.state = {
       idSegnalazione: "",
-	  idChat: "",
-	  messaggio: "",
+      idChat: "",
+      messaggio: "",
       messaggi: [
         {
           messaggio: "Ciao a tutti, questo è un messaggio di prova",
@@ -34,68 +34,71 @@ export default class Chat extends React.Component {
         },
       ],
     };
-	
-	//functions bind
-	this.updateChat = this.updateChat.bind(this)
-	this.sendMessage = this.sendMessage.bind(this)
+
+    //functions bind
+    this.updateChat = this.updateChat.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
   }
-  
-  appendMessage = (msg,dir) => {
-     var newMessage = this.state.messaggi.concat({
-     messaggio: msg,
-     direction: dir,
-	 timestamp: new Date(),
-     });
-     this.setState({
-        messaggi: newMessage,
-        messaggio: "",
-     });
-	}
-    
-  function updateChat() {
-  const requestOptions = {
-	method: "POST",
-	headers: { "Content-Type": "application/json" },
-	body: JSON.stringify({
-		idSegnalazione: this.state.idSegnalazione
-		email:localStorage.getItem("email")
-		),
-	};
-  }			  
-	fetch("/api/getChat", requestOptions)
-		.then((res) => res.json())
-			.then((data) => {
-				if (data.state === "success"){
-					this.state.idChat=data.idChat
-					//destinatario
-					//numeri.forEach(valore => console.log(valore));
-					data.messages.forEach( (messaggio, direction) => appendMessage(messaggio,direction) )
-				}
-			} 
+
+  appendMessage = (msg, dir) => {
+    var newMessage = this.state.messaggi.concat({
+      messaggio: msg,
+      direction: dir,
+      timestamp: new Date(),
+    });
+    this.setState({
+      messaggi: newMessage,
+      messaggio: "",
+    });
+  };
+
+  updateChat() {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idSegnalazione: this.state.idSegnalazione,
+        email: localStorage.getItem("email"),
+      }),
+    };
+    fetch("/api/getChat", requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.state === "success") {
+          this.state.idChat = data.idChat;
+          //destinatario
+          //numeri.forEach(valore => console.log(valore));
+          data.messages.forEach((messaggio, direction) =>
+            appendMessage(messaggio, direction)
+          );
+        }
+      });
   }
-  
-  function sendMessage(){
-  const requestOptions = {
-	method: "POST",
-	headers: { "Content-Type": "application/json" },
-	body: JSON.stringify({
-		idChat: this.state.idChat,
-		messaggio: this.state.messaggio,
-		),
-	};
-  }			  
-	fetch("/api/inviamessaggio", requestOptions)
-		.then((res) => res.json())
-			.then((data) => {
-				if (data.state === "success"){
-					//modify spunta
-				}
-			}  
+
+  sendMessage() {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idChat: this.state.idChat,
+        messaggio: this.state.messaggio,
+      }),
+    };
+
+    fetch("/api/inviamessaggio", requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.state === "success") {
+          //modify spunta
+        }
+      });
   }
-  
+
   render() {
     return (
-      <Box p={3} onLoad="setInterval('updateChat()',500)">	//updateChat 0.5 sec
+      <Box p={3} onLoad="setInterval('updateChat()',500)">
+        {" "}
+        //updateChat 0.5 sec
         {this.state.messaggi.map((item, index) => (
           <Card
             style={{
@@ -119,7 +122,6 @@ export default class Chat extends React.Component {
             </Typography>
           </Card>
         ))}
-
         <FormControl fullWidth variant="outlined">
           <InputLabel>Messaggio</InputLabel>
           <OutlinedInput
@@ -135,8 +137,8 @@ export default class Chat extends React.Component {
                     messaggi: joined,
                     messaggio: "",
                   });
-				  this.sendMessage()
-				}				  
+                  this.sendMessage();
+                }}
               >
                 <SendIcon />
               </IconButton>
