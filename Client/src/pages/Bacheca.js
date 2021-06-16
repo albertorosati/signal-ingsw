@@ -34,7 +34,7 @@ export default class Bacheca extends React.Component {
     fetch("/api/getListaSegnalazioni", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ segnalazioni: data });
+        this.setState({ segnalazioni: data.risultatiRicerca });
         var mapMarkerArray = [];
         this.state.segnalazioni.map((item, index) => {
           mapMarkerArray.push([item.lat, item.lon]);
