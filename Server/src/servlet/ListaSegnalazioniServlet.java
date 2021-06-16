@@ -65,7 +65,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 			//Get MieSegnalazioni
 			try {
 				ProduttoreController pc=new ProduttoreController();
-				response.setRisultatiRicerca(pc.getMieSegnalazioni(email));				
+				r.setRisultatiRicerca(pc.getMieSegnalazioni(email));				
 			} catch (SQLException | EmailNotExistingException e) {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);
