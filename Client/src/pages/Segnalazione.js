@@ -9,6 +9,8 @@ import Image from "material-ui-image";
 import SendIcon from "@material-ui/icons/Send";
 import Skeleton from '@material-ui/lab/Skeleton';
 import Paper from "@material-ui/core/Paper";
+import Moment from 'react-moment';
+
 
 export default class Segnalazione extends React.Component {
   constructor(props) {
@@ -22,7 +24,7 @@ export default class Segnalazione extends React.Component {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: Number.parseInt(this.props.match.params.id) }),
+      body: JSON.stringify({ id: this.props.match.params.id }),
     };
     fetch("/api/getSegnalazione", requestOptions)
       .then((res) => res.json())
@@ -39,6 +41,7 @@ export default class Segnalazione extends React.Component {
         <HeaderCardSegnalazione autore={(segnalazione) ? segnalazione.autore : ""} reputazione={(segnalazione) ? segnalazione.reputazione : ""}/>
         {segnalazione ? <Image src={segnalazione.imageSrc} aspectRatio={1.8} cover /> : <Skeleton variant="rect" height={400}/>}
         <Box py={3} px={3}>
+        {segnalazione ? <Typography gutterBottom style={{opacity:0.7}} variant="caption">pubblicato <Moment fromNow ago>{segnalazione.timestamp}</Moment> fa<br/><br/></Typography> : <Skeleton width={80}/> }
           <Typography gutterBottom variant="h5">
             {segnalazione ? segnalazione.titolo : <Skeleton variant="text"/>}
           </Typography>

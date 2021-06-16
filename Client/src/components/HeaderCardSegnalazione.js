@@ -71,7 +71,7 @@ export default class HeaderCardSegnalazione extends React.Component {
               )}
             </span>
           }
-          subheader={<span>{this.props.reputazione ? 
+          subheader={<span>{this.props.reputazione !== "" ? 
             <Rating defaultValue={this.props.reputazione} size="small" precision={0.1}/>
              : <Skeleton variant="text" width={100}/>}</span>}
         />
