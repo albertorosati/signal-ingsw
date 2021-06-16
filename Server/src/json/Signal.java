@@ -8,6 +8,10 @@ import dominio.Segnalazione;
 
 public class Signal {
 
+	private String autore;
+	private float reputazione;
+	private int id;
+	
 	private String titolo;
 	private String descrizione;
 	private List<String> tags;
@@ -67,11 +71,57 @@ public class Signal {
 			res.setConsumatore(Profile.toProfile(seg.getConsumatore()));
 		else res.setConsumatore(null);
 		
+		/*
 		if(res.getRichiedenti()!=null)
 			res.setRichiedenti(seg.getRichiedenti());
 		else res.setRichiedenti(null);
+		*/
 		
+		if(seg.getTimestampAssegnazione()!=null)
+			res.setTimestamp(seg.getTimestampAssegnazione().toString());
+		else res.setTimestamp("");
+		
+		if(seg.getAutore()!=null) {
+			res.setAutore(seg.getAutore().getNome()+" "+seg.getAutore().getCognome());
+			res.setReputazione(seg.getAutore().getValutazione());
+		}else {
+			res.setAutore("");
+			res.setReputazione(0);
+		}
+		res.setId(seg.getId());
+		
+				
 		return res;
+	}
+
+	
+	
+	public String getAutore() {
+		return autore;
+	}
+
+	public void setAutore(String autore) {
+		this.autore = autore;
+	}
+
+	public float getReputazione() {
+		return reputazione;
+	}
+
+	public void setReputazione(float reputazione) {
+		this.reputazione = reputazione;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setRichiedenti(List<Profile> richiedenti) {
+		this.richiedenti = richiedenti;
 	}
 
 	public String getTitolo() {
