@@ -29,18 +29,47 @@ public class Signal {
 	public static Signal toSignal(Segnalazione seg) {
 		Signal res=new Signal();
 		
-		res.setTitolo(seg.getTitolo());
+		if(seg.getTitolo()!=null)
+			res.setTitolo(seg.getTitolo());
+		else
+			res.setTitolo("");
+		
+			
 		res.setDescrizione(seg.getDescrizione());
-		res.setTags(seg.getTags());
+		
+		
+		if(seg.getTags()!=null)
+			res.setTags(seg.getTags());
+		else res.setTags(null);
+		
 		res.setStato(seg.getStato().ordinal());
-		res.setComune(seg.getComune().getNome());
+		
+		if(seg.getComune().getNome()!=null)
+			res.setComune(seg.getComune().getNome());
+		else res.setComune(""); 
+		
 		res.setLat(seg.getPosizione().getLatitudine());
+		
 		res.setLon(seg.getPosizione().getLongitudine());
+		
 		res.setIdChat(seg.getId());
-		res.setImageSrc(seg.getImage());
-		res.setProduttore(Profile.toProfile(seg.getProduttore()));
-		res.setConsumatore(Profile.toProfile(seg.getConsumatore()));
-		res.setRichiedenti(seg.getRichiedenti());
+		
+		if(seg.getImage()!=null)
+			res.setImageSrc(seg.getImage());
+		else res.setImageSrc("");
+		
+		if(res.getProduttore()!=null)
+			res.setProduttore(Profile.toProfile(seg.getConsumatore()));
+		else res.setProduttore(null);
+		
+		
+		if(res.getConsumatore()!=null)
+			res.setConsumatore(Profile.toProfile(seg.getConsumatore()));
+		else res.setConsumatore(null);
+		
+		if(res.getRichiedenti()!=null)
+			res.setRichiedenti(seg.getRichiedenti());
+		else res.setRichiedenti(null);
 		
 		return res;
 	}
