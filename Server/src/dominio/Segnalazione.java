@@ -75,6 +75,7 @@ public class Segnalazione {
 		this.comune=new Comune(comune);
 		this.produttore=produttore;
 		this.imgSrc=imgSrc;
+		this.timestampCreazione=LocalDateTime.now();
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------
