@@ -31,7 +31,7 @@ public class SegnalazioneServlet extends HttpServlet {
 		try {
 			Segnalazione s = Segnalazione.getById(Connector.getInstance(), id_segnalazione);
 			r.setState(RespState.SUCCESS);
-			r.setAutore(s.getAutore().getNome() + "" + s.getAutore().getCognome());
+			r.setAutore(s.getAutore().getNome() + " " + s.getAutore().getCognome());
 			r.setTitolo(s.getTitolo());
 			r.setDescrizione(s.getDescrizione());
 			r.setImageSrc(s.getImage());
