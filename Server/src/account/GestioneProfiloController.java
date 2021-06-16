@@ -52,7 +52,7 @@ public class GestioneProfiloController implements IGestioneProfilo {
 				for (CartaVirtuale c : res.getCarteVirtuali())
 					carte.add(Card.toCard(c));
 				
-				resp.setCarte((Card[]) carte.toArray());
+				resp.setCarte(carte.toArray(new Card[0]));
 			}
 
 

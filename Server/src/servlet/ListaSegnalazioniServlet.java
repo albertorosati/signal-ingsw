@@ -45,7 +45,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 			
 			try {
 				RicercaController rc=new RicercaController();
-				r.setRisultatiRicerca((Segnalazione[])rc.cercaSegnalazione(key).toArray());									
+				r.setRisultatiRicerca(rc.cercaSegnalazione(key).toArray(new Segnalazione[0]));									
 			} catch (SQLException e) {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);

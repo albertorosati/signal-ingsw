@@ -42,7 +42,7 @@ public class UserHomePageController implements IUserHomePage {
 			e.printStackTrace();
 		}	
 		
-		return (Segnalazione[]) res.toArray();
+		return res.toArray(new Segnalazione[0]);
 	}
 	
 	

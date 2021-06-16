@@ -117,7 +117,7 @@ public class Chat {
 			e.printStackTrace();
 		}
 		
-		res=(Mess[]) tmp.toArray();
+		res= tmp.toArray(new Mess[0]);
 		return res;
 	}
 	
@@ -229,9 +229,9 @@ public class Chat {
 	public String[] getMessaggi(int idProfilo) {
 		
 		if(idProfilo==this.getUtente1().getId())
-			return (String[]) this.messaggiLocal.toArray();
+			return this.messaggiLocal.toArray(new String[0]);
 		else
-			return (String[]) this.messaggiRemote.toArray();
+			return this.messaggiRemote.toArray(new String[0]);
 					
 	}
 

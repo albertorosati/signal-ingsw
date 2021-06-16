@@ -124,7 +124,7 @@ public class Response {
 		for(Segnalazione seg : bacheca)
 			res.add(Signal.toSignal(seg));
 		
-		this.risultatiRicerca = (Signal[]) res.toArray();
+		this.risultatiRicerca = res.toArray(new Signal[0]);
 	}
 
 	public void setRisultatiRicerca(Signal[] risultatiRicerca) {
@@ -141,7 +141,7 @@ public class Response {
 		for(Segnalazione seg : risultatiRicerca)
 			res.add(Signal.toSignal(seg));
 		
-		this.risultatiRicerca = (Signal[]) res.toArray();
+		this.risultatiRicerca = res.toArray(new Signal[0]);
 	}
 
 	public void setLat(Double lat) {

@@ -188,7 +188,7 @@ public class Profilo {
 		}
 		
 		
-		return (Segnalazione[]) list.toArray();
+		return list.toArray(new Segnalazione[0]);
 	}
 	
 	
