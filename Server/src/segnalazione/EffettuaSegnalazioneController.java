@@ -39,13 +39,13 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 				if(rs.first()) {
 					//update cache
 					ps = conn.prepare("UPDATE CacheSegnalazione SET lastSeg = ? WHERE email = ? ;");
-					ps.setString(1, now.toString());
+					ps.setString(1, LocalDateTime.now().toString());
 					ps.setString(2, segnalazione.getAutore().getEmail());
 					ps.execute();
 				}else {
 					//new cache entry
 					ps = conn.prepare("INSERT INTO CacheSegnalazione (lastSeg,email) VALUES (?,?) ;");
-					ps.setString(1, now.toString());
+					ps.setString(1, LocalDateTime.now().toString());
 					ps.setString(2, segnalazione.getAutore().getEmail());
 					ps.execute();
 				}
