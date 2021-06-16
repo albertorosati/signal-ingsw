@@ -62,7 +62,7 @@ class NuovaSegnalazione extends React.Component {
         } else {
           //show error message
         }
-        this.handleCloseLoading();
+        
       })
       .catch((err) => console.log(err));
   };
