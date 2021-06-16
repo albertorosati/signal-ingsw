@@ -36,12 +36,43 @@ class NuovaSegnalazione extends React.Component {
       indirizzo: [],
     };
   }
+
+  sendSeg = (e) => {
+    e.preventDefault();
+    console.log(this.state);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: localStorage.getItem("email"),
+        titolo: this.state.titolo,
+        descrizione: this.state.descrizione,
+        tags: this.state.tags,
+        lat: this.indirizzo.lat,
+        lon: this.indirizzo.lon,
+        comune: "test",
+      }),
+    };
+    fetch("/api/nuovaSegnalazione", requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.state === "success") {
+          //show success
+          this.props.history.push("/bacheca");          
+        } else {
+          //show error message
+        }
+        this.handleCloseLoading();
+      })
+      .catch((err) => console.log(err));
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <Box p={3}>
         <Card style={{ padding: "20px" }}>
-          <form noValidate autoComplete="off">
+          <form noValidate autoComplete="off" onSubmit={this.sendSeg}>
             <Typography variant="caption" className={classes.caption}>
               <HelpIcon className={classes.icon} />
               Inserisci un titolo sintetico ed efficace, in modo che la nostra
@@ -110,11 +141,12 @@ class NuovaSegnalazione extends React.Component {
             <br></br>
             <br></br>
             <Button
+              type="submit"
               variant="contained"
               color="primary"
               fullWidth
               size="large"
-              onClick={(e) => console.log(this.state)}
+              //onClick={(e) => console.log(this.state)}
             >
               INVIA
             </Button>
