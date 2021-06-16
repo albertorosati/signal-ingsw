@@ -15,7 +15,7 @@ public class TestServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(req, resp);
+		
 		for (String key : req.getParameterMap().keySet()) {
 			resp.getWriter().append("key: " + req.getParameter(key) + "\n");
 		}		

@@ -75,6 +75,7 @@ public class Segnalazione {
 		this.produttore=produttore;
 		this.imgSrc=imgSrc;
 		
+		/*
 		try {
 			this.connector=Connector.getInstance();
 			PreparedStatement ps;
@@ -106,6 +107,7 @@ public class Segnalazione {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------
