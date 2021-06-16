@@ -88,8 +88,7 @@ public class Signal {
 			res.setAutore("");
 			res.setReputazione(0);
 		}
-		res.setId(seg.getId());
-		
+		res.setId(seg.getId());	
 				
 		return res;
 	}
