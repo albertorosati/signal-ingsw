@@ -56,7 +56,7 @@ public class Stats {
 		Response res=new Response();
 		
 		res.setComune(this.comune.getNome());
-		res.setStemma(this.comune.getStemma().getPath());
+		res.setStemma(this.comune.getStemma());
 		res.setSegnalazioniTotali(this.totalSeg);
 		res.setSegnalazioniInCorso(this.waitingSeg);
 		

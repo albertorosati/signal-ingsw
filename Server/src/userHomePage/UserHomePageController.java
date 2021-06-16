@@ -30,7 +30,7 @@ public class UserHomePageController implements IUserHomePage {
 		ResultSet rs;
 		
 		try {
-			ps=connector.prepare("SELECT isSeg FROM "+getTable(profilo.getRuolo()) +" WHERE visible = TRUE");
+			ps=connector.prepare("SELECT idSeg FROM "+getTable(profilo.getRuolo()) +" WHERE visible = TRUE");
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {

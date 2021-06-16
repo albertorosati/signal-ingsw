@@ -12,10 +12,10 @@ public class Signal {
 	private String descrizione;
 	private List<String> tags;
 	private int stato;
-	private String comune;
+	//private String comune;
 	private double lat;
 	private double lon;
-	private List<Profile> richiedenti;
+	//private List<Profile> richiedenti;
 	private Profile produttore;
 	private Profile consumatore;
 	private int idChat;
@@ -44,9 +44,9 @@ public class Signal {
 		
 		res.setStato(seg.getStato().ordinal());
 		
-		if(seg.getComune().getNome()!=null)
+		/*if(seg.getComune().getNome()!=null)
 			res.setComune(seg.getComune().getNome());
-		else res.setComune(""); 
+		else res.setComune(""); */
 		
 		res.setLat(seg.getPosizione().getLatitudine());
 		
@@ -66,11 +66,11 @@ public class Signal {
 		if(res.getConsumatore()!=null)
 			res.setConsumatore(Profile.toProfile(seg.getConsumatore()));
 		else res.setConsumatore(null);
-		
+		/*
 		if(res.getRichiedenti()!=null)
 			res.setRichiedenti(seg.getRichiedenti());
 		else res.setRichiedenti(null);
-		
+		*/
 		return res;
 	}
 
@@ -106,13 +106,13 @@ public class Signal {
 		this.stato = stato;
 	}
 
-	public String getComune() {
+	/*public String getComune() {
 		return comune;
 	}
 
 	public void setComune(String comune) {
 		this.comune = comune;
-	}
+	}*/
 
 	public double getLat() {
 		return lat;
@@ -129,7 +129,7 @@ public class Signal {
 	public void setLon(double lon) {
 		this.lon = lon;
 	}
-
+/*
 	public List<Profile> getRichiedenti() {
 		return richiedenti;
 	}
@@ -142,7 +142,7 @@ public class Signal {
 		
 		this.richiedenti = res;
 	}
-
+*/
 	public Profile getProduttore() {
 		return produttore;
 	}
