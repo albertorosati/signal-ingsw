@@ -26,7 +26,7 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 		LocalDateTime now=LocalDateTime.now();
 		
 		try {
-			ps = conn.prepare("SELECT * FROM CacheSegnlazione WHERE email = ? ;");
+			ps = conn.prepare("SELECT * FROM CacheSegnalazione WHERE email = ? ;");
 			ps.setString(1, segnalazione.getAutore().getEmail());
 			rs = ps.executeQuery();
 			
@@ -38,13 +38,13 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 				
 				if(rs.first()) {
 					//update cache
-					ps = conn.prepare("UPDATE CacheSegnlazione SET lastSeg = ? WHERE email = ? ;");
+					ps = conn.prepare("UPDATE CacheSegnalazione SET lastSeg = ? WHERE email = ? ;");
 					ps.setString(1, now.toString());
 					ps.setString(2, segnalazione.getAutore().getEmail());
 					ps.execute();
 				}else {
 					//new cache entry
-					ps = conn.prepare("INSERT INTO CacheSegnlazione (lastSeg,email) VALUES (?,?) ;");
+					ps = conn.prepare("INSERT INTO CacheSegnalazione (lastSeg,email) VALUES (?,?) ;");
 					ps.setString(1, now.toString());
 					ps.setString(2, segnalazione.getAutore().getEmail());
 					ps.execute();
