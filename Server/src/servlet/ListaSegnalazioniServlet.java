@@ -45,7 +45,8 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 			
 			try {
 				RicercaController rc=new RicercaController();
-				response.setRisultatiRicerca(rc.cercaSegnalazione(key).toArray(new Segnalazione[0]));									
+				response.setRisultatiRicerca(rc.cercaSegnalazione(key).toArray(new Segnalazione[0]));
+				response.setState(RespState.SUCCESS);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				response.setState(RespState.ERROR);
@@ -55,7 +56,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 			try {
 				UserHomePageController hp=new UserHomePageController();
 				response.setBacheca(hp.getBacheca(email));							
-				
+				response.setState(RespState.SUCCESS);
 			} catch (SQLException | EmailNotExistingException e) {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);
@@ -65,7 +66,8 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 			//Get MieSegnalazioni
 			try {
 				ProduttoreController pc=new ProduttoreController();
-				response.setRisultatiRicerca(pc.getMieSegnalazioni(email));				
+				response.setRisultatiRicerca(pc.getMieSegnalazioni(email));		
+				response.setState(RespState.SUCCESS);
 			} catch (SQLException | EmailNotExistingException e) {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);

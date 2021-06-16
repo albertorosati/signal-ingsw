@@ -32,6 +32,8 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 			
 			if(!rs.first() || Duration.between(LocalDateTime.parse(rs.getString("lastSeg")),now).toMinutes()>5 ) {
 				//OK
+				
+				//INSERT SEGNALAZIONE
 				Segnalazione.insert(conn, segnalazione);
 				
 				if(rs.first()) {
@@ -47,7 +49,7 @@ public class EffettuaSegnalazioneController implements IEffettuaSegnlazione {
 					ps.setString(2, segnalazione.getAutore().getEmail());
 					ps.execute();
 				}
-								
+												
 			}else {
 				throw new RuntimeException();
 			}

@@ -51,7 +51,10 @@ public class Segnalazione {
 		this.consumatore = consumatore;
 		this.chat = chat;
 		this.imgSrc = imgSrc;
-		this._public = _public;
+		
+		if(produttore.getRuolo().equals(RuoloUtente.BASE))
+			this._public = false;
+		else this._public=_public;
 		
 		try {
 			this.connector=Connector.getInstance();
@@ -140,7 +143,7 @@ public class Segnalazione {
 			st.execute();
 		}
 
-		return Segnalazione.getById(conn, rs.getInt("id"));
+		return new Segnalazione(id,titolo,descrizione,LocalDateTime.now(),tags,true,Stato.IN_APPROVAZIONE,posizione,new Comune(comune),produttore,null,null,imgSrc,false);
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------
