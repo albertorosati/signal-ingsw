@@ -182,11 +182,11 @@ public class Signal {
 	public void setLon(double lon) {
 		this.lon = lon;
 	}
-
+	/*
 	public List<Profile> getRichiedenti() {
 		return richiedenti;
 	}
-/*
+
 	public void setRichiedenti(List<Profilo> richiedenti) {
 		List<Profile> res=new ArrayList<>();
 		

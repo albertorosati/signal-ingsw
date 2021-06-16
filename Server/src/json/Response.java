@@ -31,6 +31,8 @@ public class Response {
 	
 	private String[] tags;
 	
+	private Integer id;
+	
 	private String stemma;
 	private Integer segnalazioniTotali;
 	private Integer segnalazioniInCorso;
@@ -67,7 +69,7 @@ public class Response {
 	
 	
 	public boolean isHomePage() {
-		return homePage;
+		return homePage != null && homePage;
 	}
 
 	public void setHomePage(boolean homePage) {
@@ -427,6 +429,14 @@ public class Response {
 
 	public void setTags(String[] tags) {
 		this.tags = tags;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int i) {
+		this.id = i;
 	}
 
 }
