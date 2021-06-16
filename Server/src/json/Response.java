@@ -40,7 +40,7 @@ public class Response {
 	//CERCA_SEGNALAZIONI
 	//INPUT
 	private String key;
-	private boolean homePage;
+	private Boolean homePage;
 	//OUTPUT
 	private Signal[] risultatiRicerca;	//cambia Segnalazione.class --> Signal.class 
 	private Signal[] bacheca;
