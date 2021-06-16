@@ -22,20 +22,16 @@ public class SegnalazioneServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(req, resp);
-		if (!req.getParameterMap().containsKey("body")) {
-			return;
-		}
 		
-		Response in = JsonHandler.getInstance().getGson().fromJson(req.getParameter("body"), Response.class);
+		Response in = Utils.getResponseByReq(req);
 		
-		int id_segnalazione = in.getSegnalazione();
+		int id_segnalazione = in.getId();
 		Response r = new Response(RespState.FAILURE);
 		
 		try {
 			Segnalazione s = Segnalazione.getById(Connector.getInstance(), id_segnalazione);
 			r.setState(RespState.SUCCESS);
-			r.setAutore(s.getAutore().getNome() + "" + s.getAutore().getCognome());
+			r.setAutore(s.getAutore().getNome() + " " + s.getAutore().getCognome());
 			r.setTitolo(s.getTitolo());
 			r.setDescrizione(s.getDescrizione());
 			r.setImageSrc(s.getImage());

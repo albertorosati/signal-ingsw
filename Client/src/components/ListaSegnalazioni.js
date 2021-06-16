@@ -9,7 +9,7 @@ export default class ListaSegnalazioni extends React.Component {
     return (
       <Grid container spacing={3}>
         {this.props.segnalazioni ? (
-          this.props.segnalazioni.length == 0 ? (
+          !(this.props.segnalazioni instanceof Array) || this.props.segnalazioni.length == 0 ? (
             <SegnalazioneNonTrovata />
           ) : (
             this.props.segnalazioni.map((item, index) => (

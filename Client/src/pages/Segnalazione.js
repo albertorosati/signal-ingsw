@@ -22,7 +22,7 @@ export default class Segnalazione extends React.Component {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: this.props.match.params.id }),
+      body: JSON.stringify({ id: Number.parseInt(this.props.match.params.id) }),
     };
     fetch("/api/getSegnalazione", requestOptions)
       .then((res) => res.json())
