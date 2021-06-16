@@ -8,47 +8,47 @@ import Icon from "@material-ui/icons/RadioButtonCheckedRounded";
 export default class Ricerca extends React.Component {
   renderSwitch(n) {
     switch (n) {
-      case 1:
+      case 0:
         return {
           color: "#FFCC18",
           text: "In attesa di approvazione",
         };
-      case 2:
+      case 1:
         return {
           color: "#F1FF2D",
           text: "Approvata",
         };
-      case 3:
+      case 2:
         return {
           color: "#6DE958",
           text: "Disponibile",
         };
-      case 4:
+      case 3:
         return {
           color: "#BBD2EE",
           text: "Richiesta di presa in carico",
         };
-      case 5:
+      case 4:
         return {
           color: "#1A54BF",
           text: "Lavori in corso",
         };
-      case 6:
+      case 5:
         return {
           color: "#00C956",
           text: "Richiesta di terminazione",
         };
-      case 7:
+      case 6:
         return {
           color: "#FFFFFF",
           text: "Conclusa",
         };
-      case 8:
+      case 7:
         return {
           color: "#FF0000",
           text: "Rifiutata",
         };
-      case 9:
+      case 8:
         return {
           color: "#777071",
           text: "Sospesa",

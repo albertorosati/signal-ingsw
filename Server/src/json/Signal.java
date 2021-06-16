@@ -22,7 +22,7 @@ public class Signal {
 	//private List<Profile> richiedenti;
 	private Profile produttore;
 	private Profile consumatore;
-	private int idChat;
+	//private int idChat;
 	private String imageSrc;
 	private String timestamp;
 	
@@ -56,7 +56,7 @@ public class Signal {
 		
 		res.setLon(seg.getPosizione().getLongitudine());
 		
-		res.setIdChat(seg.getChat().getId());
+		//res.setIdChat(seg.getChat().getId());
 		
 		if(seg.getImage()!=null)
 			res.setImageSrc(seg.getImage());
@@ -210,7 +210,7 @@ public class Signal {
 	public void setConsumatore(Profile consumatore) {
 		this.consumatore = consumatore;
 	}
-
+/*
 	public int getIdChat() {
 		return idChat;
 	}
@@ -218,7 +218,7 @@ public class Signal {
 	public void setIdChat(int idChat) {
 		this.idChat = idChat;
 	}
-
+*/
 	public String getImageSrc() {
 		return imageSrc;
 	}

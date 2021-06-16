@@ -21,11 +21,10 @@ public class RicercaController implements IRicerca {
 	@Override
 	public List<Segnalazione> cercaSegnalazione(String key) throws SQLException {
 		PreparedStatement st = conn.prepare("SELECT S.*" + "FROM Segnalazioni S \n"
-				+ "JOIN Tag T ON T.segnalazione=S.id\n"
-				+ "WHERE S.id IN (SELECT T.id FROM Tag T WHERE T.id = S.id AND T.nome LIKE '%?%') OR S.titolo LIKE '%?%' \n"
-				+ "OR S.descrizione LIKE '%?%' \n" + "OR S.indirizzo LIKE '%?%'");
+				+ "WHERE S.id IN (SELECT T.id FROM Tag T WHERE T.id = S.id AND T.nome LIKE ?) OR S.titolo LIKE ? \n"
+				+ "OR S.descrizione LIKE ? \n" + "OR S.indirizzo LIKE ?");
 		for (int i = 1; i <= 4; i++)
-			st.setString(i, key);
+			st.setString(i, "%"+ key + "%");
 		ResultSet rs = st.executeQuery();
 
 		List<Segnalazione> result = new ArrayList<>();

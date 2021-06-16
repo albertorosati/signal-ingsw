@@ -26,7 +26,7 @@ export default class MieSegnalazioni extends React.Component {
     fetch("/api/getListaSegnalazioni", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ segnalazioni: data });
+        this.setState({ segnalazioni: data.risultatiRicerca });
       })
       .catch((err) => console.log(err));
   }
