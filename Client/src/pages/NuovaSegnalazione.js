@@ -9,7 +9,16 @@ import Typography from "@material-ui/core/Typography";
 import ChipInput from "material-ui-chip-input";
 import HelpIcon from "@material-ui/icons/Help";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import CasellaIndirizzo from "../components/CasellaIndirizzo";
+
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -34,11 +43,23 @@ class NuovaSegnalazione extends React.Component {
       descrizione: "",
       tags: [],
       indirizzo: [],
+      dialogOpen: false,
+      loadingOpen: false,
     };
   }
 
   sendSeg = (e) => {
     e.preventDefault();
+
+    //fake
+    this.setState({ loadingOpen: true });
+
+    setTimeout(() => {
+      this.setState({ loadingOpen: false, dialogOpen: true });
+    }, 1000);
+
+    //end fake
+    return;
     console.log(this.state);
     const requestOptions = {
       method: "POST",
@@ -53,23 +74,22 @@ class NuovaSegnalazione extends React.Component {
         comune: "test",
       }),
     };
-    
-    console.log(requestOptions)
+
+    console.log(requestOptions);
 
     fetch("/api/nuovaSegnalazione", requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (data.state === "success") {
           //show success
-          console.log("Success")
-          console.log(data)
-          this.props.history.push("/bacheca");          
+          console.log("Success");
+          console.log(data);
+          this.props.history.push("/bacheca");
         } else {
           //show error message
-          console.log("error")
-          console.log(data)
+          console.log("error");
+          console.log(data);
         }
-        
       })
       .catch((err) => console.log(err));
   };
@@ -78,6 +98,31 @@ class NuovaSegnalazione extends React.Component {
     const { classes } = this.props;
     return (
       <Box p={3}>
+        <Dialog open={this.state.dialogOpen}>
+          <DialogTitle id="alert-dialog-title">{"Ottimo lavoro!"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              La segnalazione è stata inviata con successo. Se tutte le
+              informazioni sono corrette, sarà approvata entro 24 ore. Grazie!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={(e) => this.props.history.push("/bacheca")}
+              color="primary"
+            >
+              Torna alla bacheca
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Backdrop
+          open={this.state.loadingOpen}
+          style={{ zIndex: 100000, color: "#fff" }}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+
         <Card style={{ padding: "20px" }}>
           <form noValidate autoComplete="off" onSubmit={this.sendSeg}>
             <Typography variant="caption" className={classes.caption}>
