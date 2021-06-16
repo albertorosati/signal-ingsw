@@ -82,7 +82,7 @@ public class Profilo {
 		try {
 			this.connector=Connector.getInstance();
 		
-			PreparedStatement ps = connector.prepare("INSERT INTO Utenti (email, password, nome, cognome, identificatore) "
+			PreparedStatement ps = connector.prepareReturn("INSERT INTO Utenti (email, password, nome, cognome, identificatore) "
 					+ "VALUES (?,?,?,?,?)");
 			
 			ps.setString(1, email);
@@ -103,8 +103,7 @@ public class Profilo {
 
 	public static Profilo of(Connector conn, String email, String password, String nome, String cognome,
 			String identificatore, String comune, int tipoUtente) throws SQLException {
-		PreparedStatement ps = conn
-				.prepareReturn("INSERT INTO Utenti (email, password, nome, cognome, identificatore) VALUES (?,?,?,?,?)");
+		PreparedStatement ps = conn.prepareReturn("INSERT INTO Utenti (email, password, nome, cognome, identificatore) VALUES (?,?,?,?,?)");
 		ps.setString(1, email);
 		ps.setString(2, password);
 		ps.setString(3, nome);

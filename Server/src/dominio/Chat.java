@@ -149,7 +149,7 @@ public class Chat {
 				idConsumatore=rs.getInt("consumatore");
 				
 				//CREATE NEW ENTRY
-				st=conn.prepare("INSERT INTO Chat (segnalazione,utente1) VALUES (?,?) ; ");
+				st=conn.prepareReturn("INSERT INTO Chat (segnalazione,utente1) VALUES (?,?) ; ");
 				st.setInt(1, idSeg);
 				st.setInt(2, idConsumatore);
 				st.execute();

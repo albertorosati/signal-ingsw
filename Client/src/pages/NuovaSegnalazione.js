@@ -48,8 +48,8 @@ class NuovaSegnalazione extends React.Component {
         titolo: this.state.titolo,
         descrizione: this.state.descrizione,
         tags: this.state.tags,
-        lat: this.indirizzo.lat,
-        lon: this.indirizzo.lon,
+        lat: this.state.indirizzo.lat,
+        lon: this.state.indirizzo.lon,
         comune: "test",
       }),
     };

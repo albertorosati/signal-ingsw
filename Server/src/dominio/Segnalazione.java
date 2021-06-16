@@ -174,7 +174,7 @@ public class Segnalazione {
 	public Stato impostaStato(Stato stato) {
 		PreparedStatement ps;
 		try {
-			ps = connector.prepare("UPDATE Segnalazioni SET stato= ?  WHERE id = ?");
+			ps = connector.prepareReturn("UPDATE Segnalazioni SET stato= ?  WHERE id = ?");
 			ps.setInt(1,stato.ordinal());
 			ps.setInt(2, id);
 			ResultSet rs = ps.executeQuery();

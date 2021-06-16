@@ -34,7 +34,7 @@ public class Assegnazione {
 		
 		try {
 			//SET ASSEGNAZIONE
-			ps=connector.prepare("INSERT INTO Assegnazione (inizio,segnalazione,produttore,consumatore) "
+			ps=connector.prepareReturn("INSERT INTO Assegnazione (inizio,segnalazione,produttore,consumatore) "
 					+ "VALUES (?,?,?,?) ;");
 			ps.setString(1,this.dataInizio.toString());		
 			ps.setInt(2, this.segnalazione);
@@ -57,7 +57,7 @@ public class Assegnazione {
 			
 		try {
 			//SET ASSEGNAZIONE
-			ps=connector.prepare("UPDATE Assegnazione (metodoPagamento,valorePagamento) "
+			ps=connector.prepareReturn("UPDATE Assegnazione (metodoPagamento,valorePagamento) "
 					+ "VALUES (?,?) ;");
 			ps.setString(1,mp.getName());		
 			ps.setFloat(2, mp.getImporto());

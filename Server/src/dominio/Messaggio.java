@@ -30,7 +30,7 @@ public class Messaggio {
 		ResultSet rs;	
 		
 		try {
-			st=conn.prepare("INSERT INTO Messaggi (chat, mittente, messaggio) VALUES (?,?,?) ; ");
+			st=conn.prepareReturn("INSERT INTO Messaggi (chat, mittente, messaggio) VALUES (?,?,?) ; ");
 			st.setInt(1, idChat);
 			st.setInt(2, mittente.getId());
 			st.setString(3, text);

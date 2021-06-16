@@ -47,7 +47,7 @@ public class Comune {
 			
 			if(!rs.first()) {
 				//create
-				ps=conn.prepare("INSERT INTO Comuni (name) VALUES (?) ; ");
+				ps=conn.prepareReturn("INSERT INTO Comuni (name) VALUES (?) ; ");
 				ps.setString(1, nome);
 				ps.execute();
 				
