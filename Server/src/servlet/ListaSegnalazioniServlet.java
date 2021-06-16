@@ -34,23 +34,23 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 			return;
 		}
 		
-		Response r = JsonHandler.getInstance().getGson().fromJson(body, Response.class);
-		String email = r.getEmail();
+		Response in = JsonHandler.getInstance().getGson().fromJson(body, Response.class);
+		String email = in.getEmail();
 		
 		Response response=new Response();
 		
 		//Segnalazioni con ricerca
-		if (r.getKey()!=null) {
-			String key=r.getKey();
+		if (in.getKey()!=null) {
+			String key=in.getKey();
 			
 			try {
 				RicercaController rc=new RicercaController();
-				r.setRisultatiRicerca(rc.cercaSegnalazione(key).toArray(new Segnalazione[0]));									
+				response.setRisultatiRicerca(rc.cercaSegnalazione(key).toArray(new Segnalazione[0]));									
 			} catch (SQLException e) {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);
 			}							
-		}else if(r.isHomePage()) {
+		}else if(in.isHomePage()) {
 			//Get Bacheca
 			try {
 				UserHomePageController hp=new UserHomePageController();
@@ -65,7 +65,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 			//Get MieSegnalazioni
 			try {
 				ProduttoreController pc=new ProduttoreController();
-				r.setRisultatiRicerca((Segnalazione[])pc.getMieSegnalazioni(email));				
+				response.setRisultatiRicerca(pc.getMieSegnalazioni(email));				
 			} catch (SQLException | EmailNotExistingException e) {
 				//e.printStackTrace();
 				response.setState(RespState.ERROR);
