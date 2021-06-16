@@ -47,7 +47,7 @@ public class ListaSegnalazioniServlet extends HttpServlet  {
 				RicercaController rc=new RicercaController();
 				response.setRisultatiRicerca(rc.cercaSegnalazione(key).toArray(new Segnalazione[0]));									
 			} catch (SQLException e) {
-				//e.printStackTrace();
+				e.printStackTrace();
 				response.setState(RespState.ERROR);
 			}							
 		}else if(in.isHomePage()) {
