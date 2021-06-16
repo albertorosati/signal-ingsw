@@ -416,6 +416,12 @@ public class Segnalazione {
 			ps.setBoolean(1, vis);
 			ps.setInt(2, this.id);
 			ps.execute();
+			
+
+			ps=connector.prepare("UPDATE Segnalazioni SET visibile = ? WHERE id = ? ;");
+			ps.setBoolean(1, vis);
+			ps.setInt(2, this.id);
+			ps.execute();
 		}
 		
 	//-----------------------------------------------------------------------------
