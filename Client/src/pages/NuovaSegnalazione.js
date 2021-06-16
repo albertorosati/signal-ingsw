@@ -53,14 +53,21 @@ class NuovaSegnalazione extends React.Component {
         comune: "test",
       }),
     };
+    
+    console.log(requestOptions)
+
     fetch("/api/nuovaSegnalazione", requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (data.state === "success") {
           //show success
+          console.log("Success")
+          console.log(data)
           this.props.history.push("/bacheca");          
         } else {
           //show error message
+          console.log("error")
+          console.log(data)
         }
         
       })
