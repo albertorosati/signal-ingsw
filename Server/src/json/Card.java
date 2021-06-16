@@ -17,7 +17,7 @@ public class Card {
 		
 		res.setPunti(c.getSaldo());
 		res.setTitolo(c.getComune());
-		res.setImg(c.getComuneComune().getFoto().getBase64());
+		res.setImg(c.getComuneComune().getFoto());
 		
 		return res;
 	}

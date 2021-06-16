@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import database.Connector;
+import exceptions.EmailNotExistingException;
 
 public class Segnalazione {
 
@@ -84,11 +85,20 @@ public class Segnalazione {
 		ResultSet rs = ps.executeQuery();
 		if (!rs.first())
 			throw new IllegalArgumentException("La segnalazione non esiste");
+		
+		Profilo produttore = null;
+		try {
+			produttore = Profilo.getProfiloById(Connector.getInstance(), rs.getInt("autore"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (EmailNotExistingException e) {
+			e.printStackTrace();
+		}
 
 		return new Segnalazione(rs.getInt("id"), rs.getString("titolo"), rs.getString("descrizione"),
 				rs.getTimestamp("timestamp").toLocalDateTime(), Arrays.asList(rs.getString("tags").split(",")),
 				rs.getBoolean("visibile"), Stato.values()[rs.getInt("stato")],
-				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), null, null, null, null,
+				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), new Comune("Bologna"), produttore, null, null,
 				rs.getString("imageSrc"), rs.getBoolean("pubblica"));
 	}
 	
