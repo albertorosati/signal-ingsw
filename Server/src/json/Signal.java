@@ -56,7 +56,7 @@ public class Signal {
 		
 		res.setLon(seg.getPosizione().getLongitudine());
 		
-		res.setIdChat(seg.getId());
+		res.setIdChat(seg.getChat().getId());
 		
 		if(seg.getImage()!=null)
 			res.setImageSrc(seg.getImage());
