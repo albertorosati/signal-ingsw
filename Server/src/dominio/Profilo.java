@@ -174,7 +174,7 @@ public class Profilo {
 		ResultSet rs;
 
 		try {
-			ps = connector.prepare("SELECT id FROM Seganlazioni WHERE autore = ?");
+			ps = connector.prepare("SELECT id FROM Segnalazioni WHERE autore = ?");
 			ps.setInt(1, this.id);
 			rs = ps.executeQuery();
 
