@@ -18,18 +18,18 @@ export default class Bacheca extends React.Component {
       segnalazioni: null,
       mapMarkers: [],
       ricerca: "",
-      showSearch: false
+      showSearch: false,
     };
-    this.getSegnalazioni({});
+    this.getSegnalazioni({
+      email: localStorage.getItem("email"),
+      homePage: true,
+    });
   }
   getSegnalazioni(options) {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: localStorage.getItem("email"),
-        homePage: true,
-      }),
+      body: JSON.stringify(options),
     };
     fetch("/api/getListaSegnalazioni", requestOptions)
       .then((res) => res.json())
@@ -81,8 +81,11 @@ export default class Bacheca extends React.Component {
             onChange={(e) => this.setState({ ricerca: e.target.value })}
             onSubmit={(e) => {
               e.preventDefault();
-              this.setState({segnalazioni: null, showSearch: true});
-              this.getSegnalazioni({ search: this.state.ricerca });
+              this.setState({ segnalazioni: null, showSearch: true });
+              this.getSegnalazioni({
+                email: localStorage.getItem("email"),
+                key: this.state.ricerca,
+              });
             }}
           />
         </Box>
