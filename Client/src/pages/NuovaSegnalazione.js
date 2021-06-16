@@ -51,15 +51,17 @@ class NuovaSegnalazione extends React.Component {
   sendSeg = (e) => {
     e.preventDefault();
 
+    /*
     //fake
     this.setState({ loadingOpen: true });
 
     setTimeout(() => {
       this.setState({ loadingOpen: false, dialogOpen: true });
     }, 1000);
-
+    */
     //end fake
-    return;
+    //return;
+    
     console.log(this.state);
     const requestOptions = {
       method: "POST",
@@ -84,7 +86,8 @@ class NuovaSegnalazione extends React.Component {
           //show success
           console.log("Success");
           console.log(data);
-          this.props.history.push("/bacheca");
+          //this.props.history.push("/bacheca");
+          this.setState({ loadingOpen: false, dialogOpen: true });
         } else {
           //show error message
           console.log("error");
