@@ -74,40 +74,6 @@ public class Segnalazione {
 		this.comune=new Comune(comune);
 		this.produttore=produttore;
 		this.imgSrc=imgSrc;
-		
-		/*
-		try {
-			this.connector=Connector.getInstance();
-			PreparedStatement ps;
-			ResultSet rs;
-			
-			ps=connector.prepare("INSERTO INTO Segnalazioni (titolo,descrizione,lat,lon,Comune,autore,imageSrc)"
-					+ "VALUES (?,?,?,?,?,?,?) ;");
-			ps.setString(1,this.titolo);
-			ps.setString(2, this.descrizione);
-			ps.setDouble(3,this.posizione.getLatitudine());
-			ps.setDouble(4,this.posizione.getLongitudine());
-			ps.setString(5,this.comune.getNome());
-			ps.setInt(6,this.produttore.getId());
-			ps.setString(7, this.imgSrc);
-			
-			ps.execute();
-			rs=ps.getGeneratedKeys();
-			
-			this.id=rs.getInt("id");
-			
-			//create tags
-			for (String tag : tags) {
-				ps = connector.prepare("INSERT INTO Tag (nome, segnalazione) VALUES (?,?)");
-				ps.setString(1, tag);
-				ps.setInt(2, id);
-				ps.execute();
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		*/
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------
