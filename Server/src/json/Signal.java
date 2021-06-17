@@ -77,8 +77,8 @@ public class Signal {
 		else res.setRichiedenti(null);
 		*/
 		
-		if(seg.getTimestampAssegnazione()!=null)
-			res.setTimestamp(seg.getTimestampAssegnazione().toString());
+		if(seg.getTimestampCreazione()!=null)
+			res.setTimestamp(seg.getTimestampCreazione().toString());
 		else res.setTimestamp("");
 		
 		if(seg.getAutore()!=null) {

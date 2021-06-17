@@ -140,16 +140,29 @@ export default class Chat extends React.Component {
               <IconButton
                 color="primary"
                 onClick={(e) => {
-                  var joined = this.state.messaggi.concat({
+                  var joined_true = this.state.messaggi.concat({
                     messaggio: this.state.messaggio,
                     direction: "right",
                     sending: true,
                   });
+                  var joined_false = this.state.messaggi.concat({
+                    messaggio: this.state.messaggio,
+                    direction: "right",
+                    sending: false,
+                  });
                   this.setState({
-                    messaggi: joined,
+                    messaggi: joined_true,
                     messaggio: "",
                   });
-                  this.sendMessage();
+
+                  setTimeout(
+                    () => {
+                      this.setState({messaggi: joined_false});
+                    }, 
+                    1000
+                  );
+
+                  //this.sendMessage();
                 }}
               >
                 <SendIcon />
