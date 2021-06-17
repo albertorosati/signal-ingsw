@@ -100,10 +100,10 @@ public class Segnalazione {
 		}
 
 			
-		return new Segnalazione(rs.getInt("id"), rs.getString("titolo"), rs.getString("descrizione"),
+		return new Segnalazione(id, rs.getString("titolo"), rs.getString("descrizione"),
 				rs.getTimestamp("timestamp").toLocalDateTime(), Arrays.asList(rs.getString("tags").split(",")),
 				rs.getBoolean("visibile"), Stato.values()[rs.getInt("stato")],
-				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), new Comune("Bologna"), produttore, new Profilo(), new Chat(rs.getInt("id")),
+				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), new Comune("Bologna"), produttore, new Profilo(), new Chat(id),
 				rs.getString("imageSrc"), rs.getBoolean("pubblica"));
 	}
 	

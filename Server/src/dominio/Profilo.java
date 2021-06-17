@@ -58,7 +58,7 @@ public class Profilo {
 
 		return new Profilo(rs.getInt("id"), rs.getString("email"), rs.getString("nome"), rs.getString("cognome"),
 				rs.getString("identificatore"), rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
-				RuoloUtente.values()[rs.getInt("tipoUtente")], null, null);
+				RuoloUtente.values()[rs.getInt("tipoUtente")], new Comune("Land"), null);
 	}
 	
 	public static Profilo getProfiloById(Connector conn, int id)
