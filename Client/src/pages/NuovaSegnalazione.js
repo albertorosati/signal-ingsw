@@ -124,7 +124,7 @@ class NuovaSegnalazione extends React.Component {
         </Dialog>
 
         <Dialog open={this.state.cacheError}>
-          <DialogTitle id="alert-dialog-title">{"Siamo spiacenti"}</DialogTitle>
+          <DialogTitle id="alert-dialog-cache">{"Siamo spiacenti"}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Hai già effettuato una segnalazione negli ultimi 5 minuti. Riprova
