@@ -43,7 +43,7 @@ public class Comune {
 				ps = conn.prepareReturn("INSERT INTO Comuni (name, stemma) VALUES (?, ?) ; ");
 				ps.setString(1, nome);
 				ps.setString(2, "https://upload.wikimedia.org/wikipedia/it/6/6e/Bologna-Stemma.png");
-				ps.execute();
+				ps.executeUpdate();
 
 				rs = ps.getGeneratedKeys();
 				this.id = rs.getInt("id");

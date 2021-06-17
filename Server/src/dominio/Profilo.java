@@ -49,12 +49,15 @@ public class Profilo {
 	//null Comune di residenza --> must per limitazione di conservazione dei dati
 	public static Profilo getProfiloByEmail(Connector conn, String email)
 			throws SQLException, EmailNotExistingException {
-		PreparedStatement ps = conn.prepareReturn("SELECT * FROM Utenti WHERE email = ?");
+		PreparedStatement ps = conn.prepare("SELECT * FROM Utenti WHERE email = ?");
 		ps.setString(1, email);
-		ResultSet rs = ps.getGeneratedKeys();
+		ResultSet rs = ps.executeQuery();
 		
-		if (!rs.first())
+		System.out.println(email + " ciaociao");
+		
+		if (!rs.next())
 			throw new EmailNotExistingException("L'utente non esiste");
+			
 
 		return new Profilo(rs.getInt("id"), rs.getString("email"), rs.getString("nome"), rs.getString("cognome"),
 				rs.getString("identificatore"), rs.getBoolean("sospeso"), rs.getFloat("reputazione"),
@@ -63,9 +66,9 @@ public class Profilo {
 	
 	public static Profilo getProfiloById(Connector conn, int id)
 			throws SQLException, EmailNotExistingException {
-		PreparedStatement ps = conn.prepareReturn("SELECT * FROM Utenti WHERE id = ?");
+		PreparedStatement ps = conn.prepare("SELECT * FROM Utenti WHERE id = ?");
 		ps.setInt(1, id);
-		ResultSet rs = ps.getGeneratedKeys();
+		ResultSet rs = ps.executeQuery();
 		
 		if (!rs.first())
 			throw new EmailNotExistingException("L'utente non esiste");

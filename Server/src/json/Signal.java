@@ -15,7 +15,7 @@ public class Signal {
 	private String titolo;
 	private String descrizione;
 	private List<String> tags;
-	private int stato;
+	private Integer stato;
 	//private String comune;
 	private double lat;
 	private double lon;
@@ -93,7 +93,10 @@ public class Signal {
 		return res;
 	}
 
-	
+	public Signal deleteStatusReturn() {
+		this.stato = null;
+		return this;
+	}
 	
 	public String getAutore() {
 		return autore;

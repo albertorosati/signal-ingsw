@@ -124,7 +124,7 @@ public class Response {
 		List<Signal> res=new ArrayList<>();
 		
 		for(Segnalazione seg : bacheca)
-			res.add(Signal.toSignal(seg));
+			res.add(Signal.toSignal(seg).deleteStatusReturn());
 		
 		this.risultatiRicerca = res.toArray(new Signal[0]);
 	}
@@ -137,11 +137,19 @@ public class Response {
 		return risultatiRicerca;
 	}
 
-	public void setRisultatiRicerca(Segnalazione[] risultatiRicerca) {
+	public void setRisultatiRicerca(Segnalazione[] risultatiRicerca, boolean stato) {
 		List<Signal> res=new ArrayList<>();
 		
-		for(Segnalazione seg : risultatiRicerca)
-			res.add(Signal.toSignal(seg));
+		if (stato) {
+			for(Segnalazione seg : risultatiRicerca) {
+				res.add(Signal.toSignal(seg));
+			}
+		}
+		else {
+			for(Segnalazione seg : risultatiRicerca) {
+				res.add(Signal.toSignal(seg).deleteStatusReturn());
+			}
+		}
 		
 		this.risultatiRicerca = res.toArray(new Signal[0]);
 	}

@@ -33,7 +33,7 @@ export default class CardSegnalazione extends React.Component {
           </Typography>
         </CardContent>
 
-        {this.props.stato !== null? (
+        {this.props.stato != null ? (
           <CardContent>            
             <StatoSegnalazione stato={this.props.stato} />{" "}
           </CardContent>
