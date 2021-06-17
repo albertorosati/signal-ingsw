@@ -23,9 +23,14 @@ export default class Profilo extends React.Component {
       carte: [
         {
           titolo: "Città Metropolitana di Bologna",
-          image: "advewv516vw165165==",
-          points: "",
+          image: "https://upload.wikimedia.org/wikipedia/it/6/6e/Bologna-Stemma.png",
+          points: "100",
         },
+        {
+          titolo: "Comune di Castel Maggiore",
+          image: "https://upload.wikimedia.org/wikipedia/it/7/73/Castel_Maggiore-Stemma.png",
+          points: "200"
+        }
       ],
     };
 
@@ -60,9 +65,10 @@ export default class Profilo extends React.Component {
           this.setState({reputazione: data.reputazione});
           this.setState({totSegnalazioniEffettuate: data.segnalazioniTotali});
           this.setState({totSegnalazioniRisolte: data.segnalazioniRisolte});
-          data.carte.forEach((titolo, img, punti) =>
-            this.appendCard(titolo, img, punti)
-          );
+          if (data.carte)
+            data.carte.forEach((titolo, img, punti) =>
+              this.appendCard(titolo, img, punti)
+            );
         }
       });
   }

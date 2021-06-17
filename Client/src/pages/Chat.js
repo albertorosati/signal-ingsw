@@ -99,7 +99,6 @@ export default class Chat extends React.Component {
     return (
       <Box p={3} onLoad="setInterval('updateChat()',500)">
         {" "}
-        //updateChat 0.5 sec
         {this.state.messaggi.map((item, index) => (
           <Card
             style={{
