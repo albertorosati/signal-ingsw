@@ -2,6 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import Icon from "@material-ui/icons/RadioButtonCheckedRounded";
 
@@ -61,15 +62,17 @@ export default class Ricerca extends React.Component {
     }
   }
   render() {
-    const status = this.renderSwitch(this.props.stato)
-    return (
+    const status = this.renderSwitch(this.props.stato);
+    return status.text === "INVALID" ? (
+      <Skeleton width={80} />
+    ) : (
       <Grid container alignItems="center" spacing={1}>
         <Grid item>
-          <Icon style={{color: status.color }}/>
+          <Icon style={{ color: status.color }} />
         </Grid>
         <Grid item>
           <Typography variant="overline">{status.text}</Typography>
-        </Grid>
+        </Grid>{" "}
       </Grid>
     );
   }
