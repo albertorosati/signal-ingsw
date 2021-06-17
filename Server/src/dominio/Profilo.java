@@ -101,6 +101,12 @@ public class Profilo {
 			
 	}
 
+	public Profilo() {
+		// just for NPE
+		this.nome="Prandini";
+		super();
+	}
+
 	public static Profilo of(Connector conn, String email, String password, String nome, String cognome,
 			String identificatore, String comune, int tipoUtente) throws SQLException {
 		PreparedStatement ps = conn.prepareReturn("INSERT INTO Utenti (email, password, nome, cognome, identificatore) VALUES (?,?,?,?,?)");
