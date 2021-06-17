@@ -44,6 +44,7 @@ class NuovaSegnalazione extends React.Component {
       tags: [],
       indirizzo: [],
       dialogOpen: false,
+      cacheError: false,
       loadingOpen: false,
     };
   }
@@ -88,7 +89,10 @@ class NuovaSegnalazione extends React.Component {
           console.log(data);
           //this.props.history.push("/bacheca");
           this.setState({ loadingOpen: false, dialogOpen: true });
-        } else {
+        } else if (data.state === "Failure") {
+          //segnalazione negli ultimi 5 min
+          this.setState({ loadingOpen: false, cacheError: true });
+        }else {
           //show error message
           console.log("error");
           console.log(data);
@@ -107,6 +111,24 @@ class NuovaSegnalazione extends React.Component {
             <DialogContentText>
               La segnalazione è stata inviata con successo. Se tutte le
               informazioni sono corrette, sarà approvata entro 24 ore. Grazie!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={(e) => this.props.history.push("/bacheca")}
+              color="primary"
+            >
+              Torna alla bacheca
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={this.state.cacheError}>
+          <DialogTitle id="alert-dialog-title">{"Siamo spiacenti"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Hai già effettuato una segnalazione negli ultimi 5 minuti. Riprova
+              più tardi. Grazie per il servizio che stai offrendo alla comunità!
             </DialogContentText>
           </DialogContent>
           <DialogActions>
