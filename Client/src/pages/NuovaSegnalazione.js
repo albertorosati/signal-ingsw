@@ -44,6 +44,8 @@ class NuovaSegnalazione extends React.Component {
       tags: [],
       indirizzo: [],
       dialogOpen: false,
+      cacheError: false,
+      dbError: false,
       loadingOpen: false,
     };
   }
@@ -51,15 +53,17 @@ class NuovaSegnalazione extends React.Component {
   sendSeg = (e) => {
     e.preventDefault();
 
+    /*
     //fake
     this.setState({ loadingOpen: true });
 
     setTimeout(() => {
       this.setState({ loadingOpen: false, dialogOpen: true });
     }, 1000);
-
+    */
     //end fake
-    return;
+    //return;
+    
     console.log(this.state);
     const requestOptions = {
       method: "POST",
@@ -84,11 +88,16 @@ class NuovaSegnalazione extends React.Component {
           //show success
           console.log("Success");
           console.log(data);
-          this.props.history.push("/bacheca");
-        } else {
+          //this.props.history.push("/bacheca");
+          this.setState({ loadingOpen: false, dialogOpen: true });
+        } else if (data.state === "failure") {
+          //segnalazione negli ultimi 5 min
+          this.setState({ loadingOpen: false, cacheError: true });
+        }else {
           //show error message
           console.log("error");
           console.log(data);
+          this.setState({ loadingOpen: false, dbError: true });
         }
       })
       .catch((err) => console.log(err));
@@ -104,6 +113,42 @@ class NuovaSegnalazione extends React.Component {
             <DialogContentText>
               La segnalazione è stata inviata con successo. Se tutte le
               informazioni sono corrette, sarà approvata entro 24 ore. Grazie!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={(e) => this.props.history.push("/bacheca")}
+              color="primary"
+            >
+              Torna alla bacheca
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={this.state.cacheError}>
+          <DialogTitle id="alert-dialog-cache">{"Siamo spiacenti"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Hai già effettuato una segnalazione negli ultimi 5 minuti. Riprova
+              più tardi. Grazie per il servizio che stai offrendo alla comunità!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={(e) => this.props.history.push("/bacheca")}
+              color="primary"
+            >
+              Torna alla bacheca
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={this.state.dbError}>
+          <DialogTitle id="alert-dialog-dberror">{"Siamo spiacenti"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Il serivizio è temporaneamente fuori uso. Riprovi tra pochi minuti.
+              Grazie!
             </DialogContentText>
           </DialogContent>
           <DialogActions>

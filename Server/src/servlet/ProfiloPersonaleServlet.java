@@ -28,14 +28,16 @@ public class ProfiloPersonaleServlet extends HttpServlet {
 
 		String email = r.getEmail();
 		GestioneProfiloController gp = new GestioneProfiloController();
+		
+		Response res=new Response();
 
 		try {
-			r = gp.getInformazioni(email);
+			res = gp.getInformazioni(email);
 		} catch (SQLException e) {
 			r.setState(RespState.FAILURE);
 		}
 
-		resp.getWriter().print(r.toJson());
+		resp.getWriter().print(res.toJson());
 	}
 
 }

@@ -51,7 +51,10 @@ public class Segnalazione {
 		this.consumatore = consumatore;
 		this.chat = chat;
 		this.imgSrc = imgSrc;
-		this._public = _public;
+		
+		if(produttore.getRuolo().equals(RuoloUtente.BASE))
+			this._public = false;
+		else this._public=_public;
 		
 		try {
 			this.connector=Connector.getInstance();
@@ -96,10 +99,11 @@ public class Segnalazione {
 			e.printStackTrace();
 		}
 
-		return new Segnalazione(rs.getInt("id"), rs.getString("titolo"), rs.getString("descrizione"),
+			
+		return new Segnalazione(id, rs.getString("titolo"), rs.getString("descrizione"),
 				rs.getTimestamp("timestamp").toLocalDateTime(), Arrays.asList(rs.getString("tags").split(",")),
 				rs.getBoolean("visibile"), Stato.values()[rs.getInt("stato")],
-				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), new Comune("Bologna"), produttore, null, null,
+				new Posizione(rs.getDouble("lat"), rs.getDouble("lon")), new Comune("Bologna"), produttore, new Profilo(), new Chat(id),
 				rs.getString("imageSrc"), rs.getBoolean("pubblica"));
 	}
 	
@@ -115,7 +119,7 @@ public class Segnalazione {
 	public static Segnalazione of(Connector conn, int autore, String titolo, String descrizione, List<String> tags,
 			Posizione posizione, Profilo produttore, String imgSrc, String comune) throws SQLException {
 		PreparedStatement st = conn.prepareReturn(
-				"INSERT INTO Segnalazioni (autore, titolo, descrizione, imageSrc, lat, lon,comune) VALUES (?,?,?,?,?,?,?)");
+				"INSERT INTO Segnalazioni (autore, titolo, descrizione, imageSrc, lat, lon) VALUES (?,?,?,?,?,?)");
 
 		st.setInt(1, autore);
 		st.setString(2, titolo);
@@ -123,7 +127,6 @@ public class Segnalazione {
 		st.setString(4, imgSrc);
 		st.setDouble(5, posizione.getLatitudine());
 		st.setDouble(6, posizione.getLongitudine());
-		st.setString(7, comune);
 		st.executeUpdate();
 
 		ResultSet rs = st.getGeneratedKeys();
@@ -140,7 +143,7 @@ public class Segnalazione {
 			st.execute();
 		}
 
-		return Segnalazione.getById(conn, rs.getInt("id"));
+		return new Segnalazione(id,titolo,descrizione,LocalDateTime.now(),tags,true,Stato.IN_APPROVAZIONE,posizione,new Comune(comune),produttore,null,null,imgSrc,false);
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------

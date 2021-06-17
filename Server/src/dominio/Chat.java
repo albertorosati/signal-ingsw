@@ -41,7 +41,11 @@ public class Chat {
 	//Produttore
 	private Profilo utente2;	
 	
-
+	public Chat(int idSeg) {
+		//just for NPE
+		this.idSegnalazione=idSeg;
+	}
+	
 	public Chat(int id, Profilo utente1, Profilo utente2, int idSeg) {
 		this.messaggiLocal = new ArrayList<>();
 		this.messaggiLocal = new ArrayList<>();
