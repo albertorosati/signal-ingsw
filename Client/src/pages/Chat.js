@@ -19,7 +19,7 @@ export default class Chat extends React.Component {
       messaggio: "",
       messaggi: [
         {
-          messaggio: "Ciao, sono Mario. Ho letto che ti server un aiuto per sistemare il rubinetto del lavandino. Quando posso venire a dare un'occhiata?",
+          messaggio: "Ciao, sono Mario. Ho letto che ti serve un aiuto per sistemare il rubinetto del lavandino. Quando posso venire a dare un'occhiata?",
           direction: "left",
           timestamp: new Date('June 18, 2021 10:27:00'),
         },
