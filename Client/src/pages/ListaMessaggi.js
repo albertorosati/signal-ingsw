@@ -17,14 +17,14 @@ export default class ListaMessaggi extends React.Component {
         <List>
           {[
             {
-              name: "Anna Ciampolini",
-              title: "La strada è molto sporca",
-              message: "Buongiorno Cristina",
+              name: "Marco Prandini",
+              title: "Esame di LAS",
+              message: "Guarda, ti do un -0.8",
             },
             {
-              name: "Enzo Miccio",
-              title: "Ma che orrore!",
-              message: "Ma come perdindirindina ti vesti?",
+              name: "Saw l'enigmista",
+              title: "Serratura bloccata",
+              message: "Mi faresti uscire per cortesia?",
             },
           ].map((item, index) => (
             <div>
