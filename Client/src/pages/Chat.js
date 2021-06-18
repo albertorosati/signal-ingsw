@@ -19,19 +19,34 @@ export default class Chat extends React.Component {
       messaggio: "",
       messaggi: [
         {
-          messaggio: "Ciao a tutti, questo è un messaggio di prova",
+          messaggio: "Ciao, sono Mario. Ho letto che ti server un aiuto per sistemare il rubinetto del lavandino. Quando posso venire a dare un'occhiata?",
           direction: "left",
-          timestamp: new Date(),
+          timestamp: new Date('June 18, 2021 10:27:00'),
         },
         {
-          messaggio: "Questo è un altro messaggio di prova",
+          messaggio: "Io abito in zona Navile. Casa tua è molto lontana?",
           direction: "left",
-          timestamp: new Date(),
+          timestamp: new Date('June 18, 2021 10:29:00'),
         },
         {
-          messaggio: "Questo messaggio invece è sulla destra",
+          messaggio: "Piacere Mario, mi chiamo Nina. Grazie per aver preso in carico la mia segnalazione. ",
           direction: "right",
-          timestamp: new Date(),
+          timestamp: new Date('June 18, 2021 11:12:00'),
+        },
+        {
+          messaggio: "Io abito in zona Corticella, non molto lontano da te. Saresti disponibile la settimana prossima?",
+          direction: "right",
+          timestamp: new Date('June 18, 2021 11:15:00'),
+        },
+        {
+          messaggio: "Ottimo, siamo praticamente vicini :) Io ci sarei per martedì pomeriggio vero le 15.30. Per te va bene?",
+          direction: "left",
+          timestamp: new Date('June 18, 2021 13:46:00'),
+        },
+        {
+          messaggio: "Va benissimo! Grazie Mario",
+          direction: "right",
+          timestamp: new Date('June 18, 2021 14:09:00'),
         },
       ],
     };
